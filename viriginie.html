@@ -1,0 +1,2231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virginie Lepage | Psycho-praticienne & Massages Bien-être à Uzès</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8B7355;
+            --primary-light: #A69076;
+            --primary-dark: #6B5544;
+            --accent: #D4A574;
+            --accent-light: #E8C9A8;
+            --cream: #FDF8F3;
+            --cream-dark: #F5EDE4;
+            --sage: #9CAF88;
+            --sage-light: #B8C9A8;
+            --text: #3D3D3D;
+            --text-light: #6B6B6B;
+            --white: #FFFFFF;
+            --shadow: rgba(139, 115, 85, 0.1);
+            --shadow-strong: rgba(139, 115, 85, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            color: var(--text);
+            line-height: 1.7;
+            background-color: var(--cream);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            line-height: 1.3;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 40px var(--shadow);
+            padding: 0.8rem 5%;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar.scrolled .logo {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar.scrolled .nav-links a {
+            color: var(--text);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--accent);
+            color: var(--white) !important;
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            transition: all 0.3s ease !important;
+        }
+
+        .nav-cta::after {
+            display: none !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .mobile-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--white);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled .mobile-toggle span {
+            background: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(107, 85, 68, 0.85) 0%, rgba(139, 115, 85, 0.75) 50%, rgba(156, 175, 136, 0.7) 100%),
+                        url('https://images.unsplash.com/photo-1600334129128-685c5582fd35?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(to top, var(--cream), transparent);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            color: var(--white);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero h1 span {
+            display: block;
+            font-size: 0.4em;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 8px;
+            margin-top: 0.5rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .hero-description {
+            font-size: 1.15rem;
+            max-width: 600px;
+            margin: 2rem auto;
+            opacity: 0.95;
+            font-weight: 300;
+            line-height: 1.9;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2.5rem;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--white);
+            box-shadow: 0 10px 40px rgba(212, 165, 116, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: var(--white);
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(212, 165, 116, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--primary);
+            border-color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        .hero-scroll svg {
+            width: 30px;
+            height: 30px;
+            stroke: var(--white);
+            opacity: 0.7;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 7rem 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            color: var(--sage);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--white);
+        }
+
+        .about-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px var(--shadow-strong);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: 20px;
+            bottom: 20px;
+            border: 3px solid var(--accent-light);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .about-badge {
+            position: absolute;
+            bottom: -30px;
+            right: -30px;
+            background: var(--sage);
+            color: var(--white);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(156, 175, 136, 0.3);
+        }
+
+        .about-badge span {
+            display: block;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .about-badge small {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .about-content h2 {
+            font-size: 2.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content .lead {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+        }
+
+        .about-content p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .about-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .about-feature-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--cream);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .about-feature-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--primary);
+        }
+
+        .about-feature h4 {
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 0.3rem;
+        }
+
+        .about-feature p {
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        /* Services Section */
+        .services {
+            background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%);
+        }
+
+        .services-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 40px var(--shadow);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px var(--shadow-strong);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--sage));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--accent-light), var(--cream));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-icon svg {
+            width: 35px;
+            height: 35px;
+            stroke: var(--primary);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .service-card li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--sage);
+            border-radius: 50%;
+        }
+
+        .service-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: gap 0.3s ease;
+        }
+
+        .service-link:hover {
+            gap: 1rem;
+        }
+
+        .service-link svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefits::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--accent-light) 0%, transparent 70%);
+            opacity: 0.3;
+        }
+
+        .benefits-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .benefit-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .benefit-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            color: var(--accent-light);
+            font-weight: 300;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-item h3 {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .benefit-item p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+
+        /* Process Section */
+        .process {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: var(--white);
+        }
+
+        .process .section-tag {
+            color: var(--accent-light);
+        }
+
+        .process .section-title {
+            color: var(--white);
+        }
+
+        .process .section-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .process-steps {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            position: relative;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 12.5%;
+            right: 12.5%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .process-step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .process-step h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .process-step p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background: var(--cream);
+        }
+
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 10px 40px var(--shadow);
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 6rem;
+            color: var(--accent-light);
+            line-height: 1;
+            opacity: 0.5;
+        }
+
+        .testimonial-stars {
+            display: flex;
+            gap: 0.3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-stars svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--accent);
+        }
+
+        .testimonial-text {
+            font-size: 1.05rem;
+            color: var(--text);
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--sage-light), var(--sage));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-info h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        .testimonial-info span {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background: var(--white);
+        }
+
+        .pricing-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--cream);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .pricing-card.featured {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            transform: scale(1.05);
+        }
+
+        .pricing-card:hover:not(.featured) {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px var(--shadow-strong);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: var(--white);
+            padding: 0.4rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-card.featured h3 {
+            color: var(--white);
+        }
+
+        .pricing-duration {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-price {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .pricing-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .pricing-card.featured .pricing-description {
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .pricing-features svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--sage);
+            flex-shrink: 0;
+        }
+
+        .pricing-card.featured .pricing-features svg {
+            stroke: var(--accent-light);
+        }
+
+        .pricing-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:not(.featured) .pricing-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+        }
+
+        .pricing-card:not(.featured) .pricing-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .pricing-card.featured .pricing-btn {
+            background: var(--white);
+            color: var(--primary);
+            border: none;
+        }
+
+        .pricing-card.featured .pricing-btn:hover {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        /* Info Section */
+        .info {
+            background: var(--cream-dark);
+        }
+
+        .info-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .info-box {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px var(--shadow);
+        }
+
+        .info-box h3 {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .info-box h3 svg {
+            width: 30px;
+            height: 30px;
+            stroke: var(--accent);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--cream);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-item svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--sage);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-item h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 0.3rem;
+        }
+
+        .info-item p, .info-item a {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        .info-item a:hover {
+            color: var(--primary);
+        }
+
+        .info-languages {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .language-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--cream);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--white);
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+        }
+
+        .contact-info h2 {
+            font-size: 2.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .contact-details {
+            margin-bottom: 2.5rem;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+        }
+
+        .contact-detail-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--cream);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-detail-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--primary);
+        }
+
+        .contact-detail h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-detail p, .contact-detail a {
+            color: var(--text);
+            font-size: 1.05rem;
+            text-decoration: none;
+        }
+
+        .contact-detail a:hover {
+            color: var(--primary);
+        }
+
+        .contact-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: var(--cream);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+        }
+
+        .social-link svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--primary);
+            transition: fill 0.3s ease;
+        }
+
+        .social-link:hover svg {
+            fill: var(--white);
+        }
+
+        .contact-form {
+            background: var(--cream);
+            padding: 3rem;
+            border-radius: 20px;
+        }
+
+        .contact-form h3 {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            background: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-submit:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Map Section */
+        .map {
+            height: 400px;
+            background: var(--cream-dark);
+            position: relative;
+        }
+
+        .map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(30%) contrast(1.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-dark);
+            color: var(--white);
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-column h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-light);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            opacity: 0.6;
+            font-size: 0.85rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-legal a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-legal a:hover {
+            color: var(--accent-light);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .footer-main {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 300px;
+                background: var(--white);
+                flex-direction: column;
+                padding: 6rem 2rem;
+                gap: 1.5rem;
+                transition: right 0.4s ease;
+                box-shadow: -10px 0 40px var(--shadow);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                color: var(--text) !important;
+                font-size: 1rem;
+            }
+
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .about-container,
+            .info-container,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image {
+                order: -1;
+            }
+
+            .about-image img {
+                height: 400px;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .process-steps::before {
+                display: none;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 4rem 5%;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero h1 span {
+                letter-spacing: 4px;
+                font-size: 0.5em;
+            }
+
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-main {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="logo">Virginie Lepage</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">À propos</a></li>
+            <li><a href="#services">Prestations</a></li>
+            <li><a href="#tarifs">Tarifs</a></li>
+            <li><a href="#temoignages">Témoignages</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="https://calendly.com/reikipaixetharmonie02/60min" class="nav-cta" target="_blank">Réserver</a></li>
+        </ul>
+        <div class="mobile-toggle" id="mobileToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">✦ Cabinet à Uzès (30700)</div>
+            <h1>
+                Virginie Lepage
+                <span>Psycho-praticienne & Massages Bien-être</span>
+            </h1>
+            <p class="hero-description">
+                Retrouvez harmonie et sérénité grâce à une approche holistique mêlant massages thérapeutiques, 
+                soins énergétiques et psycho-généalogie. Un accompagnement personnalisé au cœur du Gard.
+            </p>
+            <div class="hero-buttons">
+                <a href="https://calendly.com/reikipaixetharmonie02/60min" class="btn btn-primary" target="_blank">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    Prendre rendez-vous
+                </a>
+                <a href="#services" class="btn btn-secondary">Découvrir mes soins</a>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-container">
+            <div class="about-image reveal">
+                <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Virginie Lepage - Massage et thérapie">
+                <div class="about-badge">
+                    <span>10+</span>
+                    <small>ans d'expérience</small>
+                </div>
+            </div>
+            <div class="about-content reveal">
+                <span class="section-tag">Votre thérapeute</span>
+                <h2>Bienvenue, je suis Virginie</h2>
+                <p class="lead">Thérapeute spécialisée en énergétique et psycho-généalogie, je vous accompagne vers un mieux-être profond et durable.</p>
+                <p>Après plus de dix ans d'expérience en tant que masseuse en région Champagne, je me suis installée à Uzès pour continuer à accompagner ceux qui cherchent à retrouver harmonie et équilibre.</p>
+                <p>Au fil de cette décennie, j'ai eu l'opportunité de me former à diverses techniques : réflexologie, shiatsu, massage californien, modelage, Reiki et constellations familiales. J'intègre le meilleur de chacune de ces pratiques pour vous offrir un accompagnement véritablement personnalisé.</p>
+                
+                <div class="about-features">
+                    <div class="about-feature">
+                        <div class="about-feature-icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4>Approche holistique</h4>
+                            <p>Corps, âme et esprit</p>
+                        </div>
+                    </div>
+                    <div class="about-feature">
+                        <div class="about-feature-icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4>Bilingue FR/EN</h4>
+                            <p>Accueil international</p>
+                        </div>
+                    </div>
+                    <div class="about-feature">
+                        <div class="about-feature-icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4>Écoute bienveillante</h4>
+                            <p>Sans jugement</p>
+                        </div>
+                    </div>
+                    <div class="about-feature">
+                        <div class="about-feature-icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4>Techniques uniques</h4>
+                            <p>Soins personnalisés</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="#contact" class="btn btn-primary" style="margin-top: 1rem;">Me contacter</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-header reveal">
+            <span class="section-tag">Mes pratiques</span>
+            <h2 class="section-title">Des soins adaptés à vos besoins</h2>
+            <p class="section-subtitle">Une approche globale pour retrouver équilibre et sérénité au quotidien</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card reveal">
+                <div class="service-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 1 1 3 0m-3 6a1.5 1.5 0 0 0-3 0v2a7.5 7.5 0 0 0 15 0v-5a1.5 1.5 0 0 0-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 0 1 3 0v1m0 0V11m0-5.5a1.5 1.5 0 0 1 3 0v3m0 0V11"/>
+                    </svg>
+                </div>
+                <h3>Massages Bien-être</h3>
+                <p>Détente et relaxation totales pour le plaisir des sens. Des techniques variées adaptées à vos besoins.</p>
+                <ul>
+                    <li>Massage californien</li>
+                    <li>Réflexologie plantaire</li>
+                    <li>Shiatsu</li>
+                    <li>Modelage relaxant</li>
+                </ul>
+                <a href="#contact" class="service-link">
+                    En savoir plus 
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="service-card reveal">
+                <div class="service-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                </div>
+                <h3>Soins Énergétiques</h3>
+                <p>Rééquilibrage énergétique profond pour libérer les blocages et retrouver votre vitalité.</p>
+                <ul>
+                    <li>Reiki Usui</li>
+                    <li>Bols tibétains</li>
+                    <li>Harmonisation des chakras</li>
+                    <li>Soins à distance</li>
+                </ul>
+                <a href="#contact" class="service-link">
+                    En savoir plus 
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="service-card reveal">
+                <div class="service-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </div>
+                <h3>Thérapie Transgénérationnelle</h3>
+                <p>Résolution des troubles et schémas répétitifs hérités de votre histoire familiale.</p>
+                <ul>
+                    <li>Constellations familiales</li>
+                    <li>Psycho-généalogie</li>
+                    <li>Libération des mémoires</li>
+                    <li>Analyse transgénérationnelle</li>
+                </ul>
+                <a href="#contact" class="service-link">
+                    En savoir plus 
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="service-card reveal">
+                <div class="service-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                    </svg>
+                </div>
+                <h3>Soins du Corps</h3>
+                <p>Techniques ciblées pour soulager vos douleurs et sublimer votre peau naturellement.</p>
+                <ul>
+                    <li>Soulagement douleurs dorsales</li>
+                    <li>Soin liftant visage</li>
+                    <li>Drainage lymphatique</li>
+                    <li>Techniques manuelles</li>
+                </ul>
+                <a href="#contact" class="service-link">
+                    En savoir plus 
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="service-card reveal">
+                <div class="service-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                    </svg>
+                </div>
+                <h3>Luminothérapie</h3>
+                <p>Séances de relaxation profonde avec les lunettes Psio® et programmes audio personnalisés.</p>
+                <ul>
+                    <li>Méditations guidées</li>
+                    <li>Audiocaments</li>
+                    <li>Gestion du stress</li>
+                    <li>Amélioration du sommeil</li>
+                </ul>
+                <a href="#contact" class="service-link">
+                    En savoir plus 
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="benefits-container">
+            <div class="section-header reveal">
+                <span class="section-tag">Pourquoi me consulter</span>
+                <h2 class="section-title">Les bienfaits de mes soins</h2>
+                <p class="section-subtitle">Une approche douce et profonde pour transformer votre quotidien</p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-item reveal">
+                    <div class="benefit-number">01</div>
+                    <h3>Réduction du stress</h3>
+                    <p>Libérez les tensions accumulées et retrouvez un état de calme profond grâce à des techniques éprouvées.</p>
+                </div>
+                <div class="benefit-item reveal">
+                    <div class="benefit-number">02</div>
+                    <h3>Équilibre émotionnel</h3>
+                    <p>Travaillez sur vos blocages émotionnels et retrouvez une harmonie intérieure durable.</p>
+                </div>
+                <div class="benefit-item reveal">
+                    <div class="benefit-number">03</div>
+                    <h3>Vitalité retrouvée</h3>
+                    <p>Rechargez vos batteries et repartez avec une énergie nouvelle pour affronter le quotidien.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process">
+        <div class="section-header reveal">
+            <span class="section-tag">Comment ça marche</span>
+            <h2 class="section-title">Votre parcours vers le bien-être</h2>
+            <p class="section-subtitle">Un accompagnement personnalisé en 4 étapes simples</p>
+        </div>
+        <div class="process-steps">
+            <div class="process-step reveal">
+                <div class="process-step-number">1</div>
+                <h4>Prise de contact</h4>
+                <p>Appelez ou réservez en ligne pour un premier échange</p>
+            </div>
+            <div class="process-step reveal">
+                <div class="process-step-number">2</div>
+                <h4>Écoute & bilan</h4>
+                <p>Discussion approfondie de vos besoins et attentes</p>
+            </div>
+            <div class="process-step reveal">
+                <div class="process-step-number">3</div>
+                <h4>Soin personnalisé</h4>
+                <p>Séance adaptée à votre situation unique</p>
+            </div>
+            <div class="process-step reveal">
+                <div class="process-step-number">4</div>
+                <h4>Suivi & conseils</h4>
+                <p>Recommandations pour prolonger les bienfaits</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="temoignages">
+        <div class="testimonials-container">
+            <div class="section-header reveal">
+                <span class="section-tag">Témoignages</span>
+                <h2 class="section-title">Ils m'ont fait confiance</h2>
+                <p class="section-subtitle">Découvrez les retours de ceux qui ont expérimenté mes soins</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <p class="testimonial-text">J'ai testé les soins à distance, c'est incroyable, presque magique ! Une expérience que je recommande vivement à tous ceux qui cherchent un moment de bien-être profond.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">C</div>
+                        <div class="testimonial-info">
+                            <h4>Caro</h4>
+                            <span>Soin énergétique à distance</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <p class="testimonial-text">Un très grand professionnalisme dans un cadre chaleureux. Écoute et compétence sont au rendez-vous. On ressort véritablement transformé de chaque séance.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">G</div>
+                        <div class="testimonial-info">
+                            <h4>Gilles</h4>
+                            <span>Massage & thérapie</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <p class="testimonial-text">Virginie a su m'accompagner avec douceur dans ma démarche de développement personnel. Ses séances de Reiki et ses massages sont de véritables bulles de sérénité.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">M</div>
+                        <div class="testimonial-info">
+                            <h4>Marie-Claire</h4>
+                            <span>Reiki & massages</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="tarifs">
+        <div class="section-header reveal">
+            <span class="section-tag">Tarifs</span>
+            <h2 class="section-title">Mes formules</h2>
+            <p class="section-subtitle">Des soins accessibles pour prendre soin de vous</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card reveal">
+                <h3>Massage Détente</h3>
+                <p class="pricing-duration">45 minutes</p>
+                <div class="pricing-price">55€</div>
+                <p class="pricing-description">Idéal pour une pause relaxante</p>
+                <ul class="pricing-features">
+                    <li>
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        Massage personnalisé
+                    </li>
+                    <li>
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        Huiles essentielles bio
+                    </li>
+                    <li>
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        Ambiance relaxante
+                    </li>
+                </ul>
+                <a href="https://calendly.com/reikipaixetharmonie02/60min" class="btn pricing-btn" target="_blank">Réserver</a>
+            </div>
+            
+            <div class="pricing-card featured reveal">
+                <div class="pricing-badge">Populaire</div>
+                <h3>Soin Complet</h3>
+                <p class="pricing-duration">1 heure</p>
+                <div class="pricing-price">70€</div>
+                <p class="pricing-description">L'expérience bien-être complète</p>
+                <ul class="pricing-features">
+                    <li>
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        Bilan personnalisé
+                    </li>
+                    <li>
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        Massage ou soin énergétique
+                    </li>
+                    <li>
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        Conseils personnalisés
+                    </li>
+                    <li>
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        Suivi post-séance
+                    </li>
+                </ul>
+                <a href="https://calendly.com/reikipaixetharmonie02/60min" class="btn pricing-btn" target="_blank">Réserver</a>
+            </div>
+            
+            <div class="pricing-card reveal">
+                <h3>Thérapie Profonde</h3>
+                <p class="pricing-duration">1h30</p>
+                <div class="pricing-price">95€</div>
+                <p class="pricing-description">Pour un travail en profondeur</p>
+                <ul class="pricing-features">
+                    <li>
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        Constellation familiale
+                    </li>
+                    <li>
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        Psycho-généalogie
+                    </li>
+                    <li>
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        Accompagnement approfondi
+                    </li>
+                    <li>
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        Plan d'action personnalisé
+                    </li>
+                </ul>
+                <a href="https://calendly.com/reikipaixetharmonie02/60min" class="btn pricing-btn" target="_blank">Réserver</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="info">
+        <div class="info-container">
+            <div class="info-box reveal">
+                <h3>
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                    Horaires d'ouverture
+                </h3>
+                <div class="info-item">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                    <div>
+                        <h4>Du Mardi au Samedi</h4>
+                        <p>9h00 - 18h00</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <div>
+                        <h4>Localisation</h4>
+                        <p>Uzès, Gard (30700)</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+                    </svg>
+                    <div>
+                        <h4>Accueil bilingue</h4>
+                        <div class="info-languages">
+                            <span class="language-badge">🇫🇷 Français</span>
+                            <span class="language-badge">🇬🇧 English</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-box reveal">
+                <h3>
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    Bon à savoir
+                </h3>
+                <div class="info-item">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                        <path d="M22 4L12 14.01l-3-3"/>
+                    </svg>
+                    <div>
+                        <h4>Première consultation</h4>
+                        <p>Entretien offert pour définir vos besoins et attentes</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                        <line x1="1" y1="10" x2="23" y2="10"/>
+                    </svg>
+                    <div>
+                        <h4>Paiement</h4>
+                        <p>Espèces, chèques, virements acceptés</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    <div>
+                        <h4>Cadre</h4>
+                        <p>Espace calme et chaleureux, propice à la détente</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <div class="contact-info reveal">
+                <span class="section-tag">Contact</span>
+                <h2>Prenons rendez-vous</h2>
+                <p>N'hésitez pas à me contacter pour toute question ou pour planifier votre première séance. Je vous répondrai dans les plus brefs délais.</p>
+                
+                <div class="contact-details">
+                    <div class="contact-detail">
+                        <div class="contact-detail-icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4>Téléphone</h4>
+                            <a href="tel:+33620040558">06 20 04 05 58</a>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="contact-detail-icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4>Email</h4>
+                            <a href="mailto:contact@virginie-lepage.fr">contact@virginie-lepage.fr</a>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="contact-detail-icon">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4>Adresse</h4>
+                            <p>Uzès, Gard (30700)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-social">
+                    <a href="https://www.facebook.com/virginie02.reiki" class="social-link" target="_blank" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                    </a>
+                    <a href="https://calendly.com/reikipaixetharmonie02/60min" class="social-link" target="_blank" aria-label="Calendly">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="contact-form reveal">
+                <h3>Envoyez-moi un message</h3>
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="lastName">Nom *</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName">Prénom *</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Téléphone</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Sujet</label>
+                        <select id="subject" name="subject">
+                            <option value="">Choisir un sujet...</option>
+                            <option value="massage">Massage bien-être</option>
+                            <option value="energetique">Soins énergétiques</option>
+                            <option value="therapie">Thérapie transgénérationnelle</option>
+                            <option value="luminotherapie">Luminothérapie</option>
+                            <option value="autre">Autre demande</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Votre message *</label>
+                        <textarea id="message" name="message" placeholder="Décrivez votre demande ou vos besoins..." required></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Envoyer le message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23131.26893566799!2d4.403930841162588!3d44.01269689025645!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b5b2e61c6d7621%3A0x40819a5fd970a10!2s30700%20Uz%C3%A8s!5e0!3m2!1sfr!2sfr!4v1699999999999!5m2!1sfr!2sfr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <h3>Virginie Lepage</h3>
+                    <p>Psycho-praticienne & Massages Bien-être à Uzès. Plus de 10 ans d'expérience au service de votre bien-être et de votre équilibre intérieur.</p>
+                    <div class="contact-social" style="justify-content: flex-start;">
+                        <a href="https://www.facebook.com/virginie02.reiki" class="social-link" target="_blank" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="#about">À propos</a></li>
+                        <li><a href="#services">Prestations</a></li>
+                        <li><a href="#tarifs">Tarifs</a></li>
+                        <li><a href="#temoignages">Témoignages</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Prestations</h4>
+                    <ul>
+                        <li><a href="#services">Massages bien-être</a></li>
+                        <li><a href="#services">Soins énergétiques</a></li>
+                        <li><a href="#services">Thérapie transgénérationnelle</a></li>
+                        <li><a href="#services">Soins du corps</a></li>
+                        <li><a href="#services">Luminothérapie</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="tel:+33620040558">06 20 04 05 58</a></li>
+                        <li><a href="mailto:contact@virginie-lepage.fr">contact@virginie-lepage.fr</a></li>
+                        <li><a href="#">Uzès (30700)</a></li>
+                        <li><a href="https://calendly.com/reikipaixetharmonie02/60min" target="_blank">Réserver en ligne</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Virginie Lepage. Tous droits réservés.</p>
+                <div class="footer-legal">
+                    <a href="#">Mentions légales</a>
+                    <a href="#">Politique de confidentialité</a>
+                </div>
+            </div>
+        </div>
+        </div>
+        </footer>
+            
+            
+            <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Scroll reveal animation
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        reveal(); // Initial check
+
+        // Contact form handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Merci pour votre message ! Je vous répondrai dans les plus brefs délais.');
+            this.reset();
+        });
+    </script>
