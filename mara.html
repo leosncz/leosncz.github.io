@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Une Histoire pour Mara 💫</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+    :root {
+        --night-sky: #0a0e27;
+        --deep-purple: #1a1441;
+        --magic-pink: #ff6b9d;
+        --soft-gold: #ffd89b;
+        --moon-white: #f8f9fa;
+        --star-blue: #4ec5d4;
+        --shadow: rgba(0, 0, 0, 0.4);
+    }
+
+    body {
+        font-family: 'Crimson Pro', serif;
+        background: linear-gradient(135deg, var(--night-sky) 0%, var(--deep-purple) 100%);
+        color: var(--moon-white);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    .stars {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .star {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        animation: twinkle 3s infinite;
+    }
+
+    @keyframes twinkle {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .container {
+        position: relative;
+        z-index: 1;
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .game-card {
+        background: rgba(26, 20, 65, 0.85);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 40px 30px;
+        box-shadow: 0 20px 60px var(--shadow), 
+                    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 2.2em;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 15px;
+        background: linear-gradient(135deg, var(--magic-pink), var(--soft-gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+        0%, 100% { filter: brightness(1); }
+        50% { filter: brightness(1.3); }
+    }
+
+    .subtitle {
+        text-align: center;
+        color: var(--star-blue);
+        font-size: 1.1em;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+
+    .scene-text {
+        font-size: 1.2em;
+        line-height: 1.8;
+        margin-bottom: 30px;
+        text-align: justify;
+        color: var(--moon-white);
+        opacity: 0;
+        animation: textAppear 0.6s ease-out 0.2s forwards;
+    }
+
+    @keyframes textAppear {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .choices {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .choice-btn {
+        background: linear-gradient(135deg, rgba(78, 197, 212, 0.2), rgba(255, 107, 157, 0.2));
+        border: 2px solid var(--magic-pink);
+        color: var(--moon-white);
+        padding: 18px 25px;
+        border-radius: 15px;
+        font-family: 'Crimson Pro', serif;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: left;
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        animation: choiceAppear 0.5s ease-out forwards;
+    }
+
+    .choice-btn:nth-child(1) { animation-delay: 0.3s; }
+    .choice-btn:nth-child(2) { animation-delay: 0.4s; }
+    .choice-btn:nth-child(3) { animation-delay: 0.5s; }
+
+    @keyframes choiceAppear {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    .choice-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .choice-btn:hover::before {
+        left: 100%;
+    }
+
+    .choice-btn:hover {
+        background: linear-gradient(135deg, rgba(78, 197, 212, 0.4), rgba(255, 107, 157, 0.4));
+        border-color: var(--soft-gold);
+        transform: translateX(10px) scale(1.02);
+        box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+    }
+
+    .choice-btn:active {
+        transform: translateX(10px) scale(0.98);
+    }
+
+    .start-screen {
+        text-align: center;
+    }
+
+    .start-btn {
+        background: linear-gradient(135deg, var(--magic-pink), var(--soft-gold));
+        border: none;
+        color: var(--night-sky);
+        padding: 20px 50px;
+        border-radius: 50px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.3em;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 30px;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(255, 107, 157, 0.5);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    .start-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 15px 40px rgba(255, 107, 157, 0.7);
+    }
+
+    .scene-number {
+        text-align: center;
+        color: var(--star-blue);
+        font-size: 0.9em;
+        margin-bottom: 20px;
+        opacity: 0.7;
+    }
+
+    .death-screen {
+        text-align: center;
+    }
+
+    .death-title {
+        font-size: 2em;
+        color: var(--magic-pink);
+        margin-bottom: 20px;
+    }
+
+    .restart-btn {
+        background: linear-gradient(135deg, var(--star-blue), var(--magic-pink));
+        border: none;
+        color: white;
+        padding: 15px 40px;
+        border-radius: 30px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.1em;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .restart-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 30px rgba(78, 197, 212, 0.5);
+    }
+
+    .final-scroll {
+        background: rgba(255, 217, 155, 0.1);
+        border: 3px solid var(--soft-gold);
+        border-radius: 15px;
+        padding: 30px;
+        margin: 20px 0;
+        text-align: center;
+        box-shadow: 0 0 30px rgba(255, 217, 155, 0.3);
+    }
+
+    .final-message {
+        font-size: 1.5em;
+        color: var(--soft-gold);
+        font-weight: 600;
+        margin-bottom: 15px;
+        animation: glow 2s infinite;
+    }
+
+    @keyframes glow {
+        0%, 100% { text-shadow: 0 0 10px rgba(255, 217, 155, 0.5); }
+        50% { text-shadow: 0 0 20px rgba(255, 217, 155, 0.8); }
+    }
+
+    @media (max-width: 600px) {
+        .container {
+            padding: 15px;
+        }
+
+        .game-card {
+            padding: 30px 20px;
+        }
+
+        .title {
+            font-size: 1.8em;
+        }
+
+        .scene-text {
+            font-size: 1.05em;
+        }
+
+        .choice-btn {
+            padding: 15px 20px;
+            font-size: 1em;
+        }
+    }
+</style>
+
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+<div class="container">
+    <div class="game-card">
+        <div id="game-content"></div>
+    </div>
+</div>
+
+<script>
+    function createStars() {
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+    }
+
+    createStars();
+
+    const scenes = {
+        start: {
+            text: "Dans une petite maison nichée au cœur d'Osaka, les premiers rayons du soleil caressent ton visage. Tes yeux s'ouvrent lentement... mais quelque chose ne va pas. Ton esprit est vide, comme un livre dont toutes les pages auraient été arrachées. Tu ne te souviens de rien.\n\nUne voix douce résonne : « Mara ? Tu es réveillée ? » Une jeune fille aux cheveux roux apparaît, un grand chat noir sur son épaule. « Je suis Kiki, et voici Jiji. Tu es en sécurité ici. »",
+            choices: [
+                { text: "« Qui suis-je ? Pourquoi je ne me souviens de rien ? »", next: "scene1" },
+                { text: "« Un chat qui parle ? Je rêve encore... »", next: "scene2" },
+                { text: "Rester silencieuse et observer", next: "scene3" }
+            ]
+        },
+
+        scene1: {
+            text: "Kiki s'assoit près de toi avec douceur. « Tu es Mara, une apprentie sorcière. Il y a trois jours, tu as tenté un sort trop puissant pour restaurer les souvenirs d'un phénix blessé. L'explosion magique a fait exploser ta propre mémoire en éclats. » Elle prend ta main avec tendresse. « Mais nous allons t'aider à tout retrouver, morceau par morceau. »\n\nJiji bondit sur le lit : « La magie est comme faire du vélo, ça ne s'oublie jamais vraiment ! Enfin... j'espère. »",
+            choices: [
+                { text: "« Montrez-moi ce que je sais faire ! »", next: "scene4" },
+                { text: "« Sommes-nous amies depuis longtemps ? »", next: "scene5" },
+                { text: "« Comment puis-je récupérer ma mémoire ? »", next: "scene6" }
+            ]
+        },
+
+        scene2: {
+            text: "Jiji te fixe avec ses grands yeux dorés : « Non, tu ne rêves pas. Je suis un familier magique, gardien des sorcières depuis des siècles. » Il ronronne légèrement. « Et accessoirement, je fais les meilleurs commentaires sarcastiques du Japon. »\n\nKiki rit doucement. « Ton sens de l'humour est intact ! C'est bon signe. » Elle t'explique que tu es apprentie sorcière et que tu as eu un accident magique en tentant d'aider une créature.",
+            choices: [
+                { text: "« Désolée Jiji, je ne voulais pas t'offenser ! »", next: "scene5" },
+                { text: "« Montrez-moi ma magie alors »", next: "scene4" },
+                { text: "« Combien de temps pour récupérer ma mémoire ? »", next: "scene6" }
+            ]
+        },
+
+        scene3: {
+            text: "Tu observes la chambre en silence. C'est un espace chaleureux avec des cristaux suspendus qui captent la lumière, des herbes séchées au plafond, et des livres anciens empilés partout. Sur le mur, tu vois une photo de toi et Kiki chevauchant un balai volant au-dessus du château d'Osaka, riant aux éclats.\n\nUn sentiment profond de familiarité t'envahit, comme si ton cœur se souvenait même si ton esprit ne le peut pas.\n\n« Tu te souviens de quelque chose ? » demande Kiki avec un espoir teinté de tristesse dans la voix.",
+            choices: [
+                { text: "Toucher doucement la photo", next: "scene7" },
+                { text: "« Parle-moi de ce jour-là »", next: "scene5" },
+                { text: "« Je veux essayer de voler maintenant ! »", next: "death1" }
+            ]
+        },
+
+        scene4: {
+            text: "Dans le petit jardin derrière la maison, entouré de bambous qui murmurent dans la brise, Kiki te donne une plume blanche. « Concentre-toi sur elle. Imagine qu'elle est légère comme un nuage, qu'elle veut danser dans l'air. »\n\nTu fermes les yeux, tu respires... et tu sens quelque chose en toi, comme une rivière de lumière. La plume s'élève gracieusement, tournoyant dans les airs !\n\n« Magnifique ! » s'exclame Kiki, les larmes aux yeux. « Ta magie est toujours là, Mara ! Elle t'attend ! »",
+            choices: [
+                { text: "Essayer de faire léviter plusieurs objets", next: "scene8" },
+                { text: "Rester prudente et maîtriser d'abord la plume", next: "scene9" },
+                { text: "« Montre-moi ta magie à toi, Kiki ! »", next: "scene10" }
+            ]
+        },
+
+        scene5: {
+            text: "« Plus que des amies, Mara. » Les yeux de Kiki brillent d'émotion. « Tu es ma petite sœur de cœur. Il y a six mois, tu es arrivée ici, perdue et seule, chassée de ton village parce qu'ils avaient peur de ta magie. Je t'ai accueillie sans hésiter. Ensemble, nous avons tout partagé : les rires, les larmes, les sorts ratés, les gâteaux brûlés... »\n\nUne larme coule sur ta joue, née d'une émotion que tu ne comprends pas encore mais que ton cœur reconnaît.",
+            choices: [
+                { text: "« Merci d'avoir été là pour moi »", next: "scene11" },
+                { text: "« Pratiquons la magie ensemble alors »", next: "scene4" },
+                { text: "« Quelqu'un d'autre m'attendait-il dans ma vie ? »", next: "scene12" }
+            ]
+        },
+
+        scene6: {
+            text: "« Il existe un endroit, » commence Kiki solennellement, « la Grande Bibliothèque des Mémoires à Kyoto. Elle contient des grimoires anciens sur la restauration de la mémoire. Mais le chemin n'est pas facile. Nous devrons traverser la Forêt des Murmures, où vivent des esprits qui testent le cœur des voyageurs. »\n\nJiji frissonne : « Des tests spirituels, des illusions, des pièges magiques... Tout pour voir si tu mérites vraiment de retrouver ce que tu as perdu. »",
+            choices: [
+                { text: "« Allons-y immédiatement ! »", next: "scene13" },
+                { text: "« Préparons-nous bien d'abord »", next: "scene14" },
+                { text: "« Et si je laissais les souvenirs revenir naturellement ? »", next: "scene15" }
+            ]
+        },
+
+        scene7: {
+            text: "Tu poses tes doigts sur la photo. Soudain, des flashs de mémoire : le vent fouettant tes cheveux, le rire cristallin de Kiki, la sensation de liberté absolue... et quelqu'un d'autre était là ce jour-là, quelqu'un qui t'encourageait depuis le sol, quelqu'un dont la voix te réchauffait le cœur.\n\nUne migraine aiguë te saisit. Les souvenirs résistent, comme s'ils étaient protégés par un sortilège.",
+            choices: [
+                { text: "« Kiki... qui d'autre était là ce jour-là ? »", next: "scene12" },
+                { text: "Lâcher prise, c'est trop intense", next: "scene15" },
+                { text: "Creuser plus profond malgré la douleur", next: "scene16" }
+            ]
+        },
+
+        scene8: {
+            text: "Grisée par ton succès, tu essaies de faire léviter plusieurs cailloux à la fois. Un, deux, trois... Soudain, ta magie devient incontrôlable ! Des dizaines d'objets s'envolent dans tous les sens. Un pot de fleurs fonce droit vers Jiji !\n\nL'adrénaline pulse dans tes veines. Tu réagis instinctivement : « STOP ! » Un mot de pouvoir jaillit de toi. Tout se fige dans les airs, comme suspendu dans le temps.",
+            choices: [
+                { text: "Déposer tout doucement au sol", next: "scene17" },
+                { text: "Paniquer et tout laisser tomber", next: "death2" },
+                { text: "Essayer de diriger cette magie sauvage", next: "scene18" }
+            ]
+        },
+
+        scene9: {
+            text: "Tu choisis la sagesse. Pendant des heures, tu pratiques avec la plume, apprenant à sentir les nuances de ta magie. Kiki t'observe avec fierté, t'encourageant à chaque progrès.\n\nLes jours deviennent des semaines. Ta maîtrise grandit. Tu apprends à faire danser plusieurs plumes ensemble, à créer des motifs complexes dans l'air.\n\nUn matin, Kiki entre dans ta chambre avec un sourire mystérieux : « Mara, je pense que quelque chose... ou quelqu'un... t'attend aujourd'hui. »",
+            choices: [
+                { text: "« De quoi parles-tu ? »", next: "scene19" },
+                { text: "Sentir l'énergie magique dans l'air", next: "scene19" },
+                { text: "« Est-ce que c'est mon familier ? »", next: "scene19" }
+            ]
+        },
+
+        scene10: {
+            text: "Kiki sourit et lève les mains. Des milliers de lucioles magiques apparaissent, formant des constellations qui racontent des histoires. Tu vois des scènes de votre amitié : vous préparant des potions, volant sous la lune, riant jusqu'aux larmes.\n\n« C'est le Sort des Souvenirs Lumineux, » murmure-t-elle. « Chaque luciole est un moment que je chéris. C'est comme ça que je garde mes souvenirs précieux en sécurité. »\n\nC'est la chose la plus belle que tu aies jamais vue.",
+            choices: [
+                { text: "« Est-ce que j'avais des sorts spéciaux comme celui-là ? »", next: "scene20" },
+                { text: "« Peux-tu m'apprendre ce sort ? »", next: "scene21" },
+                { text: "Essayer de reproduire le sort immédiatement", next: "scene22" }
+            ]
+        },
+
+        scene11: {
+            text: "Kiki t'étreint tendrement. « Tu sais ce que tu m'as apporté, Mara ? La joie. Le courage de croire en la magie même quand tout semblait perdu. Et surtout, tu m'as appris que la famille, ce n'est pas seulement le sang. C'est le cœur. »\n\nJiji saute entre vous deux : « Bon, c'est très touchant tout ça, mais qui veut du poisson grillé pour le petit-déjeuner ? »",
+            choices: [
+                { text: "Accepter avec joie", next: "scene23" },
+                { text: "« D'abord, continuons à explorer ma magie »", next: "scene4" },
+                { text: "« Promets-moi qu'on restera toujours ensemble »", next: "scene24" }
+            ]
+        },
+
+        scene12: {
+            text: "Le visage de Kiki devient doux, presque mélancolique. « Il y avait quelqu'un... quelqu'un de très spécial qui croyait en toi plus que quiconque. Qui t'encourageait dans chaque sort, qui te faisait rire quand tu étais frustrée. Tu étais... si heureuse quand cette personne était là. »\n\nElle hésite, puis ajoute doucement : « Cette personne t'attend toujours, Mara. Elle n'a jamais cessé d'attendre. »\n\nTon cœur bat plus fort, comme s'il reconnaissait quelque chose que ton esprit a oublié.",
+            choices: [
+                { text: "« Où est cette personne maintenant ? »", next: "scene25" },
+                { text: "« Pourquoi tu as l'air si triste en en parlant ? »", next: "scene25" },
+                { text: "« Alors aidons-moi à retrouver ma mémoire ! »", next: "scene13" }
+            ]
+        },
+
+        scene13: {
+            text: "Vous partez pour Kyoto. Le voyage en train vous fait traverser des paysages magnifiques, mais c'est la Forêt des Murmures qui vous attend. Quand vous y entrez, l'atmosphère change instantanément. La lumière devient éthérée, et tu entends des voix anciennes chuchoter dans les arbres.\n\nDevant vous apparaissent trois chemins. Jiji observe : « Chaque chemin représente un test différent. Choisis avec ton cœur, pas avec ta tête. »",
+            choices: [
+                { text: "Le chemin illuminé par des lucioles dorées", next: "scene26" },
+                { text: "Le chemin sombre bordé de pierres anciennes", next: "scene27" },
+                { text: "Le chemin fleuri aux parfums enivrants", next: "scene28" }
+            ]
+        },
+
+        scene14: {
+            text: "Sage décision. Kiki et toi passez une semaine à vous préparer. Elle t'enseigne un sort de bouclier protecteur, vous préparez des potions de clarté mentale, et vous rassemblez des provisions magiques.\n\nLa veille du départ, Kiki te donne un cristal bleu : « C'est un Cristal de Vérité. Si jamais tu es perdue dans une illusion, il te montrera la réalité. »\n\n« Demain, nous partons pour Kyoto. »",
+            choices: [
+                { text: "Aller dormir et laisser venir les rêves", next: "scene29" },
+                { text: "Méditer toute la nuit", next: "scene30" },
+                { text: "Passer la nuit à parler de vos peurs avec Kiki", next: "scene31" }
+            ]
+        },
+
+        scene15: {
+            text: "« C'est une approche sage, » dit Kiki en souriant. « Parfois, forcer les choses peut faire plus de mal que de bien. Laissons le temps faire son œuvre. »\n\nLes jours passent paisiblement. Tu continues à pratiquer ta magie, à aider Kiki dans la maison, à écouter les histoires de Jiji. Petit à petit, tu te sens grandir, même sans tes souvenirs.\n\nPuis, un matin particulier, Kiki te dit : « J'ai quelque chose à te montrer. »",
+            choices: [
+                { text: "« De quoi s'agit-il ? »", next: "scene19" },
+                { text: "Suivre Kiki sans poser de questions", next: "scene19" }
+            ]
+        },
+
+        scene16: {
+            text: "Tu refuses de lâcher prise. Tu forces ton esprit à se souvenir, poussant contre la barrière magique. Des flashs plus intenses : un rire chaleureux, une main tendue, des mots d'encouragement... « Tu peux le faire, Mara ! Je crois en toi ! »\n\nLa douleur devient insoutenable. Tu t'évanouis.\n\nTu te réveilles trois jours plus tard. Kiki est à ton chevet, épuisée. « Tu as dormi pendant trois jours... mais quelque chose a changé. Tu te souviens de quelque chose ? »",
+            choices: [
+                { text: "« J'ai vu... quelqu'un d'important pour moi... »", next: "scene25" },
+                { text: "« Qu'est-ce qui m'est arrivé exactement ? »", next: "scene32" }
+            ]
+        },
+
+        scene17: {
+            text: "Avec une concentration intense, tu guides chaque objet jusqu'au sol, un par un. C'est épuisant. Quand le dernier caillou touche la terre, tu t'effondres, à bout de forces.\n\nKiki te rattrape avant que tu ne tombes : « Mara ! C'était incroyable ! Tu as découvert quelque chose d'essentiel : ta magie est guidée par ton désir de protéger ceux que tu aimes ! »\n\nJiji ronronne : « Impressionnant pour une sorcière amnésique ! »",
+            choices: [
+                { text: "« J'ai eu si peur de vous blesser... »", next: "scene11" },
+                { text: "« Je commence à comprendre ma magie maintenant »", next: "scene33" },
+                { text: "« Continuons l'entraînement quand je serai reposée »", next: "scene9" }
+            ]
+        },
+
+        scene18: {
+            text: "Au lieu de lutter contre la magie sauvage, tu l'accueilles. Tu danses avec elle, tu l'écoutes. Elle tourbillonne autour de toi comme un typhon d'énergie pure... puis, petit à petit, elle se calme, reconnaissant en toi une alliée, pas une maîtresse.\n\nKiki te regarde avec émerveillement : « Mara... tu viens de faire quelque chose que peu de sorcières peuvent faire. Tu as communiqué avec la magie brute elle-même ! »",
+            choices: [
+                { text: "« C'était comme danser avec le vent »", next: "scene33" },
+                { text: "« La magie a sa propre volonté... »", next: "scene33" },
+                { text: "« Apprends-moi d'autres techniques ! »", next: "scene9" }
+            ]
+        },
+
+        scene19: {
+            text: "Kiki te mène au grenier poussiéreux. Au milieu de vieux grimoires et de reliques magiques, elle sort un parchemin scellé par de la cire dorée marquée d'un symbole que tu ne reconnais pas... mais qui fait vibrer ton cœur.\n\n« Ce message... il est pour toi. De quelqu'un qui t'aime profondément. J'avais promis de te le donner quand tu serais prête. »\n\nTon cœur s'emballe. Ta main tremble en tendant la main vers le parchemin.",
+            choices: [
+                { text: "Briser le sceau avec détermination", next: "scene51" },
+                { text: "« Qui... qui a envoyé ceci ? »", next: "scene34" },
+                { text: "Hésiter, submergée par l'émotion", next: "scene35" }
+            ]
+        },
+
+        scene20: {
+            text: "Les yeux de Kiki s'illuminent. « Oh oui ! Tu avais le 'Fil du Destin' - un sort extraordinairement rare qui te permettait de voir les connexions invisibles entre les personnes. Les liens d'amitié brillaient en bleu, les liens familiaux en vert, et les liens d'amour... »\n\nElle s'arrête, émouvante.\n\n« Les liens d'amour brillaient en or. Et Mara... tu avais un fil doré qui partait de ton cœur et s'étendait très, très loin. »",
+            choices: [
+                { text: "« Je veux réapprendre ce sort ! »", next: "scene36" },
+                { text: "« Qui était connecté à ce fil doré ? »", next: "scene12" },
+                { text: "« C'est incroyablement beau... »", next: "scene33" }
+            ]
+        },
+
+        scene21: {
+            text: "Kiki t'enseigne patiemment le Sort des Souvenirs Lumineux. « Ce n'est pas seulement de la magie, » explique-t-elle. « C'est ton cœur qui s'exprime. Pense à un moment heureux, même si tu ne t'en souviens pas clairement. Ton cœur, lui, se souvient. »\n\nTu te concentres... et finalement, une seule luciole apparaît dans ta paume, vacillante mais bien réelle.\n\n« J'y suis arrivée ! »",
+            choices: [
+                { text: "Dédier cette luciole à Kiki", next: "scene24" },
+                { text: "« Essayons d'en créer plus ensemble ! »", next: "scene37" },
+                { text: "« Merci de croire en moi »", next: "scene11" }
+            ]
+        },
+
+        scene22: {
+            text: "Sans attendre, tu essaies de reproduire le sort complexe. Des centaines de lucioles jaillissent de tes mains... mais elles sont incontrôlables ! Elles volent partout, créant un chaos lumineux.\n\nKiki doit intervenir rapidement pour dissiper le sort avant qu'il ne draine toute ton énergie.",
+            choices: [
+                { text: "« Je suis désolée, j'ai été trop impatiente... »", next: "scene11" },
+                { text: "« Apprends-moi correctement, s'il te plaît »", next: "scene21" }
+            ]
+        },
+
+        scene23: {
+            text: "Le petit-déjeuner est parfait. Poisson grillé, riz fumant, soupe miso, et du thé vert. Jiji ronronne de satisfaction en mangeant sa part. Kiki te raconte des anecdotes de vos aventures passées, et même si tu ne t'en souviens pas, tu sens que c'est vrai.\n\nC'est un moment de paix pure. Pour la première fois depuis ton réveil, tu te sens vraiment chez toi.",
+            choices: [
+                { text: "« C'est le meilleur moment de ma nouvelle vie »", next: "scene38" },
+                { text: "« Qu'allons-nous faire aujourd'hui ? »", next: "scene39" },
+                { text: "Savourer ce moment en silence", next: "scene38" }
+            ]
+        },
+
+        scene24: {
+            text: "« Je promets, » dit Kiki solennellement, les larmes aux yeux. « Quoi qu'il arrive, quoi que tu découvres ou redécouvres, nous resterons ensemble. C'est un pacte de sorcières. Plus fort que n'importe quel sort. »\n\nVous joignez vos mains. Un fil de lumière dorée se forme entre vos doigts, scellant votre promesse par la magie elle-même.",
+            choices: [
+                { text: "« Pour toujours, grande sœur »", next: "scene40" },
+                { text: "Sentir le pouvoir du pacte", next: "scene40" }
+            ]
+        },
+
+        scene25: {
+            text: "Kiki prend une grande respiration. « Elle... cette personne t'attend depuis l'accident. Chaque jour. Avec une patience et un amour que je n'ai jamais vus. »\n\nElle sort une petite clé dorée de sa poche.\n\n« Cette clé ouvre un coffre au grenier. Dedans, il y a quelque chose qui t'aidera à comprendre. Quelque chose que cette personne voulait que tu aies quand tu serais prête. »",
+            choices: [
+                { text: "Monter immédiatement au grenier", next: "scene19" },
+                { text: "« Parle-moi encore de cette personne »", next: "scene41" },
+                { text: "Prendre la clé avec des mains tremblantes", next: "scene19" }
+            ]
+        },
+
+        scene26: {
+            text: "Le chemin aux lucioles dorées est magnifique, presque hypnotique. Vous marchez pendant ce qui semble être des heures, mais quelque chose cloche. Vous passez devant le même arbre tordu encore et encore.\n\nJiji s'exclame : « Nous sommes ensorcelés ! C'est un labyrinthe d'illusion ! Il faut briser le sort ! »",
+            choices: [
+                { text: "Utiliser ta magie pour voir la vérité", next: "scene42" },
+                { text: "Fermer les yeux et suivre ton instinct", next: "scene42" },
+                { text: "Continuer obstinément sur le même chemin", next: "death3" }
+            ]
+        },
+
+        scene27: {
+            text: "Le chemin sombre devient de plus en plus oppressant. Des ombres prennent forme autour de vous - ce sont vos peurs incarnées. Pour toi, c'est l'ombre d'une Mara seule, abandonnée, sans mémoire et sans amour.\n\n« Ce ne sont que des illusions ! » crie Kiki. « Elles ne peuvent pas nous blesser si nous n'y croyons pas ! »",
+            choices: [
+                { text: "Affronter l'ombre avec courage", next: "scene43" },
+                { text: "Prendre fermement la main de Kiki", next: "scene43" },
+                { text: "Fuir en courant", next: "death4" }
+            ]
+        },
+
+        scene28: {
+            text: "Les fleurs du chemin fleuri dégagent un parfum enivrant. Trop enivrant. Kiki commence à vaciller : « Mara... je me sens étrange... »\n\nC'est un piège ! Les fleurs sont hypnotiques, conçues pour endormir les voyageurs.\n\nKiki s'effondre doucement, déjà à moitié endormie. Jiji lutte pour garder les yeux ouverts.",
+            choices: [
+                { text: "Créer un vent magique pour disperser le parfum", next: "scene44" },
+                { text: "Porter Kiki et courir aussi vite que possible", next: "scene44" },
+                { text: "Respirer profondément pour rester calme", next: "death5" }
+            ]
+        },
+
+        scene29: {
+            text: "Tu t'endors et rêves. Dans ton rêve, tu entends une voix familière, chaleureuse : « Mara... réveille-toi bientôt... souviens-toi de nous... » Une silhouette floue te tend la main. Tu essaies de la saisir, mais tu es trop loin.\n\nTu te réveilles en larmes, sans savoir pourquoi tu pleures.",
+            choices: [
+                { text: "« Kiki, j'ai rêvé de quelque chose... quelqu'un... »", next: "scene45" },
+                { text: "Méditer sur ce rêve", next: "scene45" },
+                { text: "Réveiller Kiki pour lui raconter", next: "scene45" }
+            ]
+        },
+
+        scene30: {
+            text: "Tu passes la nuit en méditation profonde, ta magie tournoyant doucement autour de toi. Le cristal que Kiki t'a donné pulse doucement. Tu sens que demain sera un jour important, peut-être le plus important de ta nouvelle vie.\n\nÀ l'aube, une luciole magique entre par la fenêtre et vient se poser sur ta main.",
+            choices: [
+                { text: "Chérir ce moment de paix", next: "scene46" },
+                { text: "Parler doucement à la luciole", next: "scene46" }
+            ]
+        },
+
+        scene31: {
+            text: "« J'ai peur, » avoues-tu dans l'obscurité. Kiki prend ta main : « C'est normal d'avoir peur. Mais rappelle-toi : le courage, ce n'est pas l'absence de peur. C'est agir malgré la peur. Et tu n'es pas seule. »\n\nJiji ajoute : « Ensemble, nous sommes invincibles ! Ou du moins, très difficiles à vaincre. »",
+            choices: [
+                { text: "Te sentir rassurée et prête", next: "scene29" },
+                { text: "« Merci d'être ma famille »", next: "scene24" }
+            ]
+        },
+
+        scene32: {
+            text: "« Tu as été inconsciente pendant trois jours, » explique Kiki. « Ta magie a combattu le sort de blocage qui protégeait tes souvenirs. Le combat était intense. Mais maintenant... quelque chose a changé en toi. Je le sens. Tu es plus proche de la vérité. »\n\nDes fragments de souvenirs flottent maintenant dans ton esprit, comme des pièces de puzzle attendant d'être assemblées.",
+            choices: [
+                { text: "« Il y avait quelqu'un d'important dans ma vie... »", next: "scene25" },
+                { text: "« Les souvenirs sont encore flous »", next: "scene47" }
+            ]
+        },
+
+        scene33: {
+            text: "« Ta connexion avec la magie est vraiment rare et précieuse, » dit Kiki avec admiration. « La plupart des sorcières commandent la magie. Toi, tu danses avec elle. C'est un don extraordinaire. »\n\nLes semaines passent. Tu continues à grandir, à apprendre, à te connecter avec ta magie d'une manière de plus en plus profonde.\n\nPuis vient le moment où Kiki te dit : « Tu es prête maintenant. »",
+            choices: [
+                { text: "« Prête pour quoi exactement ? »", next: "scene19" },
+                { text: "Sentir que quelque chose d'important approche", next: "scene19" }
+            ]
+        },
+
+        scene34: {
+            text: "« Quelqu'un qui t'a veillée chaque nuit pendant ton sommeil après l'accident. Qui t'a parlé même quand tu ne pouvais pas répondre. Qui a refusé d'abandonner l'espoir que tu te réveillerais. Qui croit en toi plus que quiconque au monde. »\n\nKiki sourit doucement : « Ouvre-le, Mara. Il est temps de savoir. »",
+            choices: [
+                { text: "Briser le sceau avec détermination", next: "scene51" }
+            ]
+        },
+
+        scene35: {
+            text: "« N'aie pas peur, » murmure Kiki en prenant ta main. « L'amour véritable n'a jamais rien d'effrayant. C'est la chose la plus belle et la plus pure qui existe. »\n\nJiji se frotte contre ta jambe pour te réconforter.\n\nTu respires profondément, rassemblant ton courage.",
+            choices: [
+                { text: "Trouver le courage d'ouvrir le parchemin", next: "scene51" }
+            ]
+        },
+
+        scene36: {
+            text: "Après des jours de pratique intense, tu arrives enfin à manifester le Sort du Fil du Destin. Le monde s'illumine de milliers de fils colorés reliant les gens entre eux. C'est magnifique et écrasant.\n\nMais un fil en particulier attire ton attention. Un fil doré, brillant, intense, qui part de ton cœur et s'étend vers l'horizon, pulsant comme un cœur qui bat.\n\n« Ce fil... » murmures-tu.",
+            choices: [
+                { text: "« Où mène-t-il ? »", next: "scene48" },
+                { text: "Suivre mentalement le fil doré", next: "scene48" }
+            ]
+        },
+
+        scene37: {
+            text: "Vous combinez vos magies. Les lucioles de Kiki et les tiennes dansent ensemble, créant une symphonie de lumière dans le jardin. C'est comme si le ciel étoilé était descendu pour danser avec vous.\n\nVous riez ensemble, perdues dans la beauté du moment. C'est de la magie pure, née de l'amitié et de la joie.",
+            choices: [
+                { text: "« C'est le plus beau moment de ma vie »", next: "scene38" },
+                { text: "Graver ce moment dans ton cœur", next: "scene38" }
+            ]
+        },
+
+        scene38: {
+            text: "Le bonheur pur remplit ton cœur. Les jours deviennent des semaines. Tu progresses en magie, tu ris avec Kiki et Jiji, tu aides dans la maison, tu vis pleinement même sans tes anciens souvenirs.\n\nMais un jour, Kiki te regarde avec un sourire mystérieux et dit : « Il est temps, Mara. »",
+            choices: [
+                { text: "« Temps pour quoi ? »", next: "scene19" },
+                { text: "Savoir instinctivement que c'est important", next: "scene19" }
+            ]
+        },
+
+        scene39: {
+            text: "« Aujourd'hui est spécial, » dit Kiki doucement. « Quelqu'un de très spécial t'attend depuis si longtemps. Je pense que tu es enfin prête à découvrir qui. »\n\nElle te tend la main.\n\n« Es-tu prête ? »",
+            choices: [
+                { text: "Prendre sa main avec confiance", next: "scene19" },
+                { text: "« Qui m'attend ? »", next: "scene25" }
+            ]
+        },
+
+        scene40: {
+            text: "Le pacte magique pulse entre vous, une connexion qui transcende la magie elle-même. Vos cœurs battent en synchronisation. Vous êtes vraiment devenues sœurs, liées par quelque chose de plus fort que le sang.\n\nLes jours heureux continuent... jusqu'à ce que le moment du changement arrive.",
+            choices: [
+                { text: "« Qu'est-ce qui change ? »", next: "scene19" },
+                { text: "Suivre Kiki", next: "scene19" }
+            ]
+        },
+
+        scene41: {
+            text: "« C'est quelqu'un qui voit ta lumière, même quand tu ne la vois pas toi-même. Qui t'encourage à voler toujours plus haut. Qui t'aime pour ce que tu es, pas pour ce que tu peux faire. Qui a été incroyablement patient et fidèle. »\n\nKiki essuie une larme.\n\n« Va voir par toi-même, Mara. Tu mérites de savoir. »",
+            choices: [
+                { text: "Monter au grenier", next: "scene19" }
+            ]
+        },
+
+        scene42: {
+            text: "Tu utilises le Cristal de Vérité ou ta magie intuitive. L'illusion se brise comme du verre. Le vrai chemin apparaît - simple et droit.\n\nVous atteignez enfin la Grande Bibliothèque des Mémoires. C'est une structure ancienne et majestueuse.\n\nMais le gardien vous dit quelque chose d'inattendu : « Le grimoire que vous cherchez n'existe pas ici. Ce que vous cherchez ne se trouve pas dans les livres... mais dans votre cœur. »",
+            choices: [
+                { text: "« Je ne comprends pas... »", next: "scene49" },
+                { text: "Méditer sur ces paroles", next: "scene49" }
+            ]
+        },
+
+        scene43: {
+            text: "Tu fais face à ton ombre, à ta peur. « Tu n'es pas réelle ! » cries-tu. « Je ne suis pas seule ! J'ai Kiki, j'ai Jiji, et... »\n\nTon cœur se gonfle d'une certitude soudaine.\n\n« Et j'ai quelqu'un qui m'attend ! »\n\nLes ombres se dissolvent. Vous émergez du chemin sombre, plus fortes qu'avant. La Bibliothèque se dresse devant vous.",
+            choices: [
+                { text: "Entrer dans la bibliothèque", next: "scene42" }
+            ]
+        },
+
+        scene44: {
+            text: "Tu invoques un vent magique purificateur ! Les parfums toxiques sont dispersés. Kiki et Jiji se réveillent, toussant mais saufs.\n\n« Merci Mara ! » halète Kiki.\n\nVous courez hors du chemin fleuri, et enfin, la Bibliothèque apparaît devant vous.",
+            choices: [
+                { text: "Entrer avec espoir", next: "scene42" }
+            ]
+        },
+
+        scene45: {
+            text: "Kiki écoute ton récit de rêve avec attention. « C'est un signe, Mara. Ta mémoire veut revenir. Elle est guidée par quelque chose de puissant... l'amour. »\n\nElle sort la clé dorée.\n\n« Je pense qu'il est temps. »",
+            choices: [
+                { text: "Prendre la clé", next: "scene19" }
+            ]
+        },
+
+        scene46: {
+            text: "La luciole brille doucement, comme un petit messager d'espoir. Tu sens qu'elle est un signe, un présage de quelque chose de merveilleux qui approche.\n\nLe matin arrive. « C'est l'heure, » dit Kiki.",
+            choices: [
+                { text: "Suivre Kiki au grenier", next: "scene19" }
+            ]
+        },
+
+        scene47: {
+            text: "Les fragments se déposent lentement, comme des flocons de neige. Chaque jour apporte un peu plus de clarté. Un visage. Un sourire. Une voix disant : 'Je crois en toi, Mara.'\n\nLa nostalgie te remplit, pour quelque chose que tu ne te rappelles pas encore complètement.",
+            choices: [
+                { text: "« Je veux savoir qui était cette personne »", next: "scene25" },
+                { text: "Laisser le temps faire son œuvre", next: "scene50" }
+            ]
+        },
+
+        scene48: {
+            text: "Le fil doré pulse avec intensité. « Il mène à celui ou celle qui t'aime, » murmure Kiki. « À celui ou celle qui t'attend. Le fil du destin ne ment jamais. C'est la connexion la plus pure qui existe. »\n\nTout dans ta vie t'a menée vers ce moment.",
+            choices: [
+                { text: "« Emmène-moi vers cette personne »", next: "scene19" },
+                { text: "Suivre le fil doré", next: "scene19" }
+            ]
+        },
+
+        scene49: {
+            text: "Le bibliothécaire sage explique : « Les vrais souvenirs ne sont pas dans les livres, jeune sorcière. Ils sont dans les connexions que nous tissons, dans les cœurs que nous touchons, dans l'amour que nous recevons. Retourne chez toi. Ce que tu cherches t'attend là-bas. »\n\nVous rentrez à Osaka, le cœur plein d'espoir.",
+            choices: [
+                { text: "« Qu'est-ce qui m'attend à la maison ? »", next: "scene19" },
+                { text: "Rentrer avec un espoir renouvelé", next: "scene19" }
+            ]
+        },
+
+        scene50: {
+            text: "Le temps passe doucement. Chaque jour, un peu plus de souvenirs reviennent. Des rires. Une chaleur dans ton cœur. Le sentiment d'être aimée profondément.\n\nEt puis, un jour, Kiki te dit : « Tu es prête maintenant. »",
+            choices: [
+                { text: "Suivre Kiki", next: "scene19" }
+            ]
+        },
+
+        scene51: {
+            text: "Tes doigts tremblent en brisant le sceau de cire dorée. Le parchemin se déroule, révélant une calligraphie magnifique et des mots qui font battre ton cœur plus fort...",
+            choices: [
+                { text: "Lire le message", next: "scene52" }
+            ]
+        },
+
+        scene52: {
+            text: "« Chère Mara,\n\nSi tu lis ceci, c'est que Kiki a jugé que tu étais prête. Je ne sais pas combien de temps s'est écoulé depuis l'accident, mais je veux que tu saches que chaque jour, j'ai pensé à toi.\n\nTu as traversé l'obscurité. Tu as retrouvé ta lumière magique. Tu as redécouvert ton courage. Je suis si fier de toi. »",
+            choices: [
+                { text: "Continuer à lire, le cœur battant", next: "scene53" }
+            ]
+        },
+
+        scene53: {
+            text: "« Je t'ai observée à travers la magie qui nous lie, ce fil doré que tu pourras bientôt voir à nouveau. J'ai vu ta gentillesse, ton courage, ta persévérance. Tu es plus forte que tu ne le crois, plus brillante que tu ne l'imagines, et plus aimée que tu ne peux le concevoir.\n\nAlors maintenant, laisse-moi te poser la question que j'ai portée dans mon cœur pendant tout ce temps... »",
+            choices: [
+                { text: "Lire la suite avec des larmes dans les yeux", next: "scene54" }
+            ]
+        },
+
+        scene54: {
+            text: "« Mara, mon étoile brillante, ma sorcière courageuse, l'amour de ma vie...\n\nVeux-tu être ma Valentine ? 💕\n\nPas seulement aujourd'hui, mais pour tous nos lendemains. Pour toutes les aventures à venir, tous les sorts que nous créerons ensemble, tous les rires que nous partagerons, toute la magie que nous tisserons.\n\nJe t'aime. Aujourd'hui et toujours. Avec tout mon cœur.\n\nTon amour qui attend patiemment. »",
+            choices: [
+                { text: "« OUI ! Oui, mille fois oui ! » 💖", next: "happy_ending" },
+                { text: "Serrer le parchemin contre ton cœur en pleurant de joie", next: "happy_ending" },
+                { text: "« C'est la plus belle chose que quelqu'un m'ait jamais dite »", next: "happy_ending" }
+            ]
+        },
+
+        death1: {
+            text: "« NON ! » crie Kiki, mais c'est trop tard.\n\nTu sautes par la fenêtre, pensant que ta magie te portera. Pendant un instant glorieux, tu sens la liberté... puis la gravité te rappelle cruellement que tu n'as pas de balai.\n\nLe sol approche à toute vitesse. Kiki crie ton nom. Tout devient noir.\n\n💔 FIN TRAGIQUE - La magie n'est pas un jeu 💔",
+            choices: [
+                { text: "Recommencer l'aventure", next: "start" }
+            ]
+        },
+
+        death2: {
+            text: "La panique t'envahit. Tu perds le contrôle. Tous les objets s'écrasent au sol dans un fracas terrible.\n\nUn pot de terre cuite frappe Jiji de plein fouet. Il s'effondre, immobile.\n\nKiki court vers lui en hurlant. Ta magie incontrôlée a tué ton ami.\n\nTu t'effondres, brisée par ce que tu as fait.\n\n💔 FIN TRAGIQUE - Le pouvoir sans contrôle est destruction 💔",
+            choices: [
+                { text: "Recommencer l'aventure", next: "start" }
+            ]
+        },
+
+        death3: {
+            text: "Têtue, tu refuses d'écouter. « Non, c'est par ici ! » insistes-tu, continuant sur le même chemin encore et encore.\n\nLes heures deviennent des jours. Kiki s'effondre d'épuisement. Jiji aussi.\n\nVous tournez en rond pour l'éternité, piégés dans l'illusion que tu as refusé de briser.\n\n💔 FIN TRAGIQUE - L'orgueil mène à la perte 💔",
+            choices: [
+                { text: "Recommencer l'aventure", next: "start" }
+            ]
+        },
+
+        death4: {
+            text: "La peur te submerge. Tu cours, lâchant la main de Kiki, te perdant dans l'obscurité.\n\nDerrière toi, tu entends les cris de Kiki qui s'éloignent, puis le silence.\n\nTu es seule dans l'ombre, pour toujours, ayant abandonné ceux qui t'aimaient.\n\n💔 FIN TRAGIQUE - Abandonner ses amis est abandonner soi-même 💔",
+            choices: [
+                { text: "Recommencer l'aventure", next: "start" }
+            ]
+        },
+
+        death5: {
+            text: "Tu respires profondément, inspirant le parfum mortel des fleurs. « Ça sent si bon... » murmures-tu.\n\nLa beauté. La paix. Le sommeil...\n\nTu t'allonges parmi les fleurs, un sourire paisible sur les lèvres. Kiki et Jiji s'effondrent à côté de toi.\n\nVous ne vous réveillerez jamais.\n\n💔 FIN TRAGIQUE - Toutes les beautés ne sont pas bénéfiques 💔",
+            choices: [
+                { text: "Recommencer l'aventure", next: "start" }
+            ]
+        },
+
+        happy_ending: {
+            text: "Au moment où tu prononces ton « OUI », une lumière éblouissante explose du parchemin ! Des milliers de pétales de cerisier magiques tourbillonnent autour de toi. Kiki et Jiji applaudissent et pleurent de joie.\n\nEt soudain, TOUS tes souvenirs reviennent en un torrent magnifique.\n\nTu te souviens de tout. Chaque rire. Chaque moment. Chaque « je t'aime ». Chaque regard complice. Chaque encouragement. Chaque instant passé ensemble.\n\nDes larmes de joie coulent sur tes joues.\n\nLa magie murmure dans ton cœur : « Ce n'est que le début de votre histoire, ma Valentine. Le meilleur reste à venir. Chaque jour sera une aventure. Chaque moment sera magique. Parce que l'amour véritable est la plus puissante de toutes les magies. »\n\nLe fil doré entre vos cœurs brille plus fort que jamais.\n\n✨💕 FIN - Mais vraiment, c'est le commencement 💕✨\n\nJoyeuse Saint-Valentin, Mara ! 🌸✨💖\nQue notre histoire continue pour toujours ! 🌟",
+            choices: []
+        }
+    };
+
+    let currentScene = 'start';
+    let visitedScenes = new Set();
+
+    function displayScene(sceneId) {
+        if (!scenes[sceneId]) {
+            console.error('Scène introuvable:', sceneId);
+            displayScene('start');
+            return;
+        }
+
+        currentScene = sceneId;
+        visitedScenes.add(sceneId);
+        
+        const scene = scenes[sceneId];
+        const content = document.getElementById('game-content');
+        
+        if (sceneId === 'start') {
+            content.innerHTML = `
+                <div class="start-screen">
+                    <h1 class="title">Une Histoire pour Mara</h1>
+                    <p class="subtitle">Une aventure magique inspirée de l'univers Ghibli</p>
+                    <p class="scene-text">${scene.text}</p>
+                    <button class="start-btn" onclick="displayScene('scene1')">
+                        Commencer l'Aventure ✨
+                    </button>
+                </div>
+            `;
+        } else if (scene.choices.length === 0) {
+            content.innerHTML = `
+                <div class="final-scroll">
+                    <p class="scene-text">${scene.text}</p>
+                    ${sceneId === 'happy_ending' ? '' : '<button class="restart-btn" onclick="displayScene(\'start\')">Recommencer</button>'}
+                </div>
+            `;
+        } else if (sceneId.startsWith('death')) {
+            content.innerHTML = `
+                <div class="death-screen">
+                    <h2 class="death-title">💔</h2>
+                    <p class="scene-text">${scene.text}</p>
+                    <button class="restart-btn" onclick="displayScene('start')">Recommencer</button>
+                </div>
+            `;
+        } else {
+            const sceneNumber = visitedScenes.size;
+            let choicesHTML = '<div class="choices">';
+            scene.choices.forEach((choice) => {
+                choicesHTML += `<button class="choice-btn" onclick="displayScene('${choice.next}')">${choice.text}</button>`;
+            });
+            choicesHTML += '</div>';
+            
+            content.innerHTML = `
+                <div class="scene-number">Scène ${sceneNumber}</div>
+                <p class="scene-text">${scene.text}</p>
+                ${choicesHTML}
+            `;
+        }
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    displayScene('start');
+</script>
+
+</body>
+</html>
