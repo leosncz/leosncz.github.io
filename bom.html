@@ -5,6 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BOM Streaming</title>
+  <meta http-equiv="Content-Security-Policy" content="frame-src https://vidsrcme.ru https://vidsrc-embed.ru https://vidsrc-embed.su https://vidsrcme.su https://vsrc.su;">
+  <meta http-equiv="Permissions-Policy" content="popups=(), popup-layout=()">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
@@ -464,7 +466,8 @@ main {
       <button class="modal-close" id="closePlayer">Fermer</button>
     </div>
     <div class="player-wrap">
-      <iframe id="playerIframe" allowfullscreen allow="autoplay; fullscreen"></iframe>
+      <iframe id="playerIframe" allowfullscreen allow="autoplay; fullscreen"
+        ></iframe>
     </div>
     <div class="episode-bar hidden" id="episodeBar">
       <div class="ep-bar-label">Episodes</div>
@@ -551,6 +554,10 @@ main {
     }
   }
 
+  function setPlayerSrc(src) {
+    document.getElementById('playerIframe').src = src;
+  }
+
   async function search(query) {
     if (!query.trim()) { showHome(); return; }
     $('homePage').style.display = 'none';
@@ -591,7 +598,7 @@ main {
       loadEpisodes(id, 1);
     } else {
       $('episodeBar').classList.add('hidden');
-      $('playerIframe').src = EMBED_BASE + '/movie/' + id + '?autoplay=1';
+      setPlayerSrc(EMBED_BASE + '/movie/' + id + '?autoplay=1');
     }
   }
 
@@ -635,10 +642,10 @@ main {
         b.addEventListener('click', function() {
           $('episodeList').querySelectorAll('.ep-btn').forEach(function(x) { x.classList.remove('active'); });
           b.classList.add('active');
-          $('playerIframe').src = EMBED_BASE + '/tv/' + id + '/' + season + '/' + b.dataset.e + '?autoplay=1';
+          setPlayerSrc(EMBED_BASE + '/tv/' + id + '/' + season + '/' + b.dataset.e + '?autoplay=1');
         });
       });
-      $('playerIframe').src = EMBED_BASE + '/tv/' + id + '/' + season + '/1?autoplay=1';
+      setPlayerSrc(EMBED_BASE + '/tv/' + id + '/' + season + '/1?autoplay=1');
     } catch(e) {
       $('episodeList').innerHTML = '<span style="color:#888899;font-size:.73rem">Impossible de charger les episodes.</span>';
     }
@@ -678,6 +685,16 @@ main {
   $('logoHome').addEventListener('click', function() {
     $('searchInput').value = '';
     showHome();
+  });
+
+  // Bloquer toutes les tentatives d'ouverture de popup/nouvel onglet
+  window.open = function() { return null; };
+
+  // Quand l'iframe prend le focus (clic sur pub), reprendre le focus sur la page
+  window.addEventListener('blur', function() {
+    if (document.activeElement && document.activeElement.tagName === 'IFRAME') {
+      setTimeout(function() { window.focus(); }, 0);
+    }
   });
 
   loadTrending();
