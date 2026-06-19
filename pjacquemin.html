@@ -1,376 +1,468 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Pierre Jacquemin — Photographe Lyon</title>
+<title>Pierre Jacquemin — Photographe, Lyon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --black:#0c0c0c;
-  --white:#ffffff;
-  --off:#f5f5f3;
-  --muted:rgba(12,12,12,0.4);
-  --serif:'Georgia','Times New Roman',serif;
+  --ink:#16130f;
+  --ink-soft:rgba(22,19,15,0.62);
+  --ink-faint:rgba(22,19,15,0.34);
+  --paper:#f5efe2;
+  --paper-deep:#eadfc9;
+  --paper-card:#efe6d3;
+  --cream:#fbf8f1;
+  --rust:#b9582f;
+  --rust-soft:rgba(185,88,47,0.16);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
   --sans:'Helvetica Neue',Helvetica,Arial,sans-serif;
   --pad:clamp(20px,5vw,52px);
 }
 html{scroll-behavior:smooth}
 body{
-  background:var(--white);color:var(--black);
+  background:var(--paper);color:var(--ink);
   font-family:var(--sans);font-size:15px;line-height:1.6;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 
+/* ── GRAIN OVERLAY — ties the whole site to an analog/print feel ── */
+.grain{
+position:fixed;inset:0;z-index:998;pointer-events:none;
+opacity:.05;mix-blend-mode:multiply;
+background-image:url(“data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>”);
+background-size:160px 160px;
+}
+
 /* ── NAV ── */
 nav{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:22px var(--pad);
-  transition:background .4s,padding .4s,backdrop-filter .4s;
+position:fixed;top:0;left:0;right:0;z-index:200;
+display:flex;justify-content:space-between;align-items:center;
+padding:22px var(–pad);
+transition:background .4s,padding .4s,backdrop-filter .4s;
 }
 nav.scrolled{
-  background:rgba(255,255,255,0.92);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  padding:14px var(--pad);
-  border-bottom:1px solid rgba(0,0,0,0.07);
+background:rgba(245,239,226,0.9);
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+padding:14px var(–pad);
+border-bottom:1px solid rgba(22,19,15,0.08);
 }
 .nav-logo{
-  font-family:var(--serif);font-size:15px;font-style:italic;
-  color:var(--black);text-decoration:none;letter-spacing:.01em;
+font-family:var(–serif);font-size:16px;font-style:italic;
+color:var(–ink);text-decoration:none;letter-spacing:.01em;
 }
 .nav-links{display:flex;gap:clamp(18px,3vw,40px);list-style:none}
 .nav-links a{
-  font-size:11px;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--black);text-decoration:none;opacity:.38;transition:opacity .2s;
+font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+color:var(–ink);text-decoration:none;opacity:.4;transition:opacity .2s;
 }
 .nav-links a:hover{opacity:1}
-/* hamburger mobile */
 .nav-burger{
-  display:none;flex-direction:column;gap:5px;cursor:pointer;
-  background:none;border:none;padding:4px;
+display:none;flex-direction:column;gap:5px;cursor:pointer;
+background:none;border:none;padding:4px;z-index:201;
 }
-.nav-burger span{display:block;width:22px;height:1.5px;background:var(--black)}
+.nav-burger span{display:block;width:22px;height:1.5px;background:var(–ink);transition:transform .25s,opacity .25s}
+.nav-burger.is-open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav-burger.is-open span:nth-child(2){opacity:0}
+.nav-burger.is-open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mobile-menu{
+display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:199;
+background:var(–paper);padding:120px var(–pad) 40px;
+flex-direction:column;gap:26px;
+}
+.mobile-menu.is-open{display:flex}
+.mobile-menu a{
+font-family:var(–serif);font-size:32px;font-style:italic;
+color:var(–ink);text-decoration:none;
+}
 @media(max-width:600px){
-  .nav-links{display:none}
-  .nav-burger{display:flex}
+.nav-links{display:none}
+.nav-burger{display:flex}
 }
 
 /* ── HERO ── */
 .hero{
-  height:100svh;position:relative;overflow:hidden;
-  display:flex;align-items:flex-end;
+height:100svh;position:relative;overflow:hidden;
+display:flex;align-items:flex-end;
 }
 .hero-bg{
-  position:absolute;inset:-18% 0;z-index:0;will-change:transform;
+position:absolute;inset:-18% 0;z-index:0;will-change:transform;
 }
 .hero-bg img{
-  width:100%;height:100%;object-fit:cover;display:block;
-  filter:brightness(.65);
+width:100%;height:100%;object-fit:cover;display:block;
+filter:brightness(.82) saturate(1.05);
+}
+/* light-leak — the signature element, an analog film flare that ties the
+whole identity (“argentique”) to one bold, deliberate gesture */
+.hero-leak{
+position:absolute;top:-25%;left:-25%;width:150%;height:150%;z-index:1;
+background:linear-gradient(115deg,
+transparent 38%,
+rgba(241,176,108,.35) 47%,
+rgba(185,88,47,.55) 52%,
+rgba(241,176,108,.28) 57%,
+transparent 66%);
+filter:blur(46px);mix-blend-mode:screen;opacity:.85;
+pointer-events:none;
+}
+/* ink-wash scrim — an organic dark pool anchored under the title, so the
+text always reads no matter how bright the photo beneath it is */
+.hero-scrim{
+position:absolute;inset:0;z-index:2;pointer-events:none;
+background:
+radial-gradient(ellipse 85% 65% at 16% 92%, rgba(12,10,8,.92) 0%, rgba(12,10,8,.68) 36%, rgba(12,10,8,.22) 60%, transparent 78%),
+linear-gradient(to top, rgba(10,8,6,.35), transparent 55%),
+linear-gradient(to bottom, rgba(10,8,6,.28), transparent 30%);
 }
 .hero-content{
-  position:relative;z-index:1;
-  padding:0 var(--pad) clamp(48px,8vh,88px);
-  color:var(--white);
+position:relative;z-index:3;
+padding:0 var(–pad) clamp(48px,8vh,88px);
+color:var(–cream);max-width:900px;
 }
 .hero-eyebrow{
-  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
-  opacity:.5;margin-bottom:16px;display:block;
+font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+opacity:.7;margin-bottom:16px;display:block;
 }
 .hero-title{
-  font-family:var(--serif);
-  font-size:clamp(58px,13vw,130px);
-  font-style:italic;font-weight:400;line-height:.92;
-  letter-spacing:-.03em;margin-bottom:40px;
+font-family:var(–serif);
+font-size:clamp(54px,12.5vw,124px);
+font-style:italic;font-weight:400;line-height:.94;
+letter-spacing:-.02em;margin-bottom:40px;
+text-shadow:0 2px 30px rgba(0,0,0,.25);
 }
 .hero-scroll{
-  display:flex;align-items:center;gap:12px;
-  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
-  opacity:.4;color:var(--white);
+display:flex;align-items:center;gap:12px;
+font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+opacity:.65;color:var(–cream);
 }
 .hero-scroll-line{
-  width:36px;height:1px;background:var(--white);
-  animation:pline 2.2s ease-in-out infinite;
+width:36px;height:1px;background:var(–cream);
+animation:pline 2.2s ease-in-out infinite;
 }
 @keyframes pline{0%,100%{transform:scaleX(1);opacity:.4}50%{transform:scaleX(1.6);opacity:.9}}
 
+/* ── ORGANIC DIVIDER ── */
+.divider-wave{display:block;width:100%;height:26px;opacity:.5}
+.divider-wave path{stroke:var(–rust);stroke-width:1.4;fill:none;opacity:.55}
+
 /* ── MARQUEE ── */
 .marquee-wrap{
-  overflow:hidden;padding:12px 0;
-  border-top:1px solid rgba(0,0,0,.08);
-  border-bottom:1px solid rgba(0,0,0,.08);
+overflow:hidden;padding:12px 0;
+border-top:1px solid rgba(22,19,15,.1);
+border-bottom:1px solid rgba(22,19,15,.1);
 }
 .marquee-track{
-  display:flex;gap:48px;white-space:nowrap;width:max-content;
-  animation:mq 24s linear infinite;
+display:flex;gap:48px;white-space:nowrap;width:max-content;
+animation:mq 24s linear infinite;
 }
-.marquee-item{font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.25}
-.marquee-sep{opacity:.15}
+.marquee-item{font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.3}
+.marquee-sep{opacity:.18;color:var(–rust)}
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ── LABEL ── */
 .label{
-  font-size:10px;letter-spacing:.24em;text-transform:uppercase;
-  opacity:.3;margin-bottom:28px;display:block;
+font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+opacity:.6;margin-bottom:28px;display:inline-flex;align-items:center;gap:10px;
 }
+.label::before{content:’’;width:16px;height:1px;background:var(–rust)}
 
 /* ── INTRO ── */
 .intro{
-  display:grid;grid-template-columns:1fr 1fr;
-  padding:clamp(60px,10vh,120px) var(--pad);
-  gap:clamp(32px,6vw,96px);align-items:center;
+display:grid;grid-template-columns:1.05fr .95fr;
+padding:clamp(64px,10vh,128px) var(–pad);
+gap:clamp(32px,6vw,96px);align-items:center;
 }
 .intro-text h2{
-  font-family:var(--serif);
-  font-size:clamp(38px,5.5vw,72px);
-  font-style:italic;font-weight:400;line-height:1.05;margin-bottom:28px;
+font-family:var(–serif);
+font-size:clamp(38px,5.5vw,72px);
+font-style:italic;font-weight:400;line-height:1.05;margin-bottom:28px;
 }
-.intro-text p{font-size:15px;line-height:1.9;color:var(--muted);max-width:420px}
+.intro-text p{font-size:15px;line-height:1.9;color:var(–ink-soft);max-width:440px}
 .intro-text p+p{margin-top:16px}
 .intro-img-wrap{
-  position:relative;height:clamp(380px,55vw,640px);overflow:hidden;
+position:relative;height:clamp(380px,52vw,600px);
+clip-path:url(#blobA);
+filter:drop-shadow(0 26px 46px rgba(22,19,15,.22));
+transform:rotate(-1.4deg);
 }
 .intro-img-wrap .px{
-  position:absolute;inset:-18% 0;will-change:transform;
+position:absolute;inset:-18% 0;will-change:transform;
 }
 .intro-img-wrap .px img{
-  width:100%;height:120%;object-fit:cover;display:block;filter:grayscale(8%);
+width:100%;height:120%;object-fit:cover;display:block;filter:grayscale(4%) saturate(1.05);
 }
-@media(max-width:700px){
-  .intro{grid-template-columns:1fr}
-  .intro-img-wrap{order:-1}
+@media(max-width:760px){
+.intro{grid-template-columns:1fr}
+.intro-img-wrap{order:-1;width:88%;margin:0 auto}
 }
 
 /* ── PORTFOLIO ── */
 .portfolio{padding:clamp(48px,8vh,96px) 0 0}
-.portfolio-head{padding:0 var(--pad) clamp(28px,4vh,52px)}
+.portfolio-head{padding:0 var(–pad) clamp(28px,4vh,52px)}
 .portfolio-head h2{
-  font-family:var(--serif);
-  font-size:clamp(42px,7vw,84px);
-  font-style:italic;font-weight:400;line-height:.95;
+font-family:var(–serif);
+font-size:clamp(42px,7vw,84px);
+font-style:italic;font-weight:400;line-height:.95;
 }
-/* grid 3col desktop → 2col tablet → 1col mobile */
 .work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
-.work-item{position:relative;overflow:hidden;cursor:pointer;background:var(--off)}
-/* inner parallax layer */
+.work-item{position:relative;overflow:hidden;cursor:pointer;background:var(–paper-card)}
 .work-item .px{
-  position:absolute;inset:-18% 0;will-change:transform;
+position:absolute;inset:-18% 0;will-change:transform;
+transition:transform .55s cubic-bezier(.25,.46,.45,.94),box-shadow .4s;
 }
 .work-item .px img{
-  width:100%;height:120%;object-fit:cover;display:block;
-  filter:grayscale(10%);
-  transition:filter .5s,transform .6s cubic-bezier(.25,.46,.45,.94);
+width:100%;height:120%;object-fit:cover;display:block;
+filter:grayscale(14%);
+transition:filter .5s,transform .6s cubic-bezier(.25,.46,.45,.94);
 }
-.work-item:hover .px img{filter:grayscale(0%);transform:scale(1.04)}
-.work-item--tall{grid-row:span 2}
-.work-item--tall .item-inner{height:100%}
-.work-item--reg .item-inner{height:clamp(220px,28vw,380px)}
-.item-inner{position:relative;width:100%}
+.work-item:hover .px{transform:scale(1.015) rotate(-0.5deg);box-shadow:0 22px 44px rgba(22,19,15,.25)}
+.work-item:hover .px img{filter:grayscale(0%);transform:scale(1.05)}
+.work-item–tall{grid-row:span 2}
+.work-item–tall .item-inner{height:100%}
+.work-item–reg .item-inner{height:clamp(220px,28vw,380px)}
+.item-inner{position:relative;width:100%;overflow:hidden}
 .work-overlay{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:28px 18px 18px;
-  background:linear-gradient(transparent,rgba(0,0,0,.5));
-  color:#fff;opacity:0;transition:opacity .3s;
-  display:flex;flex-direction:column;gap:4px;
+position:absolute;bottom:0;left:0;right:0;
+padding:28px 18px 18px;
+background:linear-gradient(transparent,rgba(12,10,8,.6));
+color:#fff;opacity:0;transition:opacity .3s;
+display:flex;flex-direction:column;gap:4px;z-index:1;
 }
 .work-item:hover .work-overlay{opacity:1}
 @media(pointer:coarse){.work-overlay{opacity:1}}
-.work-cat{font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.65}
-.work-ttl{font-family:var(--serif);font-size:16px;font-style:italic}
+.work-cat{font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.75}
+.work-ttl{font-family:var(–serif);font-size:16px;font-style:italic}
 @media(max-width:700px){.work-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:420px){.work-grid{grid-template-columns:1fr}.work-item--tall{grid-row:span 1}}
+@media(max-width:420px){.work-grid{grid-template-columns:1fr}.work-item–tall{grid-row:span 1}}
 
 /* ── PARALLAX BAND ── */
 .pband{
-  position:relative;height:clamp(55vh,65vh,75vh);overflow:hidden;
-  margin:clamp(48px,8vh,96px) 0;
-  display:flex;align-items:center;justify-content:center;
+position:relative;height:clamp(55vh,65vh,75vh);overflow:hidden;
+margin:clamp(48px,8vh,96px) 0;
+display:flex;align-items:center;justify-content:center;
 }
 .pband .px{
-  position:absolute;inset:-22% 0;will-change:transform;
+position:absolute;inset:-22% 0;will-change:transform;
 }
 .pband .px img{
-  width:100%;height:120%;object-fit:cover;display:block;
-  filter:brightness(.5) grayscale(18%);
+width:100%;height:120%;object-fit:cover;display:block;
+filter:brightness(.52) grayscale(12%);
 }
 .pband-text{
-  position:relative;z-index:1;text-align:center;
-  color:#fff;padding:0 var(--pad);
+position:relative;z-index:1;text-align:center;
+color:#fff;padding:0 var(–pad);
 }
 .pband-text blockquote{
-  font-family:var(--serif);
-  font-size:clamp(22px,4vw,52px);
-  font-style:italic;font-weight:400;line-height:1.2;
-  max-width:780px;margin:0 auto 18px;
+font-family:var(–serif);
+font-size:clamp(22px,4vw,52px);
+font-style:italic;font-weight:400;line-height:1.2;
+max-width:780px;margin:0 auto 18px;
 }
 .pband-text cite{
-  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
-  opacity:.4;font-style:normal;
+font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+opacity:.55;font-style:normal;
 }
 
-/* ── SPLIT PARALLAX BLOCK ── */
-/* full-width split: img left / text right, each with inner parallax */
+/* ── SPLIT (used for the biography, at the very end) ── */
 .split{
-  display:grid;grid-template-columns:1fr 1fr;min-height:clamp(420px,60vh,700px);
+display:grid;grid-template-columns:1fr 1fr;min-height:clamp(420px,60vh,700px);
 }
-.split--rev{direction:rtl}
-.split--rev>*{direction:ltr}
-.split-img{position:relative;overflow:hidden}
-.split-img .px{
-  position:absolute;inset:-18% 0;will-change:transform;
+.split-img{
+position:relative;overflow:visible;background:var(–paper-deep);
+display:flex;align-items:center;justify-content:center;
+padding:clamp(28px,4vw,56px);
 }
-.split-img .px img{
-  width:100%;height:120%;object-fit:cover;display:block;
+.split-img-blob{
+position:relative;width:100%;height:100%;
+clip-path:url(#blobB);
+filter:drop-shadow(0 26px 46px rgba(22,19,15,.22));
+transform:rotate(1.2deg);
+}
+.split-img-blob .px{
+position:absolute;inset:-18% 0;will-change:transform;
+}
+.split-img-blob .px img{
+width:100%;height:120%;object-fit:cover;display:block;filter:grayscale(8%);
 }
 .split-text{
-  display:flex;flex-direction:column;justify-content:center;
-  padding:clamp(40px,6vw,80px) clamp(28px,5vw,72px);
-  background:var(--off);
+display:flex;flex-direction:column;justify-content:center;
+padding:clamp(40px,6vw,80px) clamp(28px,5vw,72px);
+background:var(–paper-card);
 }
 .split-text h2{
-  font-family:var(--serif);
-  font-size:clamp(36px,5vw,68px);
-  font-style:italic;font-weight:400;line-height:1.05;margin-bottom:24px;
+font-family:var(–serif);
+font-size:clamp(36px,5vw,68px);
+font-style:italic;font-weight:400;line-height:1.05;margin-bottom:24px;
 }
-.split-text p{font-size:15px;line-height:1.9;color:var(--muted);max-width:400px}
+.split-text p{font-size:15px;line-height:1.9;color:var(–ink-soft);max-width:420px}
 .split-text p+p{margin-top:14px}
 .split-stats{
-  display:flex;gap:clamp(24px,4vw,48px);
-  margin-top:clamp(32px,5vw,56px);
-  padding-top:clamp(24px,4vw,40px);
-  border-top:1px solid rgba(0,0,0,.1);
+display:flex;gap:clamp(24px,4vw,48px);
+margin-top:clamp(32px,5vw,56px);
+padding-top:clamp(24px,4vw,40px);
+border-top:1px solid rgba(22,19,15,.12);
 }
-.stat-n{font-family:var(--serif);font-size:clamp(28px,4vw,42px);font-style:italic;line-height:1;margin-bottom:4px}
-.stat-l{font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.3}
-@media(max-width:700px){
-  .split{grid-template-columns:1fr}
-  .split--rev{direction:ltr}
-  .split-img{min-height:300px}
+.stat-n{font-family:var(–serif);font-size:clamp(28px,4vw,42px);font-style:italic;line-height:1;margin-bottom:4px;color:var(–rust)}
+.stat-l{font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.4}
+@media(max-width:760px){
+.split{grid-template-columns:1fr}
+.split-img{min-height:340px}
 }
 
 /* ── SERIES ── */
 .series{padding:clamp(48px,8vh,96px) 0}
-.series-head{padding:0 var(--pad) clamp(24px,4vh,44px)}
+.series-head{padding:0 var(–pad) clamp(24px,4vh,44px)}
 .series-head h2{
-  font-family:var(--serif);font-size:clamp(38px,6vw,72px);
-  font-style:italic;font-weight:400;line-height:.95;
+font-family:var(–serif);font-size:clamp(38px,6vw,72px);
+font-style:italic;font-weight:400;line-height:.95;
 }
 .series-scroll{
-  display:flex;gap:3px;overflow-x:auto;
-  padding:0 var(--pad) 24px;scrollbar-width:none;
-  -webkit-overflow-scrolling:touch;
+display:flex;gap:3px;overflow-x:auto;
+padding:0 var(–pad) 24px;scrollbar-width:none;
+-webkit-overflow-scrolling:touch;
 }
 .series-scroll::-webkit-scrollbar{display:none}
 .series-card{
-  flex:0 0 clamp(240px,36vw,380px);
-  position:relative;overflow:hidden;cursor:pointer;
+flex:0 0 clamp(240px,36vw,380px);
+position:relative;overflow:hidden;cursor:pointer;
 }
 .series-card .px{
-  position:absolute;inset:-18% 0;will-change:transform;
+position:absolute;inset:-18% 0;will-change:transform;
 }
 .series-card .px img{
-  width:100%;height:120%;object-fit:cover;display:block;filter:grayscale(8%);
-  transition:filter .5s;
+width:100%;height:120%;object-fit:cover;display:block;filter:grayscale(6%);
+transition:filter .5s;
 }
 .series-card:hover .px img{filter:grayscale(0%)}
 .series-card .card-frame{
-  height:clamp(320px,50vw,520px);width:100%;position:relative;
+height:clamp(320px,50vw,520px);width:100%;position:relative;
 }
 .series-info{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:48px 20px 20px;
-  background:linear-gradient(transparent,rgba(0,0,0,.62));
-  color:#fff;
+position:absolute;bottom:0;left:0;right:0;
+padding:48px 20px 20px;
+background:linear-gradient(transparent,rgba(12,10,8,.68));
+color:#fff;
 }
-.series-num{font-size:10px;letter-spacing:.18em;opacity:.45;margin-bottom:5px}
-.series-name{font-family:var(--serif);font-size:clamp(18px,2.5vw,24px);font-style:italic;margin-bottom:3px}
-.series-count{font-size:11px;opacity:.38;letter-spacing:.06em}
+.series-num{font-size:10px;letter-spacing:.18em;opacity:.55;margin-bottom:5px;color:#e6b78c}
+.series-name{font-family:var(–serif);font-size:clamp(18px,2.5vw,24px);font-style:italic;margin-bottom:3px}
+.series-count{font-size:11px;opacity:.45;letter-spacing:.06em}
 .scroll-hint{
-  padding:16px var(--pad) 0;
-  font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.25;
-  display:flex;align-items:center;gap:10px;
+padding:16px var(–pad) 0;
+font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.35;
+display:flex;align-items:center;gap:10px;
 }
-.scroll-hint::before{content:'';display:inline-block;width:24px;height:1px;background:currentColor}
+.scroll-hint::before{content:’’;display:inline-block;width:24px;height:1px;background:currentColor}
 
 /* ── CTA ── */
 .cta-contact{
-  padding:clamp(80px,14vh,180px) var(--pad);
-  display:flex;flex-direction:column;align-items:center;text-align:center;
-  position:relative;overflow:hidden;
+padding:clamp(80px,14vh,180px) var(–pad);
+display:flex;flex-direction:column;align-items:center;text-align:center;
+position:relative;overflow:hidden;
 }
 .cta-deco{
-  position:absolute;top:20px;left:50%;transform:translateX(-50%);
-  font-family:var(--serif);font-size:clamp(120px,22vw,260px);
-  font-style:italic;font-weight:400;opacity:.04;
-  line-height:1;pointer-events:none;user-select:none;white-space:nowrap;
+position:absolute;top:20px;left:50%;transform:translateX(-50%);
+font-family:var(–serif);font-size:clamp(120px,22vw,260px);
+font-style:italic;font-weight:400;opacity:.045;color:var(–rust);
+line-height:1;pointer-events:none;user-select:none;white-space:nowrap;
 }
 .cta-contact h2{
-  font-family:var(--serif);
-  font-size:clamp(44px,9vw,110px);
-  font-style:italic;font-weight:400;line-height:.95;
-  letter-spacing:-.02em;margin-bottom:clamp(36px,6vh,60px);
-  max-width:900px;position:relative;z-index:1;
+font-family:var(–serif);
+font-size:clamp(44px,9vw,110px);
+font-style:italic;font-weight:400;line-height:.95;
+letter-spacing:-.02em;margin-bottom:clamp(36px,6vh,60px);
+max-width:900px;position:relative;z-index:1;
 }
 .cta-btn{
-  display:inline-flex;align-items:center;justify-content:center;
-  font-family:var(--sans);font-size:11px;letter-spacing:.2em;
-  text-transform:uppercase;text-decoration:none;
-  color:var(--white);background:var(--black);
-  padding:clamp(16px,2.5vh,22px) clamp(36px,6vw,64px);
-  position:relative;overflow:hidden;transition:color .45s;
-  min-width:220px;
+display:inline-flex;align-items:center;justify-content:center;
+font-family:var(–sans);font-size:11px;letter-spacing:.2em;
+text-transform:uppercase;text-decoration:none;
+color:var(–cream);background:var(–ink);
+padding:clamp(16px,2.5vh,22px) clamp(36px,6vw,64px);
+position:relative;overflow:hidden;transition:color .45s;
+min-width:220px;
 }
 .cta-btn::before{
-  content:'';position:absolute;inset:0;background:var(--off);
-  transform:translateX(-101%);transition:transform .45s cubic-bezier(.77,0,.175,1);z-index:0;
+content:’’;position:absolute;inset:0;background:var(–rust);
+transform:translateX(-101%);transition:transform .45s cubic-bezier(.77,0,.175,1);z-index:0;
 }
 .cta-btn:active::before,.cta-btn:hover::before{transform:translateX(0)}
-.cta-btn:hover{color:var(--black)}
+.cta-btn:hover{color:#fff}
 .cta-btn span{position:relative;z-index:1}
 .cta-email{
-  margin-top:28px;font-size:13px;opacity:.32;letter-spacing:.03em;
+margin-top:28px;font-size:13px;opacity:.45;letter-spacing:.03em;
 }
-.cta-email a{color:var(--black);text-decoration:none;border-bottom:1px solid rgba(0,0,0,.2);padding-bottom:1px}
+.cta-email a{color:var(–ink);text-decoration:none;border-bottom:1px solid rgba(22,19,15,.25);padding-bottom:1px}
 
 /* ── FOOTER ── */
 footer{
-  border-top:1px solid rgba(0,0,0,.08);
-  padding:28px var(--pad);
-  display:flex;justify-content:space-between;align-items:center;
-  flex-wrap:wrap;gap:16px;
+border-top:1px solid rgba(22,19,15,.1);
+padding:28px var(–pad);
+display:flex;justify-content:space-between;align-items:center;
+flex-wrap:wrap;gap:16px;
 }
-.footer-logo{font-family:var(--serif);font-size:14px;font-style:italic}
-.footer-copy{font-size:11px;opacity:.25;letter-spacing:.03em}
+.footer-logo{font-family:var(–serif);font-size:14px;font-style:italic}
+.footer-copy{font-size:11px;opacity:.32;letter-spacing:.03em}
 .footer-social{display:flex;gap:24px}
 .footer-social a{
-  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--black);text-decoration:none;opacity:.28;transition:opacity .2s;
+font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+color:var(–ink);text-decoration:none;opacity:.36;transition:opacity .2s;
 }
 .footer-social a:hover{opacity:1}
 </style>
+
 </head>
 <body>
 
+<div class="grain"></div>
+
+<!-- hidden svg defs: organic blob clip-paths reused for the intro and biography photos -->
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <clipPath id="blobA" clipPathUnits="objectBoundingBox">
+      <path d="M0.21,0.06 C0.38,-0.04 0.63,-0.02 0.79,0.10 C0.95,0.22 1.00,0.42 0.95,0.61 C0.90,0.79 0.74,0.90 0.57,0.96 C0.40,1.02 0.20,0.99 0.09,0.86 C-0.02,0.73 0.00,0.54 0.02,0.38 C0.04,0.22 0.05,0.16 0.21,0.06 Z"/>
+    </clipPath>
+    <clipPath id="blobB" clipPathUnits="objectBoundingBox">
+      <path d="M0.79,0.06 C0.62,-0.04 0.37,-0.02 0.21,0.10 C0.05,0.22 0.00,0.42 0.05,0.61 C0.10,0.79 0.26,0.90 0.43,0.96 C0.60,1.02 0.80,0.99 0.91,0.86 C1.02,0.73 1.00,0.54 0.98,0.38 C0.96,0.22 0.95,0.16 0.79,0.06 Z"/>
+    </clipPath>
+  </defs>
+</svg>
+
 <!-- NAV -->
+
 <nav id="nav">
   <a class="nav-logo" href="#">Pierre Jacquemin</a>
   <ul class="nav-links">
     <li><a href="#portfolio">Travaux</a></li>
     <li><a href="#series">Séries</a></li>
-    <li><a href="#about">Approche</a></li>
+    <li><a href="#bio">Biographie</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <button class="nav-burger" aria-label="Menu" onclick="this.nextElementSibling&&document.querySelector('.nav-links').style.display==='flex'?document.querySelector('.nav-links').style.display='none':document.querySelector('.nav-links').style.cssText='display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;background:rgba(255,255,255,.97);padding:24px var(--pad);gap:20px;border-bottom:1px solid rgba(0,0,0,.08)'">
+  <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#portfolio">Travaux</a>
+  <a href="#series">Séries</a>
+  <a href="#bio">Biographie</a>
+  <a href="#contact">Contact</a>
+</div>
 
 <!-- HERO -->
+
 <section class="hero">
   <div class="hero-bg px" id="hero-px" data-speed=".45">
-    <img src="https://images.unsplash.com/photo-1533929736458-ca588d08c8be?w=1800&q=88&auto=format&fit=crop" alt="Lyon nuit — hero" loading="eager">
+    <img src="https://images.unsplash.com/photo-1678267085163-6b9139f78c3f?w=1800&q=88&auto=format&fit=crop" alt="Pont sur la Saône au coucher du soleil, Lyon" loading="eager">
   </div>
+  <div class="hero-leak"></div>
+  <div class="hero-scrim"></div>
   <div class="hero-content">
     <span class="hero-eyebrow">Pierre Jacquemin &nbsp;—&nbsp; Photographe, Lyon</span>
     <h1 class="hero-title">La lumière<br>comme<br>langage.</h1>
@@ -378,40 +470,47 @@ footer{
   </div>
 </section>
 
+<svg class="divider-wave" viewBox="0 0 1200 26" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0,13 C50,2 100,2 150,13 C200,24 250,24 300,13 C350,2 400,2 450,13 C500,24 550,24 600,13 C650,2 700,2 750,13 C800,24 850,24 900,13 C950,2 1000,2 1050,13 C1100,24 1150,24 1200,13"/>
+</svg>
+
 <!-- MARQUEE -->
+
 <div class="marquee-wrap">
   <div class="marquee-track">
     <span class="marquee-item">Portrait</span><span class="marquee-sep">&ensp;/&ensp;</span>
     <span class="marquee-item">Architecture</span><span class="marquee-sep">&ensp;/&ensp;</span>
     <span class="marquee-item">Documentaire</span><span class="marquee-sep">&ensp;/&ensp;</span>
-    <span class="marquee-item">Paysage urbain</span><span class="marquee-sep">&ensp;/&ensp;</span>
-    <span class="marquee-item">Éditorial</span><span class="marquee-sep">&ensp;/&ensp;</span>
+    <span class="marquee-item">Lyon</span><span class="marquee-sep">&ensp;/&ensp;</span>
+    <span class="marquee-item">Nocturne</span><span class="marquee-sep">&ensp;/&ensp;</span>
     <span class="marquee-item">Argentique</span><span class="marquee-sep">&ensp;/&ensp;</span>
     <span class="marquee-item">Portrait</span><span class="marquee-sep">&ensp;/&ensp;</span>
     <span class="marquee-item">Architecture</span><span class="marquee-sep">&ensp;/&ensp;</span>
     <span class="marquee-item">Documentaire</span><span class="marquee-sep">&ensp;/&ensp;</span>
-    <span class="marquee-item">Paysage urbain</span><span class="marquee-sep">&ensp;/&ensp;</span>
-    <span class="marquee-item">Éditorial</span><span class="marquee-sep">&ensp;/&ensp;</span>
+    <span class="marquee-item">Lyon</span><span class="marquee-sep">&ensp;/&ensp;</span>
+    <span class="marquee-item">Nocturne</span><span class="marquee-sep">&ensp;/&ensp;</span>
     <span class="marquee-item">Argentique</span><span class="marquee-sep">&ensp;/&ensp;</span>
   </div>
 </div>
 
-<!-- INTRO -->
+<!-- INTRO — démarche, pas la biographie (réservée à la fin) -->
+
 <section class="intro">
   <div class="intro-text">
-    <span class="label">Approche</span>
+    <span class="label">Démarche</span>
     <h2>Observer<br>avant de<br>déclencher.</h2>
-    <p>Basé à Lyon depuis douze ans, Pierre Jacquemin pratique une photographie de l'attente et de l'attention. Son œil cherche la tension silencieuse entre les corps, les matières et la lumière disponible.</p>
-    <p>Issu des Beaux-Arts de Lyon, il travaille en argentique et numérique, toujours à distance respectueuse du sujet.</p>
+    <p>Une photographie de l'attente : la tension silencieuse entre les corps, la matière et la lumière qui reste. Pierre travaille au plus près de la rue, entre argentique et numérique.</p>
+    <p>Chaque série naît d'un territoire arpenté longuement — la Presqu'île, la Croix-Rousse, les berges — jamais d'une commande pressée.</p>
   </div>
   <div class="intro-img-wrap">
     <div class="px" data-speed=".32">
-      <img src="https://images.unsplash.com/photo-1534430480872-3498386e7856?w=900&q=85&auto=format&fit=crop&crop=faces" alt="Portrait lumière naturelle" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1722073652175-245463881d57?w=900&q=85&auto=format&fit=crop" alt="Vue sur Fourvière depuis la ville, Lyon" loading="lazy">
     </div>
   </div>
 </section>
 
 <!-- PORTFOLIO -->
+
 <section id="portfolio" class="portfolio">
   <div class="portfolio-head">
     <span class="label">Travaux sélectionnés</span>
@@ -419,76 +518,79 @@ footer{
   </div>
   <div class="work-grid">
 
-    <div class="work-item work-item--tall">
-      <div class="item-inner">
-        <div class="px" data-speed=".28">
-          <img src="https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=900&q=82&auto=format&fit=crop" alt="Presqu'île nuit" loading="lazy">
-        </div>
-        <div class="work-overlay"><span class="work-cat">Paysage urbain</span><span class="work-ttl">Presqu'île, 03h00</span></div>
-      </div>
+```
+<div class="work-item work-item--tall">
+  <div class="item-inner">
+    <div class="px" data-speed=".28">
+      <img src="https://images.unsplash.com/photo-1559510561-ae6b9d958a58?w=900&q=82&auto=format&fit=crop" alt="Vue panoramique de Lyon depuis Fourvière" loading="lazy">
     </div>
+    <div class="work-overlay"><span class="work-cat">Paysage urbain</span><span class="work-ttl">Presqu'île, vue haute</span></div>
+  </div>
+</div>
 
-    <div class="work-item work-item--reg">
-      <div class="item-inner">
-        <div class="px" data-speed=".22">
-          <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=700&q=82&auto=format&fit=crop" alt="Paysage Rhône-Alpes" loading="lazy">
-        </div>
-        <div class="work-overlay"><span class="work-cat">Paysage</span><span class="work-ttl">Rhône-Alpes, brume</span></div>
-      </div>
+<div class="work-item work-item--reg">
+  <div class="item-inner">
+    <div class="px" data-speed=".22">
+      <img src="https://images.unsplash.com/photo-1612116156703-527a1bcfc0d2?w=700&q=82&auto=format&fit=crop" alt="Architecture de la Croix-Rousse, Lyon" loading="lazy">
     </div>
+    <div class="work-overlay"><span class="work-cat">Architecture</span><span class="work-ttl">Croix-Rousse, ciel bleu</span></div>
+  </div>
+</div>
 
-    <div class="work-item work-item--reg">
-      <div class="item-inner">
-        <div class="px" data-speed=".35">
-          <img src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=700&q=82&auto=format&fit=crop&crop=faces" alt="Portrait studio" loading="lazy">
-        </div>
-        <div class="work-overlay"><span class="work-cat">Portrait</span><span class="work-ttl">Studio, série I</span></div>
-      </div>
+<div class="work-item work-item--reg">
+  <div class="item-inner">
+    <div class="px" data-speed=".35">
+      <img src="https://images.unsplash.com/photo-1534430480872-3498386e7856?w=700&q=82&auto=format&fit=crop&crop=faces" alt="Portrait studio" loading="lazy">
     </div>
+    <div class="work-overlay"><span class="work-cat">Portrait</span><span class="work-ttl">Studio, série I</span></div>
+  </div>
+</div>
 
-    <div class="work-item work-item--reg">
-      <div class="item-inner">
-        <div class="px" data-speed=".25">
-          <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=82&auto=format&fit=crop" alt="Architecture Confluence" loading="lazy">
-        </div>
-        <div class="work-overlay"><span class="work-cat">Architecture</span><span class="work-ttl">Confluence, Lyon</span></div>
-      </div>
+<div class="work-item work-item--reg">
+  <div class="item-inner">
+    <div class="px" data-speed=".25">
+      <img src="https://images.unsplash.com/photo-1661975548889-2cc07a94a858?w=800&q=82&auto=format&fit=crop" alt="Basilique de Fourvière, Lyon" loading="lazy">
     </div>
+    <div class="work-overlay"><span class="work-cat">Architecture</span><span class="work-ttl">Fourvière</span></div>
+  </div>
+</div>
 
-    <div class="work-item work-item--reg">
-      <div class="item-inner">
-        <div class="px" data-speed=".3">
-          <img src="https://images.unsplash.com/photo-1445966275305-9806327ea2b5?w=700&q=82&auto=format&fit=crop" alt="Nuit documentaire" loading="lazy">
-        </div>
-        <div class="work-overlay"><span class="work-cat">Documentaire</span><span class="work-ttl">Nuit blanche</span></div>
-      </div>
+<div class="work-item work-item--reg">
+  <div class="item-inner">
+    <div class="px" data-speed=".3">
+      <img src="https://images.unsplash.com/photo-1716425567633-fdbbccc6e7c3?w=700&q=82&auto=format&fit=crop" alt="Rue de nuit à Lyon" loading="lazy">
     </div>
+    <div class="work-overlay"><span class="work-cat">Documentaire</span><span class="work-ttl">Rue, nuit</span></div>
+  </div>
+</div>
 
-    <div class="work-item work-item--reg">
-      <div class="item-inner">
-        <div class="px" data-speed=".2">
-          <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=700&q=82&auto=format&fit=crop" alt="Paysage nature" loading="lazy">
-        </div>
-        <div class="work-overlay"><span class="work-cat">Paysage</span><span class="work-ttl">Gorges du Verdon</span></div>
-      </div>
+<div class="work-item work-item--reg">
+  <div class="item-inner">
+    <div class="px" data-speed=".2">
+      <img src="https://images.unsplash.com/photo-1589382041578-78dd8abad1d0?w=700&q=82&auto=format&fit=crop" alt="Lyon Part-Dieu de nuit" loading="lazy">
     </div>
+    <div class="work-overlay"><span class="work-cat">Nocturne</span><span class="work-ttl">Part-Dieu</span></div>
+  </div>
+</div>
 
-    <div class="work-item work-item--reg">
-      <div class="item-inner">
-        <div class="px" data-speed=".33">
-          <img src="https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=800&q=82&auto=format&fit=crop" alt="Fleuves série" loading="lazy">
-        </div>
-        <div class="work-overlay"><span class="work-cat">Série</span><span class="work-ttl">Fleuves, n°4</span></div>
-      </div>
+<div class="work-item work-item--reg">
+  <div class="item-inner">
+    <div class="px" data-speed=".33">
+      <img src="https://images.unsplash.com/photo-1546858055-02e11e137448?w=800&q=82&auto=format&fit=crop" alt="Intérieur de la basilique de Fourvière" loading="lazy">
     </div>
+    <div class="work-overlay"><span class="work-cat">Série</span><span class="work-ttl">Fourvière, intérieur</span></div>
+  </div>
+</div>
+```
 
   </div>
 </section>
 
-<!-- PBAND 1 avec texte -->
+<!-- PBAND 1 avec citation -->
+
 <div class="pband">
   <div class="px" data-speed=".28">
-    <img src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1800&q=85&auto=format&fit=crop" alt="Bande photo 1" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1664630477931-3ed583b9ec54?w=1800&q=85&auto=format&fit=crop" alt="Rue de la Croix-Rousse, Lyon" loading="lazy">
   </div>
   <div class="pband-text">
     <blockquote>« Reconnaître simultanément, en une fraction de seconde, la signification d'un événement. »</blockquote>
@@ -497,6 +599,7 @@ footer{
 </div>
 
 <!-- SERIES -->
+
 <section id="series" class="series">
   <div class="series-head">
     <span class="label">Projets continus</span>
@@ -506,7 +609,7 @@ footer{
     <div class="series-card">
       <div class="card-frame">
         <div class="px" data-speed=".26">
-          <img src="https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?w=700&q=82&auto=format&fit=crop" alt="Série Fleuves" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1678267085163-6b9139f78c3f?w=700&q=82&auto=format&fit=crop" alt="Série Fleuves — Saône, Lyon" loading="lazy">
         </div>
         <div class="series-info"><div class="series-num">01</div><div class="series-name">Fleuves</div><div class="series-count">18 photographies</div></div>
       </div>
@@ -522,7 +625,7 @@ footer{
     <div class="series-card">
       <div class="card-frame">
         <div class="px" data-speed=".22">
-          <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&q=82&auto=format&fit=crop" alt="Série Béton brut" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1559510561-ae6b9d958a58?w=700&q=82&auto=format&fit=crop" alt="Série Béton brut — Lyon" loading="lazy">
         </div>
         <div class="series-info"><div class="series-num">03</div><div class="series-name">Béton brut</div><div class="series-count">31 photographies</div></div>
       </div>
@@ -530,7 +633,7 @@ footer{
     <div class="series-card">
       <div class="card-frame">
         <div class="px" data-speed=".32">
-          <img src="https://images.unsplash.com/photo-1533929736458-ca588d08c8be?w=700&q=82&auto=format&fit=crop" alt="Série Nuits" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1589382041578-78dd8abad1d0?w=700&q=82&auto=format&fit=crop" alt="Série Nuits — Lyon Part-Dieu" loading="lazy">
         </div>
         <div class="series-info"><div class="series-num">04</div><div class="series-name">Nuits</div><div class="series-count">12 photographies</div></div>
       </div>
@@ -548,24 +651,28 @@ footer{
 </section>
 
 <!-- PBAND 2 muet -->
+
 <div class="pband" style="margin-top:0">
   <div class="px" data-speed=".35">
-    <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1800&q=85&auto=format&fit=crop" alt="Bande photo 2" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1661975548889-2cc07a94a858?w=1800&q=85&auto=format&fit=crop" alt="Basilique de Fourvière, Lyon" loading="lazy">
   </div>
 </div>
 
-<!-- ABOUT — split parallax -->
-<section id="about" class="split">
+<!-- BIOGRAPHIE — en dernier, juste avant le contact -->
+
+<section id="bio" class="split">
   <div class="split-img">
-    <div class="px" data-speed=".3">
-      <img src="https://images.unsplash.com/photo-1445966275305-9806327ea2b5?w=900&q=85&auto=format&fit=crop" alt="Approche photographique" loading="lazy">
+    <div class="split-img-blob">
+      <div class="px" data-speed=".3">
+        <img src="https://images.unsplash.com/photo-1716425567633-fdbbccc6e7c3?w=900&q=85&auto=format&fit=crop" alt="Pierre Jacquemin en repérage de nuit, Lyon" loading="lazy">
+      </div>
     </div>
   </div>
   <div class="split-text">
     <span class="label">Biographie</span>
-    <h2>Douze ans<br>à écouter<br>la ville.</h2>
-    <p>Pierre Jacquemin est né en 1988 à Lyon. Après les Beaux-Arts, il développe une pratique autonome centrée sur le portrait de rue et le paysage urbain lyonnais.</p>
-    <p>Ses tirages ont été exposés à la Biennale de Lyon, à Paris et à Bruxelles. Il enseigne la photographie à l'Université Lumière Lyon 2.</p>
+    <h2>Douze ans<br>à observer<br>la ville.</h2>
+    <p>Pierre Jacquemin est né en 1988 à Lyon. Après les Beaux-Arts de Lyon, il construit une pratique solitaire autour du portrait de rue et du paysage urbain, photographiant la Presqu'île, la Croix-Rousse et les rives de Saône comme un territoire intime.</p>
+    <p>Ses tirages ont été exposés à la Biennale de Lyon, à Paris et à Bruxelles. Il enseigne aujourd'hui la photographie argentique à l'Université Lumière Lyon 2, entre commandes éditoriales et travaux personnels.</p>
     <div class="split-stats">
       <div><div class="stat-n">12</div><div class="stat-l">Ans de pratique</div></div>
       <div><div class="stat-n">6</div><div class="stat-l">Expositions</div></div>
@@ -575,6 +682,7 @@ footer{
 </section>
 
 <!-- CTA CONTACT -->
+
 <section id="contact" class="cta-contact">
   <div class="cta-deco">PJ</div>
   <span class="label">Contact</span>
@@ -586,9 +694,10 @@ footer{
 </section>
 
 <!-- FOOTER -->
+
 <footer>
   <div class="footer-logo">Pierre Jacquemin</div>
-  <div class="footer-copy">© 2024 — Lyon, France</div>
+  <div class="footer-copy">© 2026 — Lyon, France</div>
   <div class="footer-social">
     <a href="#">Instagram</a>
     <a href="#">Behance</a>
@@ -601,20 +710,33 @@ footer{
   const nav = document.getElementById('nav');
   window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
 
+  // Mobile menu
+  const burger = document.getElementById('navBurger');
+  const menu = document.getElementById('mobileMenu');
+  function closeMenu(){
+    burger.classList.remove('is-open');
+    burger.setAttribute('aria-expanded','false');
+    menu.classList.remove('is-open');
+  }
+  burger.addEventListener('click',()=>{
+    const open = !menu.classList.contains('is-open');
+    burger.classList.toggle('is-open',open);
+    burger.setAttribute('aria-expanded',String(open));
+    menu.classList.toggle('is-open',open);
+  });
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
+
   // Parallax — skip on mobile (pointer:coarse + touch device) for perf
   const isMobile = window.matchMedia('(pointer:coarse)').matches && window.innerWidth < 700;
 
-  // Collect all .px elements
   const allPx = Array.from(document.querySelectorAll('.px[data-speed]'));
   let ticking = false;
 
   function tick(){
-    const vy = window.scrollY;
     const vh = window.innerHeight;
     allPx.forEach(el=>{
       const parent = el.parentElement;
       const rect = parent.getBoundingClientRect();
-      // Only process if vaguely visible
       if(rect.bottom < -200 || rect.top > vh + 200){return}
       const speed = parseFloat(el.dataset.speed);
       const center = rect.top + rect.height/2 - vh/2;
@@ -631,7 +753,7 @@ footer{
     tick();
   }
 
-  // Series: touche horizontale — scroll drag on desktop
+  // Series: drag scroll on desktop
   const ss = document.getElementById('series-scroll');
   if(ss){
     let isDown=false,startX,scrollLeft;
@@ -646,5 +768,6 @@ footer{
   }
 })();
 </script>
+
 </body>
 </html>
