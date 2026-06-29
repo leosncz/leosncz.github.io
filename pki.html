@@ -475,14 +475,6 @@
     font-weight: 600;
   }
   .app-ai-text strong { color: var(--ink); font-weight: 700; }
-  .app-ai-cursor {
-    display: inline-block;
-    width: 6px; height: 9px;
-    background: var(--lilac);
-    border-radius: 1px;
-    vertical-align: middle;
-    animation: blink 1.1s step-end infinite;
-  }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
   /* COUNTRIES */
@@ -1300,7 +1292,7 @@ function renderMockup(lang) {
 
   // update AI text
   const aiEl = document.getElementById('app-ai-text');
-  if (aiEl) aiEl.innerHTML = view.ai + ' <span class="app-ai-cursor"></span>';
+  if (aiEl) aiEl.innerHTML = view.ai;
 
   // update nav items active state
   document.querySelectorAll('.app-nav-item').forEach((el, i) => {
