@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HeimFlux — Security posture monitoring, verified by an engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0F1417;
+    --bg-raise: #141B1F;
+    --surface: #171F24;
+    --surface-2: #1C252B;
+    --line: #29343A;
+    --line-soft: #202A30;
+    --text: #E8EDEF;
+    --text-dim: #9AAAB0;
+    --text-faint: #64757C;
+    --accent: #4FD1C0;
+    --accent-dim: #2E5D57;
+    --ok: #3FB68A;
+    --warn: #E0A458;
+    --crit: #DE6A5F;
+    --radius: 3px;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  .wrap{max-width:1160px; margin:0 auto; padding:0 28px;}
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:0 0 18px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:7px;height:7px;
+    background:var(--accent);
+    border-radius:1px;
+    display:inline-block;
+    flex-shrink:0;
+  }
+
+  h1,h2,h3{font-family:var(--sans); font-weight:700; letter-spacing:-0.01em; margin:0;}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(15,20,23,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 0;
+  }
+  .logo{
+    font-family:var(--mono);
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:0.01em;
+    display:flex; align-items:center; gap:9px;
+  }
+  .logo .dot{width:8px;height:8px;background:var(--ok);border-radius:50%; box-shadow:0 0 0 3px rgba(63,182,138,0.15);}
+  .nav-links{display:flex; gap:32px; font-size:14px; color:var(--text-dim);}
+  .nav-links a{text-decoration:none; transition:color .15s;}
+  .nav-links a:hover{color:var(--text);}
+  .nav-cta{
+    font-family:var(--mono);
+    font-size:13px;
+    background:var(--accent);
+    color:#08211D;
+    padding:9px 16px;
+    border-radius:var(--radius);
+    text-decoration:none;
+    font-weight:600;
+    white-space:nowrap;
+  }
+  @media (max-width:760px){ .nav-links{display:none;} }
+
+  /* ---------- HERO ---------- */
+  .hero{padding:76px 0 88px; position:relative; overflow:hidden;}
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      linear-gradient(180deg, rgba(79,209,192,0.06), transparent 55%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.012) 40px);
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:56px;
+    align-items:center;
+    position:relative;
+  }
+  @media (max-width:920px){ .hero-grid{grid-template-columns:1fr; gap:48px;} }
+
+  .hero h1{
+    font-size:clamp(34px, 4.4vw, 52px);
+    line-height:1.08;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--accent);
+  }
+  .hero p.sub{
+    color:var(--text-dim);
+    font-size:17px;
+    max-width:490px;
+    margin:22px 0 32px;
+  }
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap; align-items:center;}
+  .btn-primary{
+    background:var(--accent);
+    color:#08211D;
+    font-weight:600;
+    font-size:15px;
+    padding:13px 22px;
+    border-radius:var(--radius);
+    text-decoration:none;
+    display:inline-block;
+    border:1px solid var(--accent);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn-primary:hover{ box-shadow:0 6px 24px rgba(79,209,192,0.22); transform:translateY(-1px); }
+  .btn-secondary{
+    color:var(--text);
+    font-size:15px;
+    padding:13px 20px;
+    border-radius:var(--radius);
+    text-decoration:none;
+    border:1px solid var(--line);
+    transition:border-color .12s, background .12s;
+  }
+  .btn-secondary:hover{border-color:var(--text-dim); background:var(--surface);}
+
+  .microtrust{
+    margin-top:26px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--text-faint);
+    display:flex; gap:8px; align-items:center;
+  }
+
+  /* ---------- REPORT CARD (signature element) ---------- */
+  .report-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 30px 60px -25px rgba(0,0,0,0.6);
+  }
+  .report-head{
+    padding:14px 18px;
+    border-bottom:1px solid var(--line-soft);
+    display:flex; align-items:center; gap:14px;
+    background:var(--bg-raise);
+  }
+  .report-dots{display:flex; gap:6px; flex-shrink:0;}
+  .report-dots span{width:9px;height:9px;border-radius:50%; background:var(--line);}
+  .url-bar{
+    flex:1;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:6px 10px;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--text-faint);
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+  }
+  .live-tag{
+    flex-shrink:0;
+    display:flex; align-items:center; gap:6px;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ok);
+  }
+  .live-tag .pulse{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--ok);
+    box-shadow:0 0 0 3px rgba(63,182,138,0.18);
+    animation:pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;}
+    50%{opacity:0.4;}
+  }
+  .report-body{padding:22px;}
+  .report-title{font-size:13px; color:var(--text-faint); font-family:var(--mono); margin-bottom:4px;}
+  .report-org{font-size:19px; font-weight:700; margin-bottom:18px;}
+  .score-row{
+    display:flex; align-items:baseline; gap:10px;
+    padding-bottom:18px; margin-bottom:18px;
+    border-bottom:1px dashed var(--line);
+  }
+  .score-num{font-family:var(--mono); font-size:34px; font-weight:600; color:var(--accent);}
+  .score-label{font-size:13px; color:var(--text-dim);}
+  .finding{
+    display:flex; align-items:flex-start; gap:11px;
+    padding:9px 0;
+    font-size:13.5px;
+  }
+  .finding .sw{width:9px;height:9px;border-radius:50%; margin-top:5px; flex-shrink:0;}
+  .sw.ok{background:var(--ok);}
+  .sw.warn{background:var(--warn);}
+  .sw.crit{background:var(--crit);}
+  .finding .ftext strong{display:block; color:var(--text); font-weight:600;}
+  .finding .ftext span{color:var(--text-faint); font-size:12.5px;}
+
+  .signoff{
+    margin-top:18px;
+    padding:14px 16px;
+    background:var(--bg-raise);
+    border:1px solid var(--accent-dim);
+    border-radius:4px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .signoff .check{
+    width:26px;height:26px;
+    border-radius:50%;
+    background:rgba(79,209,192,0.12);
+    border:1px solid var(--accent);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .signoff .check svg{width:13px;height:13px;}
+  .signoff-text{font-family:var(--mono); font-size:12px; line-height:1.5;}
+  .signoff-text b{color:var(--text); display:block; font-size:12.5px;}
+  .signoff-text span{color:var(--text-faint);}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:92px 0; border-top:1px solid var(--line-soft);}
+  .section-head{max-width:600px; margin-bottom:52px;}
+  .section-head h2{font-size:clamp(26px,3vw,34px); line-height:1.18;}
+  .section-head p{color:var(--text-dim); font-size:15.5px; margin-top:14px;}
+
+  /* how it works */
+  .flow{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:0;
+    border:1px solid var(--line);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  @media (max-width:860px){ .flow{grid-template-columns:1fr;} }
+  .flow-step{
+    padding:28px 24px;
+    border-right:1px solid var(--line);
+    position:relative;
+  }
+  .flow-step:last-child{border-right:none;}
+  @media (max-width:860px){ .flow-step{border-right:none; border-bottom:1px solid var(--line);} .flow-step:last-child{border-bottom:none;} }
+  .flow-step .idx{font-family:var(--mono); font-size:12px; color:var(--accent); margin-bottom:14px;}
+  .flow-step h3{font-size:16px; margin-bottom:8px;}
+  .flow-step p{font-size:13.5px; color:var(--text-dim); margin:0;}
+
+  /* human verification - dedicated emphasis section */
+  .verify{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:52px;
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:48px;
+    align-items:center;
+  }
+  @media (max-width:860px){ .verify{grid-template-columns:1fr; padding:32px;} }
+  .verify h2{font-size:clamp(24px,2.8vw,30px); margin-bottom:16px;}
+  .verify p{color:var(--text-dim); font-size:15.5px; margin-bottom:14px;}
+  .verify ul{list-style:none; margin:22px 0 0; padding:0; display:flex; flex-direction:column; gap:12px;}
+  .verify li{display:flex; gap:11px; font-size:14.5px; color:var(--text);}
+  .verify li .m{color:var(--ok); flex-shrink:0; font-family:var(--mono);}
+
+  .stamp{
+    border:1px dashed var(--line);
+    border-radius:6px;
+    padding:30px;
+    text-align:center;
+    background:var(--bg-raise);
+  }
+  .stamp-ring{
+    width:104px;height:104px;
+    margin:0 auto 18px;
+    border:2px solid var(--accent);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .stamp-ring svg{width:38px;height:38px;}
+  .stamp-line1{font-family:var(--mono); font-size:12.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-dim);}
+  .stamp-line2{font-family:var(--mono); font-size:11px; color:var(--text-faint); margin-top:6px;}
+
+  /* categories */
+  .cat-grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  @media (max-width:920px){ .cat-grid{grid-template-columns:repeat(2, 1fr);} }
+  @media (max-width:500px){ .cat-grid{grid-template-columns:1fr;} }
+  .cat{
+    background:var(--surface);
+    padding:24px 20px;
+  }
+  .cat h3{font-size:14.5px; margin-bottom:10px; display:flex; align-items:center; gap:8px;}
+  .cat h3 .sw{width:7px;height:7px;border-radius:50%; background:var(--accent); flex-shrink:0;}
+  .cat p{font-size:13px; color:var(--text-faint); margin:0; line-height:1.6;}
+
+  /* pricing */
+  .price-card{
+    max-width:460px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--surface);
+    padding:36px;
+  }
+  .price-top{display:flex; align-items:baseline; gap:8px; margin-bottom:6px;}
+  .price-num{font-family:var(--mono); font-size:42px; font-weight:600;}
+  .price-period{color:var(--text-faint); font-size:14px;}
+  .price-desc{color:var(--text-dim); font-size:14.5px; margin-bottom:24px;}
+  .price-list{list-style:none; margin:0 0 28px; padding:0; display:flex; flex-direction:column; gap:11px;}
+  .price-list li{display:flex; gap:10px; font-size:14px; color:var(--text);}
+  .price-list li .m{color:var(--accent); font-family:var(--mono); flex-shrink:0;}
+  .price-note{
+    margin-top:20px;
+    padding-top:20px;
+    border-top:1px solid var(--line-soft);
+    font-size:13px;
+    color:var(--text-faint);
+  }
+
+  /* final cta */
+  .final-cta{
+    text-align:center;
+    padding:100px 0;
+  }
+  .final-cta h2{font-size:clamp(28px,3.6vw,40px); max-width:640px; margin:0 auto 18px;}
+  .final-cta p{color:var(--text-dim); font-size:16px; max-width:520px; margin:0 auto 34px;}
+
+  footer{
+    border-top:1px solid var(--line-soft);
+    padding:36px 0;
+  }
+  .footer-inner{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:13px; color:var(--text-faint);
+    flex-wrap:wrap; gap:14px;
+  }
+  .footer-inner .logo{color:var(--text-dim);}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <div class="logo"><span class="dot"></span>HEIMFLUX</div>
+    <nav class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#verify">Verification</a>
+      <a href="#coverage">Coverage</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+    <a class="nav-cta" href="#pricing">Book a walkthrough</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Weekly security posture review</p>
+      <h1>Every finding is checked by an engineer <em>before</em> it reaches you.</h1>
+      <p class="sub">We monitor your Microsoft 365 and Entra environment continuously and update your report in a live portal — what changed, what's risky, and what to fix, always current, never a stale PDF buried in an inbox. No dashboard to babysit alone. No bot crying wolf.</p>
+      <div class="cta-row">
+        <a class="btn-primary" href="#pricing">Book a 15-minute walkthrough</a>
+        <a class="btn-secondary" href="#sample">See a sample report</a>
+      </div>
+      <p class="microtrust">→ Hosted in France · Data stays in the EU · Read-only access · Cancel anytime</p>
+    </div>
+
+    <div id="sample" class="report-card">
+      <div class="report-head">
+        <div class="report-dots"><span></span><span></span><span></span></div>
+        <span class="url-bar">app.heimflux.fr/reports/atelier-cf/week-33</span>
+        <span class="live-tag"><span class="pulse"></span>LIVE</span>
+      </div>
+      <div class="report-body">
+        <div class="report-title">SECURITY POSTURE — WEEK 33 · UPDATED TODAY</div>
+        <div class="report-org">Atelier Chauvin &amp; Fils</div>
+
+        <div class="score-row">
+          <span class="score-num">86</span>
+          <span class="score-label">/ 100 &nbsp;·&nbsp; 41 controls checked</span>
+        </div>
+
+        <div class="finding">
+          <span class="sw crit"></span>
+          <div class="ftext"><strong>Admin account without MFA</strong><span>j.moreau@atelier-cf.fr — privileged role</span></div>
+        </div>
+        <div class="finding">
+          <span class="sw warn"></span>
+          <div class="ftext"><strong>New forwarding rule to external domain</strong><span>Created Tuesday, mailbox: comptabilite@</span></div>
+        </div>
+        <div class="finding">
+          <span class="sw ok"></span>
+          <div class="ftext"><strong>DMARC policy enforced</strong><span>No change since last review</span></div>
+        </div>
+
+        <div class="signoff">
+          <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#4FD1C0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+          <div class="signoff-text"><b>Verified by L. Sanchez, Security Engineer</b><span>Both findings above confirmed as genuine — not automated noise.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">How it works</p>
+      <h2>Four steps, every week, without you lifting a finger.</h2>
+      <p>The scan is automated. The judgment isn't.</p>
+    </div>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="idx">01 — CONNECT</div>
+        <h3>Read-only access</h3>
+        <p>You grant a scoped, read-only permission to your Microsoft 365 / Entra tenant. No admin credentials, no standing access to change anything.</p>
+      </div>
+      <div class="flow-step">
+        <div class="idx">02 — SCAN</div>
+        <h3>Automated collection</h3>
+        <p>We pull identity, endpoint and configuration data and compare it against your baseline and a library of security controls.</p>
+      </div>
+      <div class="flow-step">
+        <div class="idx">03 — REVIEW</div>
+        <h3>Engineer validation</h3>
+        <p>Before anything reaches you, a security engineer checks every flagged finding — confirming it's real and not noise.</p>
+      </div>
+      <div class="flow-step">
+        <div class="idx">04 — REPORT</div>
+        <h3>Your portal updates</h3>
+        <p>Log into your HeimFlux workspace: what changed, what's urgent, and what to do about it — always current, no inbox digging.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="verify">
+  <div class="wrap">
+    <div class="verify">
+      <div>
+        <p class="eyebrow">Why this isn't just a scanner</p>
+        <h2>Automated tools flag things. They don't know if it matters.</h2>
+        <p>A vulnerability scanner will tell you a hundred things are "wrong." Most aren't worth your time, and the one that is can get buried. We run the scan — then a person looks at what it found.</p>
+        <ul>
+          <li><span class="m">›</span> Every critical or warning-level finding is reviewed by an engineer before your report is sent.</li>
+          <li><span class="m">›</span> False positives get filtered out — you never chase a ghost.</li>
+          <li><span class="m">›</span> Unsure what a finding means? Reply to the report and ask the person who checked it.</li>
+        </ul>
+      </div>
+      <div class="stamp">
+        <div class="stamp-ring">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#4FD1C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5.2 3.4 9.7 8 11 4.6-1.3 8-5.8 8-11V5l-8-3z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+        </div>
+        <div class="stamp-line1">Reviewed by a human</div>
+        <div class="stamp-line2">every single report, every week</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="coverage">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">What we check</p>
+      <h2>Coverage across the areas that actually get you breached.</h2>
+      <p>Starting with Microsoft 365 and Entra ID — the environment where most SMB incidents originate.</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat">
+        <h3><span class="sw"></span>Identity</h3>
+        <p>MFA coverage, privileged accounts, dormant users, legacy authentication, conditional access.</p>
+      </div>
+      <div class="cat">
+        <h3><span class="sw"></span>Email &amp; domain</h3>
+        <p>SPF, DKIM, DMARC, external forwarding rules, mailbox permission changes.</p>
+      </div>
+      <div class="cat">
+        <h3><span class="sw"></span>Endpoint</h3>
+        <p>Device compliance, encryption status, outdated OS versions, security agent health.</p>
+      </div>
+      <div class="cat">
+        <h3><span class="sw"></span>Access &amp; sharing</h3>
+        <p>External sharing links, guest accounts, application permissions and consent grants.</p>
+      </div>
+      <div class="cat">
+        <h3><span class="sw"></span>Change tracking</h3>
+        <p>Every week compared to the last — new admins, new rules, new exposure, flagged automatically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Pricing</p>
+      <h2>One plan. No dashboard fee. No setup theater.</h2>
+    </div>
+    <div class="price-card">
+      <div class="price-top"><span class="price-num">€149</span><span class="price-period">/ month</span></div>
+      <p class="price-desc">Weekly security review for your Microsoft 365 / Entra environment.</p>
+      <ul class="price-list">
+        <li><span class="m">→</span> Continuous automated scanning</li>
+        <li><span class="m">→</span> Live portal, updated weekly, reviewed by an engineer</li>
+        <li><span class="m">→</span> Week-over-week change detection</li>
+        <li><span class="m">→</span> Direct access to the engineer who reviewed your report</li>
+      </ul>
+      <a class="btn-primary" href="#" style="width:100%; text-align:center;">Book a 15-minute walkthrough</a>
+      <p class="price-note">Hosted in France — your data never leaves the EU. Larger or hybrid environments (AWS, VMware, on-prem)? Get in touch — coverage is added as new environments come online.</p>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta" style="border-top:1px solid var(--line-soft);">
+  <div class="wrap">
+    <h2>Stop finding out about problems from an incident.</h2>
+    <p>Fifteen minutes to see how the first report would look for your environment — no commitment.</p>
+    <a class="btn-primary" href="#pricing">Book a 15-minute walkthrough</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="logo">HEIMFLUX</div>
+    <div>© 2026 · Built and hosted in France · Data stays in the EU · Reports reviewed by a human, always</div>
+  </div>
+</footer>
+
+</body>
+</html>
