@@ -164,6 +164,17 @@
     transition:border-color .12s, background .12s;
   }
   .btn-secondary:hover{border-color:var(--text-dim); background:var(--surface);}
+  .btn-tertiary{
+    color:var(--accent);
+    font-size:14.5px;
+    font-weight:600;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:13px 4px;
+  }
+  .btn-tertiary:hover{color:var(--text);}
 
   .microtrust{
     margin-top:26px;
@@ -415,6 +426,22 @@
     font-size:13px;
     color:var(--text-faint);
   }
+  .btn-call{
+    width:100%;
+    text-align:center;
+    background:transparent;
+    color:var(--accent);
+    font-weight:600;
+    font-size:15px;
+    padding:13px 22px;
+    border-radius:var(--radius);
+    text-decoration:none;
+    display:block;
+    border:1px solid var(--accent-dim);
+    transition:border-color .12s, background .12s;
+    margin-top:10px;
+  }
+  .btn-call:hover{border-color:var(--accent); background:rgba(79,209,192,0.06);}
 
   /* final cta */
   .final-cta{
@@ -597,8 +624,8 @@
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Pricing</p>
-      <h2>Try the first scan free. Pay only if you keep it running.</h2>
-      <p>Your first scan costs nothing and comes with no commitment. If you want us to keep monitoring after that, it's €145/month. Cancel in one click, whenever you want.</p>
+      <h2>Try the first scan free. Activate on a call, not a checkout page.</h2>
+      <p>Your first scan costs nothing and comes with no commitment. To keep monitoring running afterward, you book a 15-min call with the engineer who reviewed your report — that's how the €145/month plan gets switched on.</p>
     </div>
 
     <div class="scarcity-bar">
@@ -614,9 +641,9 @@
       </div>
       <div class="price-divider"></div>
       <div class="price-tier">
-        <div class="tier-label">STEP 2</div>
-        <div class="price-top"><span class="price-num">€145</span><span class="price-period">/ month, from your second scan</span></div>
-        <p class="price-desc">Keep the weekly review running. Cancel anytime, in one click, from your portal.</p>
+        <div class="tier-label">STEP 2 · REQUIRED TO ACTIVATE</div>
+        <div class="price-top"><span class="price-num">€145</span><span class="price-period">/ month, confirmed on a call</span></div>
+        <p class="price-desc">We don't turn on paid monitoring from a checkout button. You book a 15-min call with the engineer who reviewed your free scan, walk through the findings together, and activate from there. Cancel anytime, in one click, from your portal.</p>
       </div>
       <ul class="price-list">
         <li><span class="m">→</span> Continuous automated scanning</li>
@@ -624,7 +651,7 @@
         <li><span class="m">→</span> Week-over-week change detection</li>
         <li><span class="m">→</span> Direct access to the engineer who reviewed your report</li>
       </ul>
-      <a class="btn-primary" href="#" style="width:100%; text-align:center;">Start your free scan</a>
+      <a class="btn-call" href="https://cal.com/leo.sanchez/15min" target="_blank" rel="noopener" style="margin-top:0;">Book a call →</a>
       <p class="price-note">Hosted in France. Your data stays in the EU. Need a specific region or full isolation? We can deploy a dedicated environment wherever required. Support for AWS, VMware, and on-prem environments is coming soon.</p>
     </div>
   </div>
