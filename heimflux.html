@@ -84,9 +84,12 @@
     font-family:var(--mono);
     font-size:15px;
     font-weight:600;
-    letter-spacing:0.01em;
+    letter-spacing:0.04em;
     display:flex; align-items:center; gap:9px;
   }
+  .logo .wordmark{letter-spacing:-0.01em;}
+  .logo .wordmark .h1{color:var(--text);}
+  .logo .wordmark .h2{color:var(--accent);}
   .logo .dot{width:8px;height:8px;background:var(--ok);border-radius:50%; box-shadow:0 0 0 3px rgba(63,182,138,0.15);}
   .nav-links{display:flex; gap:32px; font-size:14px; color:var(--text-dim);}
   .nav-links a{text-decoration:none; transition:color .15s;}
@@ -346,6 +349,51 @@
   .cat p{font-size:13px; color:var(--text-faint); margin:0; line-height:1.6;}
 
   /* pricing */
+  .scarcity-bar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    max-width:640px;
+    background:var(--bg-raise);
+    border:1px solid var(--accent-dim);
+    border-radius:5px;
+    padding:13px 18px;
+    font-size:13.5px;
+    color:var(--text-dim);
+    margin-bottom:36px;
+  }
+  .scarcity-bar strong{color:var(--text);}
+  .scarcity-bar .pulse-dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--warn);
+    box-shadow:0 0 0 3px rgba(224,164,88,0.18);
+    flex-shrink:0;
+    animation:pulse 2s ease-in-out infinite;
+  }
+  .price-tier{margin-bottom:4px;}
+  .tier-label{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.1em;
+    color:var(--text-faint);
+    margin-bottom:8px;
+  }
+  .price-divider{
+    height:1px;
+    background:var(--line);
+    margin:20px 0;
+    position:relative;
+  }
+  .price-divider::after{
+    content:"↓";
+    position:absolute;
+    left:0; top:50%;
+    transform:translateY(-50%);
+    background:var(--surface);
+    color:var(--text-faint);
+    font-size:12px;
+    padding-right:8px;
+  }
   .price-card{
     max-width:460px;
     border:1px solid var(--line);
@@ -392,14 +440,14 @@
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <div class="logo"><span class="dot"></span>HEIMFLUX</div>
+    <div class="logo"><span class="dot"></span><span class="wordmark"><span class="h1">HEIM</span><span class="h2">FLUX</span></span></div>
     <nav class="nav-links">
       <a href="#how">How it works</a>
       <a href="#verify">Verification</a>
       <a href="#coverage">Coverage</a>
       <a href="#pricing">Pricing</a>
     </nav>
-    <a class="nav-cta" href="#pricing">Book a walkthrough</a>
+    <a class="nav-cta" href="#pricing">Start free scan</a>
   </div>
 </header>
 
@@ -410,10 +458,10 @@
       <h1>Every finding is checked by an engineer <em>before</em> it reaches you.</h1>
       <p class="sub">We monitor your Microsoft 365 and Entra environment continuously and update your report in a live portal — what changed, what's risky, and what to fix, always current, never a stale PDF buried in an inbox. No dashboard to babysit alone. No bot crying wolf.</p>
       <div class="cta-row">
-        <a class="btn-primary" href="#pricing">Book a 15-minute walkthrough</a>
+        <a class="btn-primary" href="#pricing">Start your free scan</a>
         <a class="btn-secondary" href="#sample">See a sample report</a>
       </div>
-      <p class="microtrust">→ Hosted in France · Data stays in the EU · Read-only access · Cancel anytime</p>
+      <p class="microtrust">→ First scan free, no commitment · Hosted in France · Data stays in the EU · Cancel in one click</p>
     </div>
 
     <div id="sample" class="report-card">
@@ -446,7 +494,7 @@
 
         <div class="signoff">
           <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#4FD1C0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
-          <div class="signoff-text"><b>Verified by L. Sanchez, Security Engineer</b><span>Both findings above confirmed as genuine — not automated noise.</span></div>
+          <div class="signoff-text"><b>Verified by Engineer #017165</b><span>Both findings above confirmed as genuine — not automated noise.</span></div>
         </div>
       </div>
     </div>
@@ -464,7 +512,7 @@
       <div class="flow-step">
         <div class="idx">01 — CONNECT</div>
         <h3>Read-only access</h3>
-        <p>You grant a scoped, read-only permission to your Microsoft 365 / Entra tenant. No admin credentials, no standing access to change anything.</p>
+        <p>You grant a scoped, read-only permission to your Microsoft 365 / Entra tenant. Your first scan is free — no admin credentials, no card required.</p>
       </div>
       <div class="flow-step">
         <div class="idx">02 — SCAN</div>
@@ -545,19 +593,35 @@
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Pricing</p>
-      <h2>One plan. No dashboard fee. No setup theater.</h2>
+      <h2>Try the first scan free. Pay only if you keep it running.</h2>
+      <p>Your first scan costs nothing and comes with no commitment. If you want us to keep monitoring after that, it's €149/month — cancel in one click, whenever you want.</p>
     </div>
+
+    <div class="scarcity-bar">
+      <span class="pulse-dot"></span>
+      <span><strong>5 spots left</strong> on the current plan — every report is reviewed by an engineer, and we cap how many environments we take on so that review stays real, not rubber-stamped.</span>
+    </div>
+
     <div class="price-card">
-      <div class="price-top"><span class="price-num">€149</span><span class="price-period">/ month</span></div>
-      <p class="price-desc">Weekly security review for your Microsoft 365 / Entra environment.</p>
+      <div class="price-tier">
+        <div class="tier-label">STEP 1</div>
+        <div class="price-top"><span class="price-num" style="font-size:32px;">Free</span><span class="price-period">first scan</span></div>
+        <p class="price-desc">Connect read-only access, get your first report in the portal. No card, no commitment.</p>
+      </div>
+      <div class="price-divider"></div>
+      <div class="price-tier">
+        <div class="tier-label">STEP 2</div>
+        <div class="price-top"><span class="price-num">€149</span><span class="price-period">/ month, from your second scan</span></div>
+        <p class="price-desc">Keep the weekly review running. Cancel anytime, in one click, from your portal.</p>
+      </div>
       <ul class="price-list">
         <li><span class="m">→</span> Continuous automated scanning</li>
         <li><span class="m">→</span> Live portal, updated weekly, reviewed by an engineer</li>
         <li><span class="m">→</span> Week-over-week change detection</li>
         <li><span class="m">→</span> Direct access to the engineer who reviewed your report</li>
       </ul>
-      <a class="btn-primary" href="#" style="width:100%; text-align:center;">Book a 15-minute walkthrough</a>
-      <p class="price-note">Hosted in France — your data never leaves the EU. Larger or hybrid environments (AWS, VMware, on-prem)? Get in touch — coverage is added as new environments come online.</p>
+      <a class="btn-primary" href="#" style="width:100%; text-align:center;">Start your free scan</a>
+      <p class="price-note">Hosted in France — your data stays in the EU. Need a specific region or full isolation? We can deploy a dedicated environment wherever required. Support for AWS, VMware, and on-prem environments is coming soon.</p>
     </div>
   </div>
 </section>
@@ -565,14 +629,14 @@
 <section class="final-cta" style="border-top:1px solid var(--line-soft);">
   <div class="wrap">
     <h2>Stop finding out about problems from an incident.</h2>
-    <p>Fifteen minutes to see how the first report would look for your environment — no commitment.</p>
-    <a class="btn-primary" href="#pricing">Book a 15-minute walkthrough</a>
+    <p>Your first scan is free and takes fifteen minutes to set up — no commitment, no card required.</p>
+    <a class="btn-primary" href="#pricing">Start your free scan</a>
   </div>
 </section>
 
 <footer>
   <div class="wrap footer-inner">
-    <div class="logo">HEIMFLUX</div>
+    <div class="logo"><span class="wordmark"><span class="h1">HEIM</span><span class="h2">FLUX</span></span></div>
     <div>© 2026 · Built and hosted in France · Data stays in the EU · Reports reviewed by a human, always</div>
   </div>
 </footer>
