@@ -1,1217 +1,610 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HeimFlux - Breach Detection & Response</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background: #000;
-            color: #fff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            line-height: 1.6;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 50;
-            border-bottom: 1px solid #1f2937;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-        }
-
-        nav .container {
-            max-width: 80rem;
-            margin: 0 auto;
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        nav .logo {
-            font-size: 0.875rem;
-            letter-spacing: 0.1em;
-            font-weight: 300;
-        }
-
-        nav .nav-links {
-            display: flex;
-            gap: 2rem;
-            font-size: 0.875rem;
-        }
-
-        nav a {
-            color: #d1d5db;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #fff;
-        }
-
-        /* Hero Section */
-        section {
-            border-top: 1px solid #1f2937;
-        }
-
-        section:first-of-type {
-            border-top: none;
-        }
-
-        .hero {
-            padding-top: 8rem;
-            padding-bottom: 6rem;
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-
-        .hero::before,
-        .hero::after {
-            content: '';
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(120px);
-            z-index: -1;
-        }
-
-        .hero::before {
-            top: 0;
-            left: 25%;
-            width: 24rem;
-            height: 24rem;
-            background: rgba(217, 119, 6, 0.05);
-        }
-
-        .hero::after {
-            bottom: 33%;
-            right: 25%;
-            width: 24rem;
-            height: 24rem;
-            background: rgba(180, 83, 9, 0.05);
-        }
-
-        .hero .container {
-            max-width: 80rem;
-            margin: 0 auto;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        @media (min-width: 1024px) {
-            .hero .container {
-                grid-template-columns: 1fr 1fr;
-                gap: 4rem;
-            }
-        }
-
-        .hero-content {
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-        }
-
-        .eyebrow {
-            color: #b45309;
-            font-size: 0.875rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            font-weight: 300;
-        }
-
-        h1 {
-            font-size: 3.75rem;
-            font-weight: 300;
-            line-height: 1.2;
-            margin: 0;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.25rem;
-            }
-        }
-
-        h1 .accent {
-            color: #b45309;
-            font-weight: 400;
-            display: block;
-            margin-top: 0.5rem;
-        }
-
-        .hero-description {
-            font-size: 1.125rem;
-            color: #9ca3af;
-            font-weight: 300;
-            line-height: 1.8;
-            max-width: 32rem;
-        }
-
-        .breach-box {
-            border-left: 2px solid #b45309;
-            padding-left: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .breach-number {
-            font-size: 2.25rem;
-            font-weight: 300;
-            color: #b45309;
-        }
-
-        .breach-label {
-            font-size: 0.875rem;
-            color: #9ca3af;
-        }
-
-        .breach-details {
-            font-size: 0.75rem;
-            color: #6b7280;
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-            padding-top: 0.5rem;
-        }
-
-        .cta-group {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            padding-top: 1.5rem;
-        }
-
-        @media (min-width: 640px) {
-            .cta-group {
-                flex-direction: row;
-            }
-        }
-
-        .btn {
-            padding: 0.75rem 2rem;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 500;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            flex: 1;
-        }
-
-        .btn-primary {
-            background: #b45309;
-            color: #000;
-        }
-
-        .btn-primary:hover {
-            background: #d97706;
-        }
-
-        .btn-secondary {
-            border: 1.5px solid #b45309;
-            color: #fff;
-            background: transparent;
-            font-weight: 500;
-        }
-
-        .btn-secondary:hover {
-            border-color: #d97706;
-            background: rgba(180, 83, 9, 0.1);
-        }
-
-        .btn-tertiary {
-            border: 1px solid #6b7280;
-            color: #9ca3af;
-            background: transparent;
-            font-weight: 400;
-            font-size: 0.8rem;
-        }
-
-        .btn-tertiary:hover {
-            border-color: #9ca3af;
-            color: #d1d5db;
-        }
-
-        .cta-group {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            padding-top: 1.5rem;
-        }
-
-        @media (min-width: 640px) {
-            .cta-group {
-                flex-direction: row;
-            }
-
-            .cta-group .btn:nth-child(1) {
-                flex: 1.2;
-            }
-
-            .cta-group .btn:nth-child(2) {
-                flex: 0.9;
-            }
-
-            .cta-group .btn:nth-child(3) {
-                flex: 0.7;
-            }
-        }
-
-        .trust-signal {
-            font-size: 0.75rem;
-            color: #6b7280;
-            padding-top: 1rem;
-        }
-
-        .dashboard-mock {
-            display: none;
-        }
-
-        @media (min-width: 1024px) {
-            .dashboard-mock {
-                display: block;
-                background: rgba(30, 27, 0, 0.5);
-                border: 1px solid #1f2937;
-                padding: 2rem;
-                border-radius: 0.125rem;
-                height: 24rem;
-                position: relative;
-            }
-        }
-
-        .mock-label {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 0.75rem;
-            color: #6b7280;
-        }
-
-        .mock-content {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .progress-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.875rem;
-        }
-
-        .progress-label {
-            color: #9ca3af;
-        }
-
-        .progress-value {
-            color: #b45309;
-        }
-
-        .progress-track {
-            height: 1px;
-            background: #1f2937;
-            flex: 1;
-            margin: 0 1rem;
-            position: relative;
-        }
-
-        .progress-fill {
-            position: absolute;
-            height: 1px;
-            background: #b45309;
-            width: 100%;
-        }
-
-        .threats-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .threat-label {
-            font-size: 0.75rem;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
-        }
-
-        .threat-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.875rem;
-        }
-
-        .threat-name {
-            color: #9ca3af;
-        }
-
-        .threat-bar {
-            width: 5rem;
-            height: 0.25rem;
-            background: #1f2937;
-            position: relative;
-            margin-left: 1rem;
-        }
-
-        .threat-fill {
-            height: 0.25rem;
-            background: #b45309;
-        }
-
-        .mock-footer {
-            border-top: 1px solid #1f2937;
-            padding-top: 1rem;
-        }
-
-        .mock-footer p {
-            font-size: 0.75rem;
-            color: #6b7280;
-        }
-
-        .mock-footer .threat {
-            color: #b45309;
-            margin-top: 0.5rem;
-        }
-
-        /* How It Works */
-        .how-it-works {
-            padding: 6rem 1.5rem;
-            background: transparent;
-        }
-
-        .how-it-works .container {
-            max-width: 80rem;
-            margin: 0 auto;
-        }
-
-        h2 {
-            font-size: 2.25rem;
-            font-weight: 300;
-            margin-bottom: 4rem;
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 3rem;
-        }
-
-        @media (min-width: 768px) {
-            .steps-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        .step {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .step-number {
-            width: 3rem;
-            height: 3rem;
-            border: 1px solid #374151;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.125rem;
-            color: #9ca3af;
-        }
-
-        .step h3 {
-            font-size: 1.25rem;
-            font-weight: 300;
-        }
-
-        .step p {
-            font-size: 0.875rem;
-            color: #9ca3af;
-            line-height: 1.6;
-        }
-
-        /* Features */
-        .features {
-            padding: 6rem 1.5rem;
-            background: rgba(30, 27, 0, 0.3);
-        }
-
-        .features .container {
-            max-width: 80rem;
-            margin: 0 auto;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 3rem;
-        }
-
-        @media (min-width: 768px) {
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .feature {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid #1f2937;
-        }
-
-        .feature h3 {
-            font-size: 1.125rem;
-            font-weight: 300;
-        }
-
-        .feature p {
-            font-size: 0.875rem;
-            color: #9ca3af;
-        }
-
-        /* Pricing */
-        .pricing {
-            padding: 6rem 1.5rem;
-        }
-
-        .pricing .container {
-            max-width: 80rem;
-            margin: 0 auto;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .pricing-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        .price-card {
-            border: 1px solid #1f2937;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .price-card.featured {
-            border: 2px solid #b45309;
-            background: rgba(180, 83, 9, 0.1);
-        }
-
-        .price-card h3 {
-            font-size: 1.25rem;
-            font-weight: 300;
-        }
-
-        .price-card .badge {
-            font-size: 0.75rem;
-            color: #b45309;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 0.5rem;
-        }
-
-        .price-display {
-            display: flex;
-            align-items: baseline;
-            gap: 0.25rem;
-        }
-
-        .price-amount {
-            font-size: 2rem;
-            font-weight: 300;
-        }
-
-        .price-period {
-            font-size: 0.875rem;
-            color: #9ca3af;
-        }
-
-        .features-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            flex: 1;
-        }
-
-        .features-list li {
-            list-style: none;
-            font-size: 0.875rem;
-            color: #d1d5db;
-        }
-
-        .features-list li::before {
-            content: '• ';
-            color: #b45309;
-            margin-right: 0.5rem;
-        }
-
-        /* Final CTA */
-        .final-cta {
-            padding: 6rem 1.5rem;
-            background: linear-gradient(to bottom, transparent, rgba(180, 83, 9, 0.05));
-        }
-
-        .final-cta .container {
-            max-width: 48rem;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .final-cta h2 {
-            margin-bottom: 1rem;
-        }
-
-        .final-cta .accent {
-            color: #b45309;
-            display: block;
-            margin-top: 0.5rem;
-        }
-
-        .final-cta p {
-            color: #9ca3af;
-            font-size: 1.125rem;
-            margin-bottom: 2rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            padding-top: 1.5rem;
-        }
-
-        @media (min-width: 640px) {
-            .cta-buttons {
-                flex-direction: row;
-                justify-content: center;
-                max-width: 64rem;
-                margin: 0 auto;
-            }
-
-            .cta-buttons .btn:nth-child(1) {
-                flex: 1.2;
-            }
-
-            .cta-buttons .btn:nth-child(2) {
-                flex: 0.9;
-            }
-
-            .cta-buttons .btn:nth-child(3) {
-                flex: 0.7;
-            }
-        }
-
-        /* Footer */
-        footer {
-            border-top: 1px solid #1f2937;
-            padding: 3rem 1.5rem;
-            background: rgba(30, 27, 0, 0.5);
-        }
-
-        footer .container {
-            max-width: 80rem;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.875rem;
-            color: #6b7280;
-        }
-
-        /* Modals */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: #000;
-            border: 1px solid #1f2937;
-            max-width: 28rem;
-            width: 100%;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .modal-header h3 {
-            font-size: 1.5rem;
-            font-weight: 300;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: #6b7280;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0;
-            width: 1.5rem;
-            height: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-close:hover {
-            color: #d1d5db;
-        }
-
-        .modal p {
-            color: #9ca3af;
-            font-size: 0.875rem;
-        }
-
-        .modal input {
-            background: #111;
-            border: 1px solid #1f2937;
-            color: #fff;
-            padding: 0.75rem 1rem;
-            font-size: 0.875rem;
-        }
-
-        .modal input:focus {
-            outline: none;
-            border-color: #b45309;
-        }
-
-        .modal input::placeholder {
-            color: #6b7280;
-        }
-
-        .modal .btn {
-            margin-top: 0.5rem;
-        }
-
-        .modal .trust {
-            font-size: 0.75rem;
-            color: #6b7280;
-            text-align: center;
-        }
-
-        /* FAQ */
-        .faq {
-            padding: 6rem 1.5rem;
-            background: rgba(30, 27, 0, 0.3);
-        }
-
-        .faq .container {
-            max-width: 64rem;
-            margin: 0 auto;
-        }
-
-        .faq h2 {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .faq-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .faq-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .faq-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            padding: 1.5rem;
-            border: 1px solid #1f2937;
-            background: transparent;
-        }
-
-        .faq-item:hover {
-            border-color: #b45309;
-            background: rgba(180, 83, 9, 0.05);
-        }
-
-        .faq-item h3 {
-            font-size: 1rem;
-            font-weight: 400;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .faq-toggle {
-            font-size: 1.25rem;
-            color: #b45309;
-            flex-shrink: 0;
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            font-size: 0.875rem;
-            color: #9ca3af;
-            line-height: 1.6;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            overflow: visible;
-        }
-
-        .faq-item.active .faq-toggle {
-            transform: rotate(180deg);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HeimFlux — Breach Detection &amp; Response</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0a0b;
+    --bg-raised: #111114;
+    --bg-raised-2: #17171b;
+    --bg-raised-3: #1c1c20;
+    --line: #2a2724;
+    --line-soft: #201e1b;
+    --ink: #efece7;
+    --ink-dim: #9c988f;
+    --ink-faint: #67635a;
+    --amber: #bd7d3d;
+    --amber-bright: #e0a25a;
+    --amber-deep: #4d3018;
+    --ok: #5c7166;
+    --head: 'Inter Tight', -apple-system, sans-serif;
+    --sans: 'Inter', -apple-system, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.65;
+    position:relative;
+  }
+  body::before{
+    content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:radial-gradient(rgba(239,236,231,0.05) 1px, transparent 1px);
+    background-size:26px 26px;
+    -webkit-mask-image:linear-gradient(to bottom, black, black 60%, transparent 100%);
+    mask-image:linear-gradient(to bottom, black, black 60%, transparent 100%);
+  }
+  body::after{
+    content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  main, nav, footer, .meta-bar{position:relative;z-index:1;}
+  ::selection{background:var(--amber-deep);color:var(--ink);}
+  a{color:inherit;}
+  .container{max-width:72rem;margin:0 auto;padding:0 1.5rem;}
+  h1,h2,h3{font-family:var(--head);font-weight:600;letter-spacing:-0.015em;}
+  .eyebrow{
+    font-family:var(--mono);font-size:0.7rem;letter-spacing:0.13em;text-transform:uppercase;
+    color:var(--amber);display:flex;align-items:center;gap:0.55rem;
+  }
+  .eyebrow::before{content:'';width:0.35rem;height:0.35rem;background:var(--amber);display:inline-block;}
+  section{border-top:1px solid var(--line-soft);position:relative;overflow:hidden;}
+  section:first-of-type{border-top:none;}
+  .icon{width:1.5rem;height:1.5rem;stroke:var(--amber);fill:none;stroke-width:1.4;}
+
+  /* ---------- TOP META BAR ---------- */
+  .meta-bar{background:#050506;border-bottom:1px solid var(--line-soft);font-family:var(--mono);font-size:0.68rem;color:var(--ink-faint);}
+  .meta-bar .container{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1.5rem;}
+  .meta-bar .status{display:flex;align-items:center;gap:0.5rem;}
+  .meta-bar .pulse{width:6px;height:6px;background:var(--ok);border-radius:50%;position:relative;}
+  .meta-bar .pulse::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1px solid var(--ok);animation:pulse 2.4s ease-out infinite;}
+  @keyframes pulse{ 0%{opacity:0.6;transform:scale(0.6);} 100%{opacity:0;transform:scale(1.9);} }
+  @media (max-width:640px){ .meta-bar .container span:last-child{display:none;} }
+
+  /* ---------- NAV ---------- */
+  nav{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--line-soft);}
+  nav .container{display:flex;justify-content:space-between;align-items:center;padding:1.05rem 1.5rem;}
+  .logo{font-family:var(--head);font-size:1.05rem;letter-spacing:-0.01em;font-weight:700;}
+  .nav-links{display:flex;align-items:center;gap:2.1rem;font-family:var(--mono);font-size:0.76rem;}
+  .nav-links a{color:var(--ink-dim);text-decoration:none;transition:color .2s;letter-spacing:0.01em;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-cta{color:var(--ink);border-bottom:1px solid var(--amber);padding-bottom:2px;}
+  @media (max-width:760px){ .nav-links a:not(.nav-cta){display:none;} }
+
+  /* ---------- BUTTONS ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;
+    padding:0.85rem 1.7rem;font-family:var(--sans);font-size:0.9rem;font-weight:500;
+    text-decoration:none;cursor:pointer;border:1px solid transparent;transition:all .2s;
+  }
+  .btn-primary{background:var(--ink);color:#0a0a0a;}
+  .btn-primary:hover{background:var(--amber-bright);}
+  .btn-secondary{border-color:var(--line);color:var(--ink);background:transparent;}
+  .btn-secondary:hover{border-color:var(--ink-faint);background:rgba(255,255,255,0.03);}
+  .btn-ghost{color:var(--ink-dim);background:transparent;padding:0.85rem 0.2rem;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--line);}
+  .btn-ghost:hover{color:var(--ink);text-decoration-color:var(--amber);}
+  .btn-row{display:flex;flex-wrap:wrap;gap:0.9rem;align-items:center;}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:6.5rem 0 5.5rem;}
+  .hero::before{
+    content:'';position:absolute;top:-8rem;right:-10rem;width:36rem;height:36rem;
+    background:radial-gradient(circle, rgba(189,125,61,0.10), transparent 68%);
+    pointer-events:none;
+  }
+  .hero-inner{max-width:44rem;position:relative;}
+  .hero h1{font-size:3.1rem;line-height:1.16;margin:1.3rem 0 1.5rem;color:var(--ink);}
+  .hero h1 em{font-style:normal;color:var(--amber-bright);}
+  @media (max-width:720px){ .hero h1{font-size:2.1rem;} }
+  .hero-desc{font-size:1.06rem;color:var(--ink-dim);max-width:34rem;margin-bottom:2.2rem;}
+  .hero-note{font-family:var(--mono);font-size:0.72rem;color:var(--ink-faint);margin-top:1.4rem;}
+
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-soft);margin-top:3.5rem;padding-top:1.8rem;gap:2rem;max-width:44rem;}
+  @media (max-width:640px){ .stat-row{grid-template-columns:1fr;gap:1.4rem;} }
+  .stat-num{font-family:var(--head);font-size:1.6rem;color:var(--ink);font-weight:600;}
+  .stat-label{font-size:0.78rem;color:var(--ink-faint);margin-top:0.3rem;font-family:var(--mono);}
+
+  /* ---------- HOW IT WORKS ---------- */
+  .how{padding:6rem 0;background:var(--bg-raised);}
+  .section-head{max-width:36rem;margin-bottom:3.2rem;}
+  .section-head h2{font-size:1.95rem;color:var(--ink);margin-top:0.9rem;}
+  .section-head p{color:var(--ink-dim);margin-top:0.85rem;font-size:0.98rem;}
+
+  .steps{display:grid;grid-template-columns:1fr;border:1px solid var(--line-soft);background:var(--bg-raised-2);}
+  @media (min-width:820px){ .steps{grid-template-columns:repeat(2,1fr);} }
+  .step{padding:2.1rem;border-top:1px solid var(--line-soft);}
+  @media (min-width:820px){ .step{border-top:none;border-left:1px solid var(--line-soft);} .step:first-child{border-left:none;} }
+  .step-num{font-family:var(--mono);color:var(--amber);font-size:0.75rem;letter-spacing:0.04em;}
+  .step .icon{margin:0.9rem 0 0.7rem;}
+  .step h3{font-size:1.08rem;color:var(--ink);margin-bottom:0.6rem;font-weight:600;}
+  .step p{font-size:0.88rem;color:var(--ink-dim);}
+  
+  /* Variant styling for new steps */
+  .step.variant{display:flex;flex-direction:column;gap:0.8rem;}
+  .step.variant>p:first-of-type{color:var(--ink-dim);margin-bottom:1rem;font-size:0.9rem;}
+  .step.variant-sub{padding:1.6rem;background:var(--bg-raised-3);font-size:0.86rem;border-radius:3px;border-left:3px solid var(--amber);}
+  .step.variant-sub strong{color:var(--ink);display:block;margin-bottom:0.5rem;}
+  .step.variant-sub p{color:var(--ink-dim);font-size:0.85rem;line-height:1.5;}
+
+  /* ---------- SIGNATURE INTERFACE: SCAN RESULTS ---------- */
+  .feed-section{padding:6rem 0;}
+  .feed-section::before{
+    content:'';position:absolute;bottom:-14rem;left:-8rem;width:34rem;height:34rem;
+    background:radial-gradient(circle, rgba(92,113,102,0.08), transparent 70%);
+    pointer-events:none;
+  }
+  .feed-grid{display:grid;grid-template-columns:1fr;gap:3rem;align-items:center;position:relative;}
+  @media (min-width:960px){ .feed-grid{grid-template-columns:0.95fr 1.05fr;} }
+  .feed-copy h2{font-size:1.85rem;color:var(--ink);margin:0.9rem 0 1rem;}
+  .feed-copy p{color:var(--ink-dim);font-size:0.95rem;margin-bottom:1rem;}
+  .feed-copy ul{list-style:none;margin-top:1.3rem;display:flex;flex-direction:column;gap:0.55rem;}
+  .feed-copy li{font-size:0.86rem;color:var(--ink-dim);padding-left:1.1rem;position:relative;}
+  .feed-copy li::before{content:' ';position:absolute;left:0;color:var(--amber);}
+
+  /* Scan Results Panel */
+  .scan-panel{background:#08090a;border:1px solid var(--line);font-family:var(--mono);box-shadow:0 20px 44px -24px rgba(0,0,0,0.55);}
+  .scan-header{display:flex;align-items:center;justify-content:space-between;padding:1rem;border-bottom:1px solid var(--line-soft);background:linear-gradient(90deg, rgba(189,125,61,0.06) 0%, transparent 100%);font-size:0.75rem;color:var(--ink-faint);}
+  .scan-header-left{display:flex;align-items:center;gap:0.7rem;}
+  .scan-status{width:8px;height:8px;background:var(--ok);border-radius:50%;animation:pulse 2.4s ease-out infinite;}
+  .scan-body{padding:1.4rem;display:flex;flex-direction:column;gap:1.2rem;}
+  
+  .scan-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;padding:1rem;background:var(--bg-raised-2);border:1px solid var(--line-soft);margin-bottom:0.5rem;font-size:0.75rem;}
+  .scan-meta-item{display:flex;flex-direction:column;gap:0.3rem;}
+  .scan-meta-label{color:var(--ink-faint);}
+  .scan-meta-value{color:var(--ink);font-weight:500;font-size:0.9rem;}
+  .scan-meta-value.alert{color:var(--amber-bright);}
+
+  .result-item{border-left:3px solid var(--line);padding:0.9rem 0.9rem;background:rgba(0,0,0,0.2);}
+  .result-item.critical{border-left-color:var(--amber-bright);background:rgba(189,125,61,0.08);}
+  .result-item.medium{border-left-color:var(--amber);background:rgba(189,125,61,0.05);}
+  .result-item.low{border-left-color:var(--ok);}
+
+  .result-header{display:flex;justify-content:space-between;align-items:flex-start;gap:0.8rem;margin-bottom:0.5rem;}
+  .result-email{color:var(--ink);font-size:0.88rem;font-weight:500;}
+  .result-severity{font-size:0.72rem;padding:0.3rem 0.6rem;border-radius:2px;background:rgba(0,0,0,0.3);}
+  .result-severity.critical{background:rgba(224,162,90,0.2);color:var(--amber-bright);}
+  .result-severity.medium{background:rgba(189,125,61,0.2);color:var(--amber);}
+  .result-severity.low{background:rgba(92,113,102,0.2);color:var(--ok);}
+
+  .result-detail{font-size:0.8rem;color:var(--ink-dim);margin:0.4rem 0;padding:0.4rem 0;}
+  .result-source{color:var(--amber);font-size:0.78rem;}
+  .result-action{color:var(--ink-faint);font-size:0.75rem;margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid rgba(255,255,255,0.05);}
+
+  .scan-summary{padding:1rem;background:var(--bg-raised-3);border:1px solid var(--line-soft);border-radius:2px;font-size:0.85rem;}
+  .scan-summary p{color:var(--ink-dim);margin:0.3rem 0;}
+  .scan-summary strong{color:var(--ink);}
+
+  /* ---------- FEATURES ---------- */
+  .features{padding:6rem 0;background:var(--bg-raised);}
+  .features-grid{display:grid;grid-template-columns:1fr;border-top:1px solid var(--line-soft);border-left:1px solid var(--line-soft);background:var(--bg-raised-2);}
+  @media (min-width:720px){ .features-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (min-width:1080px){ .features-grid{grid-template-columns:repeat(3,1fr);} }
+  .feature{padding:2rem;border-right:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);transition:background .2s;}
+  .feature:hover{background:var(--bg-raised-3);}
+  .feature .icon{margin-bottom:0.9rem;}
+  .feature-mark{font-family:var(--mono);font-size:0.7rem;color:var(--ink-faint);}
+  .feature h3{font-size:1rem;color:var(--ink);margin:0.7rem 0 0.55rem;font-weight:600;}
+  .feature p{font-size:0.86rem;color:var(--ink-dim);}
+
+  /* ---------- ENGINEER REVIEW ---------- */
+  .engineer{padding:6rem 0;}
+  .engineer-card{border:1px solid var(--line);background:linear-gradient(160deg, var(--bg-raised-3), var(--bg-raised-2));display:grid;grid-template-columns:1fr;box-shadow:0 24px 50px -30px rgba(0,0,0,0.5);}
+  @media (min-width:860px){ .engineer-card{grid-template-columns:1fr 1.3fr;} }
+  .engineer-id{padding:2.4rem;border-bottom:1px solid var(--line-soft);display:flex;flex-direction:column;justify-content:center;gap:0.4rem;background-image:repeating-linear-gradient(135deg, rgba(189,125,61,0.05) 0 1px, transparent 1px 13px);}
+  @media (min-width:860px){ .engineer-id{border-bottom:none;border-right:1px solid var(--line-soft);} }
+  .engineer-id .matricule-label{font-family:var(--mono);font-size:0.68rem;color:var(--ink-faint);letter-spacing:0.1em;text-transform:uppercase;}
+  .engineer-id .matricule{font-family:var(--head);font-size:2.6rem;color:var(--ink);font-weight:700;}
+  .engineer-id .matricule-sub{font-family:var(--mono);font-size:0.72rem;color:var(--ink-faint);}
+  .engineer-body{padding:2.4rem;}
+  .engineer-body h2{font-size:1.6rem;color:var(--ink);margin-bottom:0.9rem;}
+  .engineer-body p{color:var(--ink-dim);font-size:0.93rem;margin-bottom:0.85rem;}
+
+  /* ---------- PRICING ---------- */
+  .pricing{padding:6rem 0;background:var(--bg-raised);}
+  .pricing-intro{max-width:36rem;margin-bottom:3.2rem;}
+  .pricing-grid{display:grid;grid-template-columns:1fr;gap:1.4rem;max-width:56rem;}
+  @media (min-width:780px){ .pricing-grid{grid-template-columns:1.15fr 1fr;} }
+  .price-card{border:1px solid var(--line);background:var(--bg-raised-2);padding:2.3rem;display:flex;flex-direction:column;gap:1.4rem;}
+  .price-card.featured{border-color:var(--amber-deep);background:linear-gradient(160deg, var(--bg-raised-3), var(--bg-raised-2));box-shadow:0 24px 50px -30px rgba(0,0,0,0.55);}
+  .price-card h3{font-size:1.15rem;color:var(--ink);font-weight:600;}
+  .price-card .tagline{font-family:var(--mono);font-size:0.7rem;color:var(--amber);margin-top:0.4rem;letter-spacing:0.03em;}
+  .price-amount{font-family:var(--head);font-size:1.9rem;color:var(--ink);font-weight:700;}
+  .price-amount span{font-size:0.82rem;color:var(--ink-faint);font-family:var(--sans);font-weight:400;}
+  .price-list{list-style:none;display:flex;flex-direction:column;gap:0.6rem;flex:1;}
+  .price-list li{font-size:0.86rem;color:var(--ink-dim);padding-left:1.1rem;position:relative;}
+  .price-list li::before{content:' ';position:absolute;left:0;color:var(--amber);}
+  .price-foot{font-size:0.74rem;color:var(--ink-faint);}
+  .price-actions{display:flex;flex-direction:column;gap:0.7rem;}
+  .price-actions-secondary{display:flex;flex-wrap:wrap;gap:0.6rem;}
+
+  /* ---------- FAQ ---------- */
+  .faq{padding:6rem 0;}
+  .faq-grid{display:grid;grid-template-columns:1fr;border-top:1px solid var(--line-soft);max-width:54rem;}
+  .faq-item{border-bottom:1px solid var(--line-soft);cursor:pointer;padding:1.4rem 0;}
+  .faq-item h3{font-size:0.96rem;font-weight:500;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:1rem;font-family:var(--sans);}
+  .faq-toggle{font-family:var(--mono);color:var(--amber);font-size:1.05rem;flex-shrink:0;transition:transform .25s;}
+  .faq-item.active .faq-toggle{transform:rotate(45deg);}
+  .faq-answer{max-height:0;overflow:hidden;transition:max-height .25s ease-out;}
+  .faq-answer p{font-size:0.87rem;color:var(--ink-dim);padding-top:0.85rem;max-width:40rem;}
+  .faq-item.active .faq-answer{max-height:20rem;}
+
+  /* ---------- FINAL CTA ---------- */
+  .final-cta{padding:6.5rem 0;text-align:center;background:var(--bg-raised);}
+  .final-cta::before{
+    content:'';position:absolute;bottom:-16rem;left:50%;transform:translateX(-50%);width:44rem;height:30rem;
+    background:radial-gradient(ellipse at center, rgba(189,125,61,0.09), transparent 70%);pointer-events:none;
+  }
+  .final-cta h2{font-size:2.1rem;color:var(--ink);max-width:32rem;margin:0.9rem auto 1rem;position:relative;}
+  .final-cta h2 em{font-style:normal;color:var(--amber-bright);}
+  .final-cta p{color:var(--ink-dim);max-width:28rem;margin:0 auto 2rem;position:relative;}
+  .final-actions{display:flex;justify-content:center;gap:0.9rem;flex-wrap:wrap;position:relative;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:2.6rem 0;background:#050506;}
+  footer .container{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;font-family:var(--mono);font-size:0.72rem;color:var(--ink-faint);}
+
+  /* ---------- MODAL ---------- */
+  .modal{display:none;position:fixed;inset:0;background:rgba(5,5,6,0.82);z-index:100;align-items:center;justify-content:center;padding:1rem;}
+  .modal.active{display:flex;}
+  .modal-content{background:var(--bg-raised-2);border:1px solid var(--line);max-width:26rem;width:100%;padding:2rem;display:flex;flex-direction:column;gap:1.2rem;}
+  .modal-header{display:flex;justify-content:space-between;align-items:flex-start;}
+  .modal-header h3{font-size:1.3rem;color:var(--ink);font-weight:600;}
+  .modal-close{background:none;border:none;color:var(--ink-faint);font-size:1.4rem;cursor:pointer;line-height:1;}
+  .modal-close:hover{color:var(--ink);}
+  .modal p{color:var(--ink-dim);font-size:0.85rem;font-family:var(--sans);}
+  .modal input{background:#050506;border:1px solid var(--line);color:var(--ink);padding:0.7rem 0.9rem;font-size:0.85rem;font-family:var(--sans);}
+  .modal input:focus{outline:none;border-color:var(--amber);}
+  .modal input::placeholder{color:var(--ink-faint);}
+  .modal .trust{font-size:0.72rem;color:var(--ink-faint);text-align:center;font-family:var(--mono);}
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <div class="logo">HEIMFLUX</div>
-            <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#pricing">Pricing</a>
-            </div>
+
+<div class="meta-bar">
+  <div class="container">
+    <div class="status"><span class="pulse"></span>Monitoring 150+ sources — updated weekly</div>
+    <span>Lyon, FR</span>
+  </div>
+</div>
+
+<nav>
+  <div class="container">
+    <div class="logo">Heimflux</div>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a class="nav-cta" href="#pricing">Get started</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-inner">
+    <p class="eyebrow">Breach detection & response</p>
+    <h1>Your employees are already compromised. <em>You just don't know it yet.</em></h1>
+    <p class="hero-desc">
+      We check every employee email against 150+ public breach databases and dark web sources—
+      LinkedIn, GitHub, Twitch, Twitter and more—and a security engineer reviews the results
+      before they reach you. Start scanning today, or talk to our CEO first.
+    </p>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="openScanModal()">Start a free scan</button>
+      <a href="https://cal.com/" class="btn btn-secondary">Talk to our CEO</a>
+    </div>
+    <p class="hero-note">No card required · results reviewed within 24h</p>
+
+    <div class="stat-row">
+      <div><div class="stat-num">20 to 100+</div><div class="stat-label">Exposed credentials found per company, on average</div></div>
+      <div><div class="stat-num">150+</div><div class="stat-label">Breach databases & dark web sources checked weekly</div></div>
+      <div><div class="stat-num">24h</div><div class="stat-label">Analysis time from domain submitted to reviewed report delivered</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Workflow</p>
+      <h2>Two pathways, one mission: protect your team</h2>
+      <p>Choose how you want to start. Either path connects you to comprehensive, engineer reviewed breach detection.</p>
+    </div>
+    <div class="steps">
+      <div class="step variant">
+        <div style="font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem;">Standard Path</div>
+        <p>You subscribe and provide company details. We handle the rest, every week.</p>
+        
+        <div class="step variant-sub">
+          <strong>1. Subscribe & Set Up</strong>
+          <p>Provide your company domain and employee information (stored in full GDPR compliance). No infrastructure access needed.</p>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <p class="eyebrow">Breach Detection & Response</p>
-                
-                <h1>
-                    Your employees are already compromised.
-                    <span class="accent">You just don't know it yet.</span>
-                </h1>
-
-                <p class="hero-description">
-                    We scan 150+ public breach databases and dark web forums. LinkedIn, GitHub, Twitch, Twitter, and more. When your employees' credentials appear, you're the first to know.
-                </p>
-
-                <div class="breach-box">
-                    <div class="breach-number">20–100+</div>
-                    <p class="breach-label">Typical findings per company</p>
-                    <div class="breach-details">
-                        <p>LinkedIn data breaches</p>
-                        <p>GitHub, Twitch, Twitter leaks</p>
-                        <p>Dark web forums & markets</p>
-                        <p>145+ other public databases</p>
-                    </div>
-                </div>
-
-                <div class="cta-group">
-                    <a href="#pricing" class="btn btn-primary" style="text-decoration: none; text-align: center;">Subscribe Now</a>
-                    <button class="btn btn-secondary" onclick="openScanModal()">Try Free Scan</button>
-                    <a href="https://cal.com/" class="btn btn-tertiary" style="text-decoration: none; text-align: center;">Talk to CEO</a>
-                </div>
-
-                <p class="trust-signal">No credit card. Results in 24 hours. Used by 200+ companies.</p>
-            </div>
-
-            <div class="dashboard-mock">
-                <div class="mock-label">SAMPLE SCAN RESULT</div>
-                <div class="mock-content">
-                    <div>
-                        <div class="progress-bar">
-                            <span class="progress-label">Breach Detection</span>
-                            <span class="progress-value">100%</span>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-fill"></div>
-                        </div>
-                    </div>
-
-                    <div class="threats-list">
-                        <p class="threat-label">Top Threats</p>
-                        <div class="threat-item">
-                            <span class="threat-name">Credential Theft</span>
-                            <div class="threat-bar">
-                                <div class="threat-fill" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div class="threat-item">
-                            <span class="threat-name">Account Takeover</span>
-                            <div class="threat-bar">
-                                <div class="threat-fill" style="width: 72%"></div>
-                            </div>
-                        </div>
-                        <div class="threat-item">
-                            <span class="threat-name">Data Exfiltration</span>
-                            <div class="threat-bar">
-                                <div class="threat-fill" style="width: 59%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mock-footer">
-                        <p>Weekly automated rescans</p>
-                        <p class="threat">New threats detected: 3</p>
-                    </div>
-                </div>
-            </div>
+        
+        <div class="step variant-sub">
+          <strong>2. Automated Weekly Scan</strong>
+          <p>Every Monday, we scan all 150+ sources and cross reference against your verified employee list, looking for exposed credentials.</p>
         </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="how-it-works">
-        <div class="container">
-            <h2>Three things happen when you sign up</h2>
-            <div class="steps-grid">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Scan your domain instantly</h3>
-                    <p>No account needed. Enter your domain, we scan 150+ databases and dark web forums.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Get your results</h3>
-                    <p>See exactly which employees are compromised and where their data leaked from. Results in 24 hours.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Subscribe for ongoing protection</h3>
-                    <p>Get weekly automated scans, alerts, and remediation guidance. First month free if you're not satisfied, cancel anytime.</p>
-                </div>
-            </div>
+        
+        <div class="step variant-sub">
+          <strong>3. Engineer + Bot Review</strong>
+          <p>Our system filters noise, our engineer validates findings, and your report arrives before the week is done. Never a false positive you can't act on.</p>
         </div>
-    </section>
+      </div>
 
-    <!-- Features -->
-    <section class="features" id="features">
-        <div class="container">
-            <h2>Everything a CISO needs</h2>
-            <div class="features-grid">
-                <div class="feature">
-                    <h3>Live Dashboard</h3>
-                    <p>See all compromised employees. Historical data. Trending analysis.</p>
-                </div>
-                <div class="feature">
-                    <h3>Weekly Automation</h3>
-                    <p>Automated scans every week across 150+ databases and dark web forums. New threats detected immediately.</p>
-                </div>
-                <div class="feature">
-                    <h3>Smart Alerts</h3>
-                    <p>Email + Slack + Teams notifications. Severity-based. Actionable.</p>
-                </div>
-                <div class="feature">
-                    <h3>Compliance Reports</h3>
-                    <p>GDPR, ISO 27001, SOC 2. Auto-generated for audits.</p>
-                </div>
-                <div class="feature">
-                    <h3>Remediation Guidance</h3>
-                    <p>Step-by-step fix instructions for each compromise.</p>
-                </div>
-                <div class="feature">
-                    <h3>Team Coordination</h3>
-                    <p>Assign fixes. Track completion. Prove compliance.</p>
-                </div>
-            </div>
+      <div class="step variant">
+        <div style="font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem;">Free Trial Path</div>
+        <p>No subscription needed. One scan, one report, zero commitment.</p>
+        
+        <div class="step variant-sub">
+          <strong>1. Submit Your Domain</strong>
+          <p>Enter your company domain on this page. No account, no card required.</p>
         </div>
-    </section>
-
-    <!-- Pricing -->
-    <section class="pricing" id="pricing">
-        <div class="container">
-            <h2>Simple, transparent pricing</h2>
-            
-            <div style="max-width: 48rem; margin: 0 auto 4rem; text-align: center; color: #9ca3af; font-size: 0.875rem; line-height: 1.6;">
-                <p><strong>Start free:</strong> Your first scan is on us. If you're not satisfied, cancel anytime. No charge.</p>
-            </div>
-
-            <div class="pricing-grid" style="grid-template-columns: 1fr 1fr; max-width: 64rem; margin: 0 auto; gap: 1.5rem;">
-                <div class="price-card featured">
-                    <div>
-                        <h3>Complete Plan</h3>
-                        <p class="badge">All you need</p>
-                    </div>
-                    <div>
-                        <div class="price-display">
-                            <span class="price-amount">€300</span>
-                            <span class="price-period">/month</span>
-                        </div>
-                    </div>
-                    <ul class="features-list">
-                        <li>Weekly automated scans</li>
-                        <li>Live dashboard</li>
-                        <li>Email + Slack + Teams alerts</li>
-                        <li>Dark web monitoring</li>
-                        <li>Employee breach history</li>
-                        <li>Compliance reports (GDPR, ISO 27001, SOC 2)</li>
-                        <li>Remediation guidance</li>
-                        <li>API access</li>
-                        <li>Monthly 15-min CEO call</li>
-                    </ul>
-                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                        <button class="btn btn-secondary" onclick="openScanModal()">Try Free Scan</button>
-                        <a href="https://stripe.com/" class="btn btn-primary" style="text-decoration: none; text-align: center;">Subscribe Now</a>
-                    </div>
-                    <p style="font-size: 0.75rem; color: #6b7280; text-align: center; margin-top: 1rem;">First scan free. Cancel anytime if not satisfied.</p>
-                </div>
-
-                <div class="price-card">
-                    <div>
-                        <h3>Enterprise</h3>
-                    </div>
-                    <div>
-                        <div class="price-display">
-                            <span class="price-amount">Custom</span>
-                        </div>
-                    </div>
-                    <ul class="features-list">
-                        <li>Everything included</li>
-                        <li>Dedicated account manager</li>
-                        <li>White-label option</li>
-                        <li>Custom integrations</li>
-                        <li>Advanced API features</li>
-                        <li>Priority support</li>
-                    </ul>
-                    <button class="btn btn-secondary" onclick="window.location.href='https://cal.com/'">Talk to CEO</button>
-                </div>
-            </div>
+        
+        <div class="step variant-sub">
+          <strong>2. One Complete Scan</strong>
+          <p>We run a one time scan against all 150+ sources and deliver a comprehensive snapshot of exposed employee credentials.</p>
         </div>
-    </section>
-
-    <!-- Final CTA -->
-    <section class="final-cta">
-        <div class="container">
-            <h2>
-                Stop being reactive.
-                <span class="accent">Start being proactive.</span>
-            </h2>
-            <p>Scan your domain. See your risk. Take action. No credit card required.</p>
-            <div class="cta-buttons">
-                <a href="#pricing" class="btn btn-primary" style="text-decoration: none; text-align: center;">Subscribe Now</a>
-                <button class="btn btn-secondary" onclick="openScanModal()">Try Free Scan</button>
-                <a href="https://cal.com/" class="btn btn-tertiary" style="text-decoration: none; text-align: center;">Talk to CEO</a>
-            </div>
+        
+        <div class="step variant-sub">
+          <strong>3. Reviewed Report</strong>
+          <p>An engineer reviews every finding and delivers your report within 24 hours. Then it's up to you—move to weekly monitoring, or walk away.</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- FAQ -->
-    <section class="faq" id="faq">
-        <div class="container">
-            <h2>Questions & Answers</h2>
-            <div class="faq-grid">
-                <div class="faq-item" onclick="toggleFaq(this)">
-                    <h3>
-                        What happens if I'm not satisfied?
-                        <span class="faq-toggle">+</span>
-                    </h3>
-                    <div class="faq-answer">
-                        <p>Your first scan is completely free. If you decide to subscribe, you can cancel anytime within the first 30 days with no charges. We're confident in our results, but if we're not right for you, there's no penalty.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item" onclick="toggleFaq(this)">
-                    <h3>
-                        How long does a scan take?
-                        <span class="faq-toggle">+</span>
-                    </h3>
-                    <div class="faq-answer">
-                        <p>The initial scan runs in about 15 minutes after you enter your domain. Full results are delivered within 24 hours. After that, weekly scans run automatically every Monday morning.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item" onclick="toggleFaq(this)">
-                    <h3>
-                        Do you need access to my systems?
-                        <span class="faq-toggle">+</span>
-                    </h3>
-                    <div class="faq-answer">
-                        <p>No. We only need your company domain. We scan 150+ public breach databases and darkweb forums. No VPN, no infrastructure access, no API integrations required to start. Optional integrations come later if you want them.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item" onclick="toggleFaq(this)">
-                    <h3>
-                        What if an employee left months ago?
-                        <span class="faq-toggle">+</span>
-                    </h3>
-                    <div class="faq-answer">
-                        <p>We'll still alert you if their credentials appear in a breach. Former employees often reuse passwords at new companies. Compromised credentials are a liability either way. The dashboard lets you filter by current/former status.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item" onclick="toggleFaq(this)">
-                    <h3>
-                        Can I cancel mid-month?
-                        <span class="faq-toggle">+</span>
-                    </h3>
-                    <div class="faq-answer">
-                        <p>Yes. Cancel anytime and you won't be charged for the next cycle. No long-term contract, no early termination fees. If you cancel during your first 30 days, you pay nothing at all.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item" onclick="toggleFaq(this)">
-                    <h3>
-                        What's included in the CEO call?
-                        <span class="faq-toggle">+</span>
-                    </h3>
-                    <div class="faq-answer">
-                        <p>A 15-minute monthly call with our CEO to review your breach findings, discuss your security posture, answer questions, and help you prioritize fixes. It's tactical, not sales. You can reschedule if needed.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item" onclick="toggleFaq(this)">
-                    <h3>
-                        How do compliance reports work?
-                        <span class="faq-toggle">+</span>
-                    </h3>
-                    <div class="faq-answer">
-                        <p>We auto-generate reports for GDPR, ISO 27001, and SOC 2 audits. They show when breaches were detected, which employees were affected, and what steps you took to remediate. Everything is timestamped for audit trails.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item" onclick="toggleFaq(this)">
-                    <h3>
-                        Can I integrate with our SIEM?
-                        <span class="faq-toggle">+</span>
-                    </h3>
-                    <div class="faq-answer">
-                        <p>Yes. The Complete Plan includes API access. You can pull scan data, set up webhooks, and integrate with Slack, Teams, or custom tools. Enterprise plans support deeper integrations with your security stack.</p>
-                    </div>
-                </div>
-            </div>
+<!-- SIGNATURE INTERFACE -->
+<section class="feed-section">
+  <div class="container feed-grid">
+    <div class="feed-copy">
+      <p class="eyebrow">What results look like</p>
+      <h2>Real data, real action</h2>
+      <p>Every scan walks through the same 150+ sources and surfaces exact matches with full context. You see the account, the breach source, and what to do about it.</p>
+      <ul>
+        <li>Cross referenced against your verified employee domain</li>
+        <li>Deduplicated across sources before reaching your report</li>
+        <li>Timestamped for GDPR, ISO 27001 and SOC 2 audit trails</li>
+      </ul>
+    </div>
+    <div class="scan-panel">
+      <div class="scan-header">
+        <div class="scan-header-left">
+          <span class="scan-status"></span>
+          <span>acme corp.com scan results</span>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div>HEIMFLUX © 2024</div>
-            <div>Security breaches don't wait. Neither do we.</div>
+        <span>Completed 2 hours ago</span>
+      </div>
+      <div class="scan-body">
+        <div class="scan-meta">
+          <div class="scan-meta-item">
+            <span class="scan-meta-label">Employees scanned</span>
+            <span class="scan-meta-value">247</span>
+          </div>
+          <div class="scan-meta-item">
+            <span class="scan-meta-label">Credentials found</span>
+            <span class="scan-meta-value alert">18</span>
+          </div>
+          <div class="scan-meta-item">
+            <span class="scan-meta-label">Action required</span>
+            <span class="scan-meta-value alert">8</span>
+          </div>
         </div>
-    </footer>
 
-    <!-- Modals -->
-    <div id="scanModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Scan your domain</h3>
-                <button class="modal-close" onclick="closeScanModal()">×</button>
-            </div>
-            <p>Enter your company domain to check against 150+ databases and dark web forums.</p>
-            <input type="email" placeholder="your@company.com" />
-            <input type="text" placeholder="company.com" />
-            <button class="btn btn-primary">Start Scan</button>
-            <p class="trust">Results in 24 hours. No credit card required.</p>
+        <div class="result-item critical">
+          <div class="result-header">
+            <span class="result-email">alice.johnson@acme corp.com</span>
+            <span class="result-severity critical">CRITICAL</span>
+          </div>
+          <div class="result-detail">Found in: LinkedIn data breach (2021) + Twitter breach (2023)</div>
+          <div class="result-detail">Password: Exposed in plaintext</div>
+          <div class="result-source">Sources: linkedin_2021_leaked.db, twitter_2023.db</div>
+          <div class="result-action">Action: Force password reset immediately</div>
         </div>
+
+        <div class="result-item critical">
+          <div class="result-header">
+            <span class="result-email">michael.chen@acme corp.com</span>
+            <span class="result-severity critical">CRITICAL</span>
+          </div>
+          <div class="result-detail">Found in: Github + Twitch combo breach data</div>
+          <div class="result-detail">Email & hashed password discovered</div>
+          <div class="result-source">Source: github_twitch_combo_2024.db</div>
+          <div class="result-action">Action: Force reset, monitor for account takeover</div>
+        </div>
+
+        <div class="result-item medium">
+          <div class="result-header">
+            <span class="result-email">sarah.martinez@acme corp.com</span>
+            <span class="result-severity medium">MEDIUM</span>
+          </div>
+          <div class="result-detail">Found in: Reddit credential dumps</div>
+          <div class="result-detail">Email only, no password attached</div>
+          <div class="result-source">Source: reddit_leaks_q1_2024.db</div>
+          <div class="result-action">Action: Email security awareness notice</div>
+        </div>
+
+        <div class="scan-summary">
+          <p><strong>Next steps:</strong> Your assigned security engineer (N°0421) has reviewed all 18 findings. The 8 critical items need immediate password resets. We've drafted reset instructions for each user.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Coverage</p>
+      <h2>Everything a security lead needs to prove the work is done</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature">
+        <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="5"/><rect x="13" y="10" width="8" height="11"/><rect x="3" y="13" width="8" height="8"/></svg>
+        <div class="feature-mark">01</div><h3>Live dashboard</h3><p>Every compromised employee, historical trend lines, and severity at a glance.</p>
+      </div>
+      <div class="feature">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M20 11a8 8 0 10-2.6 5.9"/><path d="M20 5v6h-6"/></svg>
+        <div class="feature-mark">02</div><h3>Weekly automation</h3><p>Automated rescans every week across all 150+ sources. New threats surfaced immediately.</p>
+      </div>
+      <div class="feature">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 3v6M12 21v-6M5 12H3M21 12h-2"/><circle cx="12" cy="12" r="3"/></svg>
+        <div class="feature-mark">03</div><h3>Smart alerts</h3><p>Email, Slack and Teams notifications, ranked by severity so nothing urgent gets buried.</p>
+      </div>
+      <div class="feature">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></svg>
+        <div class="feature-mark">04</div><h3>Compliance reports</h3><p>Auto generated, timestamped reports for GDPR, ISO 27001 and SOC 2 audits.</p>
+      </div>
+      <div class="feature">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M14.7 6.3l3 3-8 8-4 1 1-4 8-8z"/></svg>
+        <div class="feature-mark">05</div><h3>Remediation guidance</h3><p>Step by step fix instructions for every compromise, written for the person who has to act on it.</p>
+      </div>
+      <div class="feature">
+        <svg class="icon" viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="10" rx="1"/><path d="M8 9V6a4 4 0 018 0v3"/></svg>
+        <div class="feature-mark">06</div><h3>API & integrations</h3><p>Pull scan data or push it into your SIEM with webhooks and a documented API.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENGINEER REVIEW -->
+<section class="engineer">
+  <div class="container">
+    <div class="engineer-card">
+      <div class="engineer-id">
+        <div class="matricule-label">Reviewed by</div>
+        <div class="matricule">N°0417</div>
+        <div class="matricule-sub">Security engineer · signs off every report</div>
+      </div>
+      <div class="engineer-body">
+        <p class="eyebrow">Why not just an algorithm</p>
+        <h2>A human checks every finding before you do</h2>
+        <p>Automated scanners produce noise—reused test accounts, expired credentials, false positives that waste your team's time. Every HeimFlux report is reviewed and signed off by a named engineer before it reaches you, so what you see is what actually needs action.</p>
+        <p>Start your scan directly, or talk to our CEO first if you'd rather walk through your domain and team structure before anything runs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="pricing-intro section-head">
+      <p class="eyebrow">Pricing</p>
+      <h2>Simple, transparent pricing</h2>
+      <p>Subscribe directly, start with a free scan, or talk to our CEO first. Nothing is charged until you confirm.</p>
     </div>
 
-    <div id="callModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Talk to Our CEO</h3>
-                <button class="modal-close" onclick="closeCallModal()">×</button>
-            </div>
-            <p>Schedule a 15-minute call with our CEO to review your breach findings and discuss your security posture.</p>
-            <input type="text" placeholder="Your name" />
-            <input type="email" placeholder="your@company.com" />
-            <button class="btn btn-primary">Schedule 15-min Call</button>
-            <p class="trust">We typically respond within 1 hour.</p>
+    <div class="pricing-grid">
+      <div class="price-card featured">
+        <div><h3>Complete Plan</h3><p class="tagline">Weekly monitoring, fully reviewed</p></div>
+        <div class="price-amount">€300<span> / month</span></div>
+        <ul class="price-list">
+          <li>Weekly automated scans, engineer reviewed</li>
+          <li>Live dashboard with historical trends</li>
+          <li>Email, Slack & Teams alerts</li>
+          <li>Dark web monitoring</li>
+          <li>Compliance reports (GDPR, ISO 27001, SOC 2)</li>
+          <li>Remediation guidance per finding</li>
+          <li>API access</li>
+          <li>Monthly 15 min call with our CEO</li>
+        </ul>
+        <div class="price-actions">
+          <a href="https://stripe.com/" class="btn btn-primary">Subscribe now</a>
+          <div class="price-actions-secondary">
+            <button class="btn btn-ghost" onclick="openScanModal()">Start a free scan</button>
+            <a href="https://cal.com/" class="btn btn-ghost">Talk to our CEO</a>
+          </div>
         </div>
+        <p class="price-foot">First scan free either way. No charge until you confirm.</p>
+      </div>
+
+      <div class="price-card">
+        <div><h3>Enterprise</h3><p class="tagline">For multi domain & regulated teams</p></div>
+        <div class="price-amount">Custom</div>
+        <ul class="price-list">
+          <li>Everything in Complete</li>
+          <li>Dedicated account engineer</li>
+          <li>White label reporting option</li>
+          <li>Custom integrations</li>
+          <li>Priority response SLA</li>
+        </ul>
+        <a href="https://cal.com/" class="btn btn-secondary">Talk to our CEO</a>
+      </div>
     </div>
+  </div>
+</section>
 
-    <script>
-        function openScanModal() {
-            document.getElementById('scanModal').classList.add('active');
-        }
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Questions</p>
+      <h2>Answers before you start</h2>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item" onclick="toggleFaq(this)"><h3>Do I have to talk to someone to get started? <span class="faq-toggle">+</span></h3><div class="faq-answer"><p>No. You can run a free scan or subscribe directly from this page. Talking to our CEO is there if you'd rather scope your domain and needs before anything runs.</p></div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><h3>How long does the first scan take? <span class="faq-toggle">+</span></h3><div class="faq-answer"><p>The scan itself runs in about 15 minutes. An engineer then reviews the results and delivers a report within 24 hours.</p></div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><h3>Do you need access to our systems? <span class="faq-toggle">+</span></h3><div class="faq-answer"><p>No. We only need your company domain. No VPN, no infrastructure access, no mandatory integrations. Optional SIEM integrations come later if you want them.</p></div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><h3>What about employees who've already left? <span class="faq-toggle">+</span></h3><div class="faq-answer"><p>We still flag them. Former employees reuse passwords at new companies, so their exposure remains a liability. The dashboard lets you filter by current or former status.</p></div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><h3>Can I cancel? <span class="faq-toggle">+</span></h3><div class="faq-answer"><p>Yes, anytime. No long term contract and no early termination fee. Nothing is charged during the free first scan.</p></div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><h3>How do compliance reports work? <span class="faq-toggle">+</span></h3><div class="faq-answer"><p>We auto generate timestamped reports for GDPR, ISO 27001 and SOC 2 audits, showing when each breach was detected and what remediation steps were taken.</p></div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><h3>Can I integrate with our SIEM? <span class="faq-toggle">+</span></h3><div class="faq-answer"><p>Yes. The Complete Plan includes API access and webhooks for Slack, Teams or custom tooling. Enterprise supports deeper integrations.</p></div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><h3>Who reviews my report? <span class="faq-toggle">+</span></h3><div class="faq-answer"><p>A named engineer, identified by matricule number on every report you receive. So you always know who signed off on it and can ask them directly.</p></div></div>
+    </div>
+  </div>
+</section>
 
-        function closeScanModal() {
-            document.getElementById('scanModal').classList.remove('active');
-        }
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <p class="eyebrow" style="justify-content:center;">Get started</p>
+    <h2>Stop being reactive. <em>Start being proactive.</em></h2>
+    <p>Run a free scan now, subscribe directly, or talk to our CEO first. Whichever you'd rather do.</p>
+    <div class="final-actions">
+      <button class="btn btn-primary" onclick="openScanModal()">Start a free scan</button>
+      <a href="https://cal.com/" class="btn btn-secondary">Talk to our CEO</a>
+    </div>
+  </div>
+</section>
 
-        function openCallModal() {
-            document.getElementById('callModal').classList.add('active');
-        }
+<footer>
+  <div class="container">
+    <div>HEIMFLUX © 2026</div>
+    <div>Security breaches don't wait. Neither do we.</div>
+  </div>
+</footer>
 
-        function closeCallModal() {
-            document.getElementById('callModal').classList.remove('active');
-        }
+<!-- Single functional modal -->
+<div id="scanModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Scan your domain</h3>
+      <button class="modal-close" onclick="closeScanModal()">×</button>
+    </div>
+    <p>Enter your company domain and we'll check it against 150+ breach databases and dark web sources.</p>
+    <input type="email" placeholder="your@company.com" />
+    <input type="text" placeholder="company.com" />
+    <button class="btn btn-primary">Run scan</button>
+    <p class="trust">Reviewed by an engineer within 24h. No card required.</p>
+  </div>
+</div>
 
-        // Close modal when clicking outside
-        document.addEventListener('click', function(event) {
-            const scanModal = document.getElementById('scanModal');
-            const callModal = document.getElementById('callModal');
-            
-            if (event.target === scanModal) {
-                closeScanModal();
-            }
-            if (event.target === callModal) {
-                closeCallModal();
-            }
-        });
+<script>
+  function openScanModal(){ document.getElementById('scanModal').classList.add('active'); }
+  function closeScanModal(){ document.getElementById('scanModal').classList.remove('active'); }
+  document.addEventListener('click', e => { if(e.target.id === 'scanModal') closeScanModal(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeScanModal(); });
+  function toggleFaq(el){ el.classList.toggle('active'); }
+</script>
 
-        // Close modal on Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeScanModal();
-                closeCallModal();
-            }
-        });
-
-        // FAQ Toggle
-        function toggleFaq(element) {
-            element.classList.toggle('active');
-        }
-    </script>
 </body>
 </html>
