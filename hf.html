@@ -6,7 +6,7 @@
 <title>HeimFlux — Breach Detection &amp; Response</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg: #0a0a0b;
@@ -24,7 +24,7 @@
     --ok: #5c7166;
     --head: 'Inter Tight', -apple-system, sans-serif;
     --sans: 'Inter', -apple-system, sans-serif;
-    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --mono: 'Menlo', 'Consolas', monospace;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -299,7 +299,7 @@
       <button class="btn btn-primary" onclick="openScanModal()">Start a free scan</button>
       <a href="https://cal.com/" class="btn btn-secondary">Talk to our CEO</a>
     </div>
-    <p class="hero-note">No card required · results reviewed within 24h</p>
+    <p class="hero-note">No card required · results reviewed within 24h · or subscribe for weekly monitoring</p>
 
     <div class="stat-row">
       <div><div class="stat-num">20 to 100+</div><div class="stat-label">Exposed credentials found per company, on average</div></div>
@@ -313,49 +313,28 @@
 <section class="how" id="how">
   <div class="container">
     <div class="section-head">
-      <p class="eyebrow">Workflow</p>
-      <h2>Two pathways, one mission: protect your team</h2>
-      <p>Choose how you want to start. Either path connects you to comprehensive, engineer reviewed breach detection.</p>
+      <p class="eyebrow">Process</p>
+      <h2>From domain to remediated risk, in three steps</h2>
+      <p>No agents to install, no infrastructure access required. We start with a domain and end with a plan your team can act on.</p>
     </div>
     <div class="steps">
-      <div class="step variant">
-        <div style="font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem;">Standard Path</div>
-        <p>You subscribe and provide company details. We handle the rest, every week.</p>
-        
-        <div class="step variant-sub">
-          <strong>1. Subscribe & Set Up</strong>
-          <p>Provide your company domain and employee information (stored in full GDPR compliance). No infrastructure access needed.</p>
-        </div>
-        
-        <div class="step variant-sub">
-          <strong>2. Automated Weekly Scan</strong>
-          <p>Every Monday, we scan all 150+ sources and cross reference against your verified employee list, looking for exposed credentials.</p>
-        </div>
-        
-        <div class="step variant-sub">
-          <strong>3. Engineer + Bot Review</strong>
-          <p>Our system filters noise, our engineer validates findings, and your report arrives before the week is done. Never a false positive you can't act on.</p>
-        </div>
+      <div class="step">
+        <div class="step-num">01 / Scan</div>
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="19" y1="19" x2="15" y2="15"/></svg>
+        <h3>Submit your domain</h3>
+        <p>Provide your company domain and basic information. Start a free scan immediately, or subscribe for weekly automated monitoring.</p>
       </div>
-
-      <div class="step variant">
-        <div style="font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem;">Free Trial Path</div>
-        <p>No subscription needed. One scan, one report, zero commitment.</p>
-        
-        <div class="step variant-sub">
-          <strong>1. Submit Your Domain</strong>
-          <p>Enter your company domain on this page. No account, no card required.</p>
-        </div>
-        
-        <div class="step variant-sub">
-          <strong>2. One Complete Scan</strong>
-          <p>We run a one time scan against all 150+ sources and deliver a comprehensive snapshot of exposed employee credentials.</p>
-        </div>
-        
-        <div class="step variant-sub">
-          <strong>3. Reviewed Report</strong>
-          <p>An engineer reviews every finding and delivers your report within 24 hours. Then it's up to you—move to weekly monitoring, or walk away.</p>
-        </div>
+      <div class="step">
+        <div class="step-num">02 / Review</div>
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>
+        <h3>An engineer checks the results</h3>
+        <p>Every hit is reviewed by a named security engineer before it reaches you, filtering noise so you only see what's actionable.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03 / Protect</div>
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></svg>
+        <h3>Ongoing protection</h3>
+        <p>After your first scan, choose your path: stay free with a one time report, or subscribe for weekly rescans and continuous monitoring.</p>
       </div>
     </div>
   </div>
@@ -369,7 +348,7 @@
       <h2>Real data, real action</h2>
       <p>Every scan walks through the same 150+ sources and surfaces exact matches with full context. You see the account, the breach source, and what to do about it.</p>
       <ul>
-        <li>Cross referenced against your verified employee domain</li>
+        <li>Cross referenced against your company domain</li>
         <li>Deduplicated across sources before reaching your report</li>
         <li>Timestamped for GDPR, ISO 27001 and SOC 2 audit trails</li>
       </ul>
@@ -378,7 +357,7 @@
       <div class="scan-header">
         <div class="scan-header-left">
           <span class="scan-status"></span>
-          <span>acme corp.com scan results</span>
+          <span>acme corp.com breach scan</span>
         </div>
         <span>Completed 2 hours ago</span>
       </div>
@@ -504,10 +483,26 @@
     </div>
 
     <div class="pricing-grid">
+      <div class="price-card">
+        <div><h3>Free Scan</h3><p class="tagline">One report, no commitment</p></div>
+        <div class="price-amount">€0<span></span></div>
+        <ul class="price-list">
+          <li>One complete scan against 150+ sources</li>
+          <li>Reviewed by security engineer</li>
+          <li>Report delivered within 24h</li>
+          <li>Full remediation guidance</li>
+        </ul>
+        <div class="price-actions">
+          <button class="btn btn-primary" onclick="openScanModal()">Start now</button>
+        </div>
+        <p class="price-foot">No card required. Try it risk free.</p>
+      </div>
+
       <div class="price-card featured">
         <div><h3>Complete Plan</h3><p class="tagline">Weekly monitoring, fully reviewed</p></div>
         <div class="price-amount">€300<span> / month</span></div>
         <ul class="price-list">
+          <li>First scan free to evaluate</li>
           <li>Weekly automated scans, engineer reviewed</li>
           <li>Live dashboard with historical trends</li>
           <li>Email, Slack & Teams alerts</li>
