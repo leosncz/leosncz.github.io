@@ -311,7 +311,7 @@
     <h1>Your employees are already compromised. <em>You just don't know it yet.</em></h1>
     <p class="hero-desc">
       We check your employees' professional email addresses against 150+ public breach databases and dark web sources:
-      LinkedIn, GitHub, Twitch, Twitter and more. A security engineer reviews the results
+      Adobe, Canva, GitHub, darknet marketplace and more. A security engineer reviews the results
       before they reach you.
     </p>
     <p class="hero-clarify"><strong>What we actually scan:</strong> only the professional email address (for example firstname.lastname@yourcompany.com) as it appears in third party breach data. We never access personal accounts, personal inboxes, or any data belonging to your employees outside of what has already been exposed in a public breach tied to their work email.</p>
@@ -422,9 +422,9 @@
             <span class="result-email">alice.johnson@acmecorp.com</span>
             <span class="result-severity critical">CRITICAL</span>
           </div>
-          <div class="result-detail">Found in: LinkedIn data breach (2021) plus Twitter breach (2023)</div>
+          <div class="result-detail">Found in: Adobe data breach (2013) plus infostealer log (2024)</div>
           <div class="result-detail">Password: Exposed in plaintext</div>
-          <div class="result-source">Sources: linkedin_2021_leaked.db, twitter_2023.db</div>
+          <div class="result-source">Sources: adobe_2013_leaked.db, redline_stealer_2024.db</div>
           <div class="result-action">Action: Force password reset immediately</div>
         </div>
 
@@ -433,9 +433,9 @@
             <span class="result-email">michael.chen@acmecorp.com</span>
             <span class="result-severity critical">CRITICAL</span>
           </div>
-          <div class="result-detail">Found in: GitHub plus Twitch combo breach data</div>
+          <div class="result-detail">Found in: RedLine infostealer log, browser credentials exfiltrated from infected workstation</div>
           <div class="result-detail">Email and hashed password discovered</div>
-          <div class="result-source">Source: github_twitch_combo_2024.db</div>
+          <div class="result-source">Source: redline_stealer_2024.db</div>
           <div class="result-action">Action: Force reset, monitor for account takeover</div>
         </div>
 
@@ -513,7 +513,7 @@
           <div class="exchange-head"><span>Thread, report #4821</span><span>Engineer N°0417</span></div>
           <div class="exchange-body">
             <div class="msg msg-client">Is the finding on m.chen@acmecorp.com still current, or is that a 2022 password we already rotated?<div class="msg-meta">You, 09:14</div></div>
-            <div class="msg msg-engineer">Checked. That credential surfaced in a 2024 combo list (github_twitch_combo_2024.db), separate from the 2022 breach. Different password hash, so this one is live. Recommend reset today.<div class="msg-meta">N°0417, 11:52, 2h38 response time</div></div>
+            <div class="msg msg-engineer">Checked. That credential surfaced in a 2024 infostealer log (redline_stealer_2024.db), separate from the 2013 Adobe breach. Different password hash, so this one is live. Recommend reset today.<div class="msg-meta">N°0417, 11:52, 2h38 response time</div></div>
           </div>
         </div>
       </div>
