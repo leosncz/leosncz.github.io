@@ -241,6 +241,14 @@
   .price-foot{font-size:0.74rem;color:var(--ink-faint);}
   .price-actions{display:flex;flex-direction:column;gap:0.7rem;}
 
+  /* TERMS CHECKBOX */
+  .terms-checkbox{display:flex;flex-direction:column;gap:0.8rem;padding:1rem;background:rgba(189,125,61,0.04);border:1px solid var(--line-soft);border-radius:2px;margin:0.7rem 0;}
+  .checkbox-item{display:flex;align-items:flex-start;gap:0.6rem;}
+  .checkbox-item input[type="checkbox"]{width:18px;height:18px;margin-top:0.3rem;cursor:pointer;accent-color:var(--amber);}
+  .checkbox-item label{flex:1;font-size:0.85rem;color:var(--ink-dim);cursor:pointer;}
+  .checkbox-item a{color:var(--amber);text-decoration:underline;text-underline-offset:2px;}
+  .checkbox-item a:hover{color:var(--amber-bright);}
+
   /* FAQ */
   .faq{padding:6rem 0;}
   .faq-grid{display:grid;grid-template-columns:1fr;border-top:1px solid var(--line-soft);max-width:54rem;}
@@ -251,6 +259,17 @@
   .faq-answer{max-height:0;overflow:hidden;transition:max-height .25s ease-out;}
   .faq-answer p{font-size:0.87rem;color:var(--ink-dim);padding-top:0.85rem;max-width:40rem;}
   .faq-item.active .faq-answer{max-height:20rem;}
+
+  /* ABOUT HEIMFLUX SECTION */
+  .about{padding:6rem 0;background:var(--bg-raised);}
+  .about-inner{display:grid;grid-template-columns:1fr;gap:3rem;align-items:center;}
+  @media (min-width:960px){ .about-inner{grid-template-columns:1fr 1fr;} }
+  .about-content h2{font-size:1.95rem;color:var(--ink);margin:0.9rem 0 1.3rem;}
+  .about-content p{color:var(--ink-dim);font-size:0.95rem;margin-bottom:1rem;line-height:1.8;}
+  .about-content strong{color:var(--ink);}
+  .photo-placeholder{width:100%;aspect-ratio:1;border:2px dashed var(--line);background:var(--bg-raised-2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;border-radius:4px;color:var(--ink-faint);}
+  .photo-placeholder svg{width:3rem;height:3rem;stroke:var(--ink-faint);opacity:0.5;}
+  .photo-placeholder p{font-family:var(--mono);font-size:0.8rem;text-align:center;}
 
   /* FINAL CTA */
   .final-cta{padding:6.5rem 0;text-align:center;background:var(--bg-raised);}
@@ -264,19 +283,22 @@
   .final-actions{display:flex;flex-direction:column;align-items:center;gap:0.9rem;position:relative;}
 
   /* FOOTER */
-  footer{padding:2.6rem 0;background:#050506;}
-  footer .container{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;font-family:var(--mono);font-size:0.72rem;color:var(--ink-faint);}
+  footer{padding:2.6rem 0;background:#050506;border-top:1px solid var(--line-soft);}
+  footer .container{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;font-family:var(--mono);font-size:0.72rem;color:var(--ink-faint);}
+  .footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;}
+  .footer-links a{color:var(--ink-faint);text-decoration:none;transition:color .2s;}
+  .footer-links a:hover{color:var(--ink);}
 
   /* MODAL */
   .modal{display:none;position:fixed;inset:0;background:rgba(5,5,6,0.82);z-index:100;align-items:center;justify-content:center;padding:1rem;}
   .modal.active{display:flex;}
-  .modal-content{background:var(--bg-raised-2);border:1px solid var(--line);max-width:26rem;width:100%;padding:2rem;display:flex;flex-direction:column;gap:1.2rem;}
+  .modal-content{background:var(--bg-raised-2);border:1px solid var(--line);max-width:26rem;width:100%;padding:2rem;display:flex;flex-direction:column;gap:1.2rem;max-height:90vh;overflow-y:auto;}
   .modal-header{display:flex;justify-content:space-between;align-items:flex-start;}
   .modal-header h3{font-size:1.3rem;color:var(--ink);font-weight:600;}
   .modal-close{background:none;border:none;color:var(--ink-faint);font-size:1.4rem;cursor:pointer;line-height:1;}
   .modal-close:hover{color:var(--ink);}
   .modal p{color:var(--ink-dim);font-size:0.85rem;font-family:var(--sans);}
-  .modal input{background:#050506;border:1px solid var(--line);color:var(--ink);padding:0.7rem 0.9rem;font-size:0.85rem;font-family:var(--sans);}
+  .modal input{background:#050506;border:1px solid var(--line);color:var(--ink);padding:0.7rem 0.9rem;font-size:0.85rem;font-family:var(--sans);width:100%;}
   .modal input:focus{outline:none;border-color:var(--amber);}
   .modal input::placeholder{color:var(--ink-faint);}
   .modal .trust{font-size:0.72rem;color:var(--ink-faint);text-align:center;font-family:var(--mono);}
@@ -554,7 +576,6 @@
         <div><h3>Complete Plan</h3><p class="tagline">Weekly monitoring, fully reviewed</p></div>
         <div class="price-amount">€300<span> / month</span></div>
         <ul class="price-list">
-          <li class="kept">First scan free to evaluate</li>
           <li>Weekly automated scans, engineer reviewed</li>
           <li>Live dashboard with historical trends</li>
           <li>Email, Slack and Teams alerts</li>
@@ -563,10 +584,23 @@
           <li>Remediation guidance per finding</li>
           <li>API access</li>
         </ul>
-        <div class="price-actions">
-          <button class="btn btn-primary" onclick="openScanModal()">Start a free scan</button>
+        <div class="terms-checkbox">
+          <div class="checkbox-item">
+            <input type="checkbox" id="terms1" />
+            <label for="terms1">I accept the <a href="/terms-of-service" target="_blank">Terms of Service</a></label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="terms2" />
+            <label for="terms2">I accept the <a href="/privacy-policy" target="_blank">Privacy Policy</a></label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="terms3" />
+            <label for="terms3">I accept the <a href="/terms-and-conditions" target="_blank">General Terms and Conditions</a></label>
+          </div>
         </div>
-        <p class="price-foot">First scan free either way. No charge until you confirm.</p>
+        <div class="price-actions">
+          <button class="btn btn-primary" onclick="handleSubscribe()">Subscribe Now</button>
+        </div>
       </div>
     </div>
   </div>
@@ -594,6 +628,28 @@
   </div>
 </section>
 
+<!-- ABOUT HEIMFLUX -->
+<section class="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-content">
+        <p class="eyebrow">Our story</p>
+        <h2>Who is Heimflux?</h2>
+        <p><strong>Heimflux was created by Léo SANCHEZ</strong>, a DevSecOps engineer with over a decade of experience defending infrastructure and teams at scale. What started as frustration became a mission.</p>
+        <p>Léo spent years responding to breaches that should never have happened. Accounts compromised for months before anyone noticed. Employees using weak passwords from the 2013 Adobe breach in their corporate email. Attackers with customer data, internal emails, sometimes even source code, because a single compromised account opened the door.</p>
+        <p>The worst part? <strong>Companies weren't even checking.</strong> They'd run compliance scans, gather vulnerability reports, but nobody was systematically asking: "Are our employees' credentials already for sale on the dark web?"</p>
+        <p>That changed with Heimflux. We built a service that answers one question: Who in your organization is already compromised? Not theories. Not predictions. Real accounts, real breaches, real action. An engineer reviews every finding to cut the noise. France-based infrastructure to keep data safe.</p>
+        <p><strong>One mission:</strong> Stop reactive security. Start being proactive.</p>
+      </div>
+      <div class="photo-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <p>Your photo here</p>
+        <p style="font-size:0.7rem;opacity:0.6;">Léo SANCHEZ<br>Founder & CEO</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FINAL CTA -->
 <section class="final-cta">
   <div class="container">
@@ -609,8 +665,15 @@
 
 <footer>
   <div class="container">
-    <div>HEIMFLUX © 2026</div>
-    <div>Security breaches don't wait. Neither do we.</div>
+    <div>
+      <div>HEIMFLUX © 2026</div>
+      <div>Security breaches don't wait. Neither do we.</div>
+    </div>
+    <div class="footer-links">
+      <a href="/mentions-legales">Mentions légales</a>
+      <a href="/terms-of-service">Terms of Service</a>
+      <a href="/privacy-policy">Privacy Policy</a>
+    </div>
   </div>
 </footer>
 
@@ -635,6 +698,20 @@
   document.addEventListener('click', e => { if(e.target.id === 'scanModal') closeScanModal(); });
   document.addEventListener('keydown', e => { if(e.key === 'Escape') closeScanModal(); });
   function toggleFaq(el){ el.classList.toggle('active'); }
+  
+  function handleSubscribe(){
+    const terms1 = document.getElementById('terms1').checked;
+    const terms2 = document.getElementById('terms2').checked;
+    const terms3 = document.getElementById('terms3').checked;
+    
+    if(!terms1 || !terms2 || !terms3){
+      alert('Please accept all terms and conditions to subscribe.');
+      return;
+    }
+    
+    alert('Thank you for subscribing! Processing your subscription...');
+    // Here you would typically process the subscription
+  }
 </script>
 
 </body>
